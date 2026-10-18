@@ -12,6 +12,7 @@ namespace HordeMuncher.UI.Menu
         public event Action OnCloseSettingsClicked;
         public event Action OnExitToMenuClicked;
         public event Action OnResumeGameClicked;
+        public event Action OnQuitGameClicked;
         private readonly VisualElement _startScreen;
         private readonly VisualElement _sessionHud;
         private readonly VisualElement _settingsScreen;
@@ -27,6 +28,8 @@ namespace HordeMuncher.UI.Menu
         private readonly Button _exitToMenuButton;
         private readonly Button _pauseExitToMenuButton;
         private readonly Button _resumeGameButton;
+        private readonly Button _quitGameButton;
+        private readonly Button _pauseQuitGameButton;
         private IVisualElementScheduledItem _focusHostButton;
 
         public ArenaMenuView(VisualElement root)
@@ -47,6 +50,10 @@ namespace HordeMuncher.UI.Menu
             _exitToMenuButton = root.Q<Button>("backButton");
             _pauseExitToMenuButton = root.Q<Button>("pauseExitToMenuButton");
             _resumeGameButton = root.Q<Button>("resumeGameButton");
+            _quitGameButton = root.Q<Button>("quitGameButton");
+            _pauseQuitGameButton = root.Q<Button>("pauseQuitGameButton");
+            _quitGameButton.clicked += QuitGameClickedHandler;
+            _pauseQuitGameButton.clicked += QuitGameClickedHandler;
             _resumeGameButton.clicked += ResumeGameClickedHandler;
             _hostButton.clicked += HostSessionClickedHandler;
             _joinServerButton.clicked += JoinRoomClickedHandler;
@@ -105,6 +112,8 @@ namespace HordeMuncher.UI.Menu
             _exitToMenuButton.clicked -= ExitToMenuClickedHandler;
             _pauseExitToMenuButton.clicked -= ExitToMenuClickedHandler;
             _resumeGameButton.clicked -= ResumeGameClickedHandler;
+            _quitGameButton.clicked -= QuitGameClickedHandler;
+            _pauseQuitGameButton.clicked -= QuitGameClickedHandler;
         }
 
         private void HostSessionClickedHandler()
@@ -130,6 +139,11 @@ namespace HordeMuncher.UI.Menu
         private void ResumeGameClickedHandler()
         {
             OnResumeGameClicked?.Invoke();
+        }
+
+        private void QuitGameClickedHandler()
+        {
+            OnQuitGameClicked?.Invoke();
         }
 
         private void ExitToMenuClickedHandler()

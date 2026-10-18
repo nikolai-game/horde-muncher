@@ -8,6 +8,7 @@ namespace HordeMuncher.UI.Contracts
         event System.Action OnCloseSettingsClicked;
         event System.Action OnExitToMenuClicked;
         event System.Action OnResumeGameClicked;
+        event System.Action OnQuitGameClicked;
         void Render(ArenaSessionState state, bool isSettingsVisible);
         void FocusHostButton();
     }

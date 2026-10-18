@@ -54,6 +54,16 @@ namespace HordeMuncher.Client.Menu
             _session.SetPaused(false);
         }
 
+        public void QuitGame()
+        {
+            _session.StopSession();
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+            UnityEngine.Application.Quit();
+#endif
+        }
+
         public void StopSession()
         {
             _session.StopSession();

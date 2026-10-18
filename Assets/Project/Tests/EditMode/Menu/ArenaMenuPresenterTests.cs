@@ -23,19 +23,22 @@ namespace HordeMuncher.Tests.Menu
             view.ClickJoinServer();
             view.ClickResumeGame();
             view.ClickExitToMenu();
+            view.ClickQuitGame();
             Assert.That(session.Commands, Is.EqualTo(new[]
             {
                 "Host 192.168.1.5:8000",
                 "Join room ABC123",
                 "Resume",
-                "Stop"
+                "Stop",
+                "Quit"
             }));
             presenter.Dispose();
             view.ClickHostSession();
             view.ClickJoinServer();
             view.ClickResumeGame();
             view.ClickExitToMenu();
-            Assert.That(session.Commands.Count, Is.EqualTo(4));
+            view.ClickQuitGame();
+            Assert.That(session.Commands.Count, Is.EqualTo(5));
         }
 
         [Test]
@@ -131,6 +134,7 @@ namespace HordeMuncher.Tests.Menu
             Assert.That(pauseScreen.ClassListContains("hidden"), Is.False);
             Assert.That(root.IndexOf(pauseScreen), Is.EqualTo(root.childCount - 1));
             Assert.That(root.Q<Button>("pauseExitToMenuButton").text, Is.EqualTo("В меню"));
+            Assert.That(root.Q<Button>("pauseQuitGameButton").text, Is.EqualTo("Выход из игры"));
             Assert.That(root.Q("sessionHud").ClassListContains("hidden"), Is.True);
             Assert.That(session.Commands, Is.Empty);
 
@@ -167,6 +171,7 @@ namespace HordeMuncher.Tests.Menu
             Assert.That(root.Q("addressField"), Is.Null);
             Assert.That(root.Q("portField"), Is.Null);
             Assert.That(root.Q("localButton"), Is.Null);
+            Assert.That(root.Q<Button>("quitGameButton").text, Is.EqualTo("Выход из игры"));
             Assert.That(warningElement.ClassListContains("hidden"), Is.False);
             warning.Dispose();
             Assert.That(warningElement.ClassListContains("hidden"), Is.True);

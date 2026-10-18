@@ -48,6 +48,11 @@ namespace HordeMuncher.Tests.Menu
             State.IsPaused = false;
         }
 
+        public void QuitGame()
+        {
+            Commands.Add("Quit");
+        }
+
         public void StopSession()
         {
             Commands.Add("Stop");

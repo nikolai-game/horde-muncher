@@ -28,6 +28,7 @@ namespace HordeMuncher.UI.Menu
             _view.OnCloseSettingsClicked += CloseSettingsClickedHandler;
             _view.OnExitToMenuClicked += ExitToMenuClickedHandler;
             _view.OnResumeGameClicked += ResumeGameClickedHandler;
+            _view.OnQuitGameClicked += QuitGameClickedHandler;
             Refresh();
             if (!_wasRunning)
             {
@@ -84,6 +85,7 @@ namespace HordeMuncher.UI.Menu
             _view.OnCloseSettingsClicked -= CloseSettingsClickedHandler;
             _view.OnExitToMenuClicked -= ExitToMenuClickedHandler;
             _view.OnResumeGameClicked -= ResumeGameClickedHandler;
+            _view.OnQuitGameClicked -= QuitGameClickedHandler;
         }
 
         private void HostSessionClickedHandler()
@@ -113,6 +115,11 @@ namespace HordeMuncher.UI.Menu
         {
             _commands.ResumeGame();
             Refresh();
+        }
+
+        private void QuitGameClickedHandler()
+        {
+            _commands.QuitGame();
         }
 
         private void ExitToMenuClickedHandler()

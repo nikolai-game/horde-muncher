@@ -11,6 +11,7 @@ namespace HordeMuncher.Tests.Menu
         public event Action OnCloseSettingsClicked;
         public event Action OnExitToMenuClicked;
         public event Action OnResumeGameClicked;
+        public event Action OnQuitGameClicked;
         public ArenaSessionState State;
         public int HostFocusCount;
         public bool IsSettingsVisible;
@@ -36,5 +37,7 @@ namespace HordeMuncher.Tests.Menu
 
         public void ClickExitToMenu() => OnExitToMenuClicked?.Invoke();
         public void ClickResumeGame() => OnResumeGameClicked?.Invoke();
+
+        public void ClickQuitGame() => OnQuitGameClicked?.Invoke();
     }
 }

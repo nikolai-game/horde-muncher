@@ -9,5 +9,6 @@ namespace HordeMuncher.UI.Contracts
         void StartDedicatedServer(string serverAddress, string port);
         void StopSession();
         void ResumeGame();
+        void QuitGame();
     }
 }

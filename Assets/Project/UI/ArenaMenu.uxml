@@ -14,6 +14,7 @@
                 <ui:Button name="clientButton" text="Подключиться по коду" class="action" />
                 <ui:Label text="Игра через интернет · до 4 игроков · Unity Relay" class="description" />
                 <ui:Button name="settingsButton" text="Настройки" class="action" />
+                <ui:Button name="quitGameButton" text="Выход из игры" class="action" />
                 <ui:Label name="menuStatus" class="status" />
             </ui:VisualElement>
         </ui:VisualElement>
@@ -170,6 +171,7 @@
                 <ui:Label text="Esc / Start — продолжить игру" class="description" />
                 <ui:Button name="resumeGameButton" text="Продолжить" class="action primary" />
                 <ui:Button name="pauseExitToMenuButton" text="В меню" class="action" />
+                <ui:Button name="pauseQuitGameButton" text="Выход из игры" class="action" />
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>

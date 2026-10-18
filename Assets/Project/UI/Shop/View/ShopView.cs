@@ -50,6 +50,7 @@ namespace HordeMuncher.UI.Shop.View
         private bool _disposed;
         private bool _isCompact;
         private bool _canControl;
+        private bool _isLeveling;
         public VisualElement Viewport { get; }
 
         public ShopView(VisualElement parent, ShopIconResolver iconResolver)
@@ -87,6 +88,7 @@ namespace HordeMuncher.UI.Shop.View
             Viewport.EnableInClassList("item-reward-viewport", isItemReward);
             _root.EnableInClassList("reward-single-player", !viewData.UsesPages);
             _canControl = viewData.CanControl;
+            _isLeveling = viewData.IsLeveling;
             _remoteSelectionKey = viewData.Navigation.SelectionKey;
             _inspectionTileCount = 0;
             _root.EnableInClassList("player-local", viewData.CanControl);
@@ -256,6 +258,17 @@ namespace HordeMuncher.UI.Shop.View
         {
             if (_disposed || !_canControl || _buttons.Count == 0)
             {
+                return;
+            }
+
+            if (_isLeveling)
+            {
+                if (vertical != 0)
+                {
+                    _selectedButtonIndex = Mathf.Clamp(_selectedButtonIndex + (vertical < 0 ? 1 : -1), 0, _buttons.Count - 1);
+                    UpdateSelectedButtonHighlight();
+                }
+
                 return;
             }
 
@@ -432,7 +445,7 @@ namespace HordeMuncher.UI.Shop.View
             _detailsArea.BringToFront();
             AddLabel(screen, viewData.NextWaveText, "shop-text");
             AddLabel(screen, viewData.FeedbackText, "shop-result");
-            if (viewData.CanControl)
+            if (viewData.CanControl && !viewData.IsLeveling)
             {
                 AddLocalButton(screen, "В меню", "shop-back", () => OnExitToMenuClicked?.Invoke());
             }

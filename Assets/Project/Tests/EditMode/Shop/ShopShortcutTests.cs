@@ -12,6 +12,52 @@ namespace HordeMuncher.Tests.Shop
 {
     public sealed class ShopShortcutTests
     {
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(4)]
+        public void LevelUpChoicesNavigateVerticallyFromRerollWithoutExitButton(int playerCount)
+        {
+            var parent = new VisualElement();
+            using var view = new ShopView(parent, TryGetIcon);
+            ShopState state = FakeShopModel.CreateState();
+            state.PendingUpgrades = 1;
+            state.UpgradeChoices = new[]
+            {
+                new ShopUpgradeChoice { Stat = ShopBonusKind.Health, Points = 5 },
+                new ShopUpgradeChoice { Stat = ShopBonusKind.Armor, Points = 1 },
+                new ShopUpgradeChoice { Stat = ShopBonusKind.Damage, Points = 3 }
+            };
+            int selectedUpgrade = -1;
+            int rerollCount = 0;
+            view.OnUpgradeChoiceClicked += upgradeChoiceSlot => selectedUpgrade = upgradeChoiceSlot;
+            view.OnRerollUpgradesClicked += () => rerollCount++;
+            view.Render(ShopViewDataBuilder.Build(state, 0, false, "", usesPages: playerCount > 1));
+            view.SetPlayerLayout(playerCount - 1, playerCount);
+            Assert.That(parent.Q<Button>(className: "shop-back"), Is.Null);
+
+            view.MoveSelection(1, 0);
+            view.SubmitSelection();
+            Assert.That(rerollCount, Is.EqualTo(1));
+            Assert.That(selectedUpgrade, Is.EqualTo(-1));
+            for (int upgradeChoiceSlot = 0; upgradeChoiceSlot < state.UpgradeChoices.Length; upgradeChoiceSlot++)
+            {
+                view.MoveSelection(0, -1);
+                view.SubmitSelection();
+                Assert.That(selectedUpgrade, Is.EqualTo(upgradeChoiceSlot));
+            }
+
+            view.MoveSelection(0, -1);
+            view.SubmitSelection();
+            Assert.That(selectedUpgrade, Is.EqualTo(2));
+            view.MoveSelection(0, 1);
+            view.SubmitSelection();
+            Assert.That(selectedUpgrade, Is.EqualTo(1));
+            view.MoveSelection(0, 1);
+            view.MoveSelection(0, 1);
+            view.SubmitSelection();
+            Assert.That(rerollCount, Is.EqualTo(2));
+        }
+
         [Test]
         public void LockShortcutTargetsSelectedOfferAndPreservesTheBuySelection()
         {
