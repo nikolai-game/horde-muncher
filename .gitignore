@@ -54,7 +54,6 @@ Desktop.ini
 *.jks
 
 # Local documentation, prompts and audit reports
-/README.md
 /Docs/*
 !/Docs/development/
 /audit-report-en.md
