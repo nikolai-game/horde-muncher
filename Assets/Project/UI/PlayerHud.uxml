@@ -1,0 +1,40 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <ui:Style src="PlayerHud.uss" />
+    <ui:VisualElement name="playerHud" class="battle-player" picking-mode="Ignore">
+        <ui:VisualElement class="battle-rewards" picking-mode="Ignore">
+            <ui:VisualElement name="pendingUpgrades" class="battle-reward hidden" tooltip="Доступные повышения уровня" picking-mode="Ignore">
+                <ui:VisualElement class="battle-reward-icon battle-level-icon" picking-mode="Ignore" />
+                <ui:Label name="pendingUpgradesText" class="battle-reward-count" picking-mode="Ignore" />
+            </ui:VisualElement>
+            <ui:VisualElement name="collectedItems" class="battle-reward hidden" tooltip="Предметы, подобранные за забег; бонусы уже применены" picking-mode="Ignore">
+                <ui:VisualElement class="battle-reward-icon battle-item-icon" picking-mode="Ignore" />
+                <ui:Label name="collectedItemsText" class="battle-reward-count" picking-mode="Ignore" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="healthBar" class="battle-bar">
+            <ui:VisualElement name="healthFill" class="battle-fill battle-health-fill" />
+            <ui:Label name="healthText" text="100 / 100" class="battle-bar-text" />
+        </ui:VisualElement>
+        <ui:VisualElement name="experienceBar" class="battle-bar battle-experience-bar">
+            <ui:VisualElement name="experienceFill" class="battle-fill battle-xp-fill" />
+            <ui:Label name="experienceText" text="LV.1" class="battle-bar-text" />
+        </ui:VisualElement>
+        <ui:VisualElement class="battle-wallet" picking-mode="Ignore">
+            <ui:VisualElement class="battle-resource-wallet" picking-mode="Ignore">
+                <ui:VisualElement name="coinIcon" class="battle-coin" tooltip="Монеты" picking-mode="Ignore">
+                    <ui:VisualElement class="battle-coin-back" picking-mode="Ignore" />
+                    <ui:VisualElement class="battle-coin-rim" picking-mode="Ignore">
+                        <ui:VisualElement class="battle-coin-mark" picking-mode="Ignore" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:Label name="resourcesText" text="0" class="battle-resources" />
+            </ui:VisualElement>
+            <ui:VisualElement name="materialBag" class="battle-bag-wallet" tooltip="Запас материалов: удваивает подбор в следующей волне" picking-mode="Ignore">
+                <ui:VisualElement class="battle-bag-icon" picking-mode="Ignore">
+                    <ui:VisualElement class="battle-bag-tie" picking-mode="Ignore" />
+                </ui:VisualElement>
+                <ui:Label name="bankedResourcesText" text="0" class="battle-bag-resources" picking-mode="Ignore" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

@@ -1,0 +1,176 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <ui:Style src="ArenaMenu.uss" />
+    <ui:Style src="PlayerHud.uss" />
+    <ui:Style src="Lobby.uss" />
+    <ui:Style src="Pause.uss" />
+    <ui:VisualElement name="menuRoot" picking-mode="Ignore">
+        <ui:VisualElement name="startScreen" class="screen">
+            <ui:VisualElement class="card">
+                <ui:Label text="CO-OP ARENA" class="eyebrow" />
+                <ui:Label text="Horde Muncher" class="title" />
+                <ui:Label text="Создайте игру или присоединитесь к друзьям. До четырёх участников на одном или нескольких компьютерах." class="description" />
+                <ui:Button name="hostButton" text="Создать комнату" class="action primary" />
+                <ui:TextField name="roomCodeInput" label="Код комнаты" max-length="6" class="field" />
+                <ui:Button name="clientButton" text="Подключиться по коду" class="action" />
+                <ui:Label text="Игра через интернет · до 4 игроков · Unity Relay" class="description" />
+                <ui:Button name="settingsButton" text="Настройки" class="action" />
+                <ui:Label name="menuStatus" class="status" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="settingsScreen" class="screen hidden">
+            <ui:VisualElement class="card">
+                <ui:Label text="Настройки" class="title" />
+                <ui:Label text="Управление" class="eyebrow" />
+                <ui:Label text="Движение: WASD или левый стик. Для второго локального игрока — стрелки или второй геймпад." class="status" />
+                <ui:Label text="WASD / стрелки / Tab — выбор · E / Enter — подтвердить · Геймпад: стик / крестовина и A" class="status" />
+                <ui:Button name="closeSettingsButton" text="Назад" class="action" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="lobbyScreen" class="screen hidden">
+            <ui:VisualElement class="lobby-card">
+                <ui:VisualElement class="lobby-header">
+                    <ui:Button name="leaveLobby" text="← Назад" class="lobby-button lobby-back" />
+                    <ui:Label text="Выбор персонажа" class="lobby-title" />
+                </ui:VisualElement>
+                <ui:TextField name="activeRoomCode" label="Код комнаты" is-read-only="true" class="field" />
+                <ui:Label name="lobbyStatus" class="lobby-status" />
+                <ui:VisualElement class="lobby-roster">
+                    <ui:Label name="lobbyParticipant0" class="lobby-participant hidden" />
+                    <ui:Label name="lobbyParticipant1" class="lobby-participant hidden" />
+                    <ui:Label name="lobbyParticipant2" class="lobby-participant hidden" />
+                    <ui:Label name="lobbyParticipant3" class="lobby-participant hidden" />
+                </ui:VisualElement>
+                <ui:VisualElement class="lobby-players">
+                    <ui:VisualElement name="lobbySeat0" class="lobby-player">
+                        <ui:VisualElement name="lobbyCharacter0" class="lobby-character hidden">
+                            <ui:Label class="lobby-character-name" />
+                            <ui:VisualElement class="lobby-portrait">
+                                <ui:VisualElement class="lobby-potato">
+                                    <ui:VisualElement class="lobby-eyes"><ui:VisualElement class="lobby-eye" /><ui:VisualElement class="lobby-eye" /></ui:VisualElement>
+                                    <ui:VisualElement class="lobby-mouth" />
+                                </ui:VisualElement>
+                            </ui:VisualElement>
+                            <ui:ScrollView class="lobby-character-stats" horizontal-scroller-visibility="Hidden">
+                                <ui:Label class="lobby-character-description" />
+                                <ui:Label class="lobby-positive-stats" />
+                                <ui:Label class="lobby-negative-stats" />
+                            </ui:ScrollView>
+                            <ui:Label text="✓" class="lobby-ready-check hidden" picking-mode="Ignore" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="lobbyEmpty0" class="lobby-empty">
+                            <ui:Label text="Удерживайте" class="lobby-empty-title" />
+                            <ui:Label text="Space / Enter&#10;или A на геймпаде" class="lobby-join-keys" />
+                            <ui:Label text="чтобы присоединиться к выбору" class="lobby-empty-hint" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="lobbySeat1" class="lobby-player">
+                        <ui:VisualElement name="lobbyCharacter1" class="lobby-character hidden">
+                            <ui:Label class="lobby-character-name" />
+                            <ui:VisualElement class="lobby-portrait">
+                                <ui:VisualElement class="lobby-potato">
+                                    <ui:VisualElement class="lobby-eyes"><ui:VisualElement class="lobby-eye" /><ui:VisualElement class="lobby-eye" /></ui:VisualElement>
+                                    <ui:VisualElement class="lobby-mouth" />
+                                </ui:VisualElement>
+                            </ui:VisualElement>
+                            <ui:ScrollView class="lobby-character-stats" horizontal-scroller-visibility="Hidden">
+                                <ui:Label class="lobby-character-description" />
+                                <ui:Label class="lobby-positive-stats" />
+                                <ui:Label class="lobby-negative-stats" />
+                            </ui:ScrollView>
+                            <ui:Label text="✓" class="lobby-ready-check hidden" picking-mode="Ignore" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="lobbyEmpty1" class="lobby-empty">
+                            <ui:Label text="Удерживайте" class="lobby-empty-title" />
+                            <ui:Label text="Space / Enter&#10;или A на геймпаде" class="lobby-join-keys" />
+                            <ui:Label text="чтобы присоединиться к выбору" class="lobby-empty-hint" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="lobbySeat2" class="lobby-player">
+                        <ui:VisualElement name="lobbyCharacter2" class="lobby-character hidden">
+                            <ui:Label class="lobby-character-name" />
+                            <ui:VisualElement class="lobby-portrait">
+                                <ui:VisualElement class="lobby-potato">
+                                    <ui:VisualElement class="lobby-eyes"><ui:VisualElement class="lobby-eye" /><ui:VisualElement class="lobby-eye" /></ui:VisualElement>
+                                    <ui:VisualElement class="lobby-mouth" />
+                                </ui:VisualElement>
+                            </ui:VisualElement>
+                            <ui:ScrollView class="lobby-character-stats" horizontal-scroller-visibility="Hidden">
+                                <ui:Label class="lobby-character-description" />
+                                <ui:Label class="lobby-positive-stats" />
+                                <ui:Label class="lobby-negative-stats" />
+                            </ui:ScrollView>
+                            <ui:Label text="✓" class="lobby-ready-check hidden" picking-mode="Ignore" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="lobbyEmpty2" class="lobby-empty">
+                            <ui:Label text="Удерживайте" class="lobby-empty-title" />
+                            <ui:Label text="Space / Enter&#10;или A на геймпаде" class="lobby-join-keys" />
+                            <ui:Label text="чтобы присоединиться к выбору" class="lobby-empty-hint" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="lobbySeat3" class="lobby-player">
+                        <ui:VisualElement name="lobbyCharacter3" class="lobby-character hidden">
+                            <ui:Label class="lobby-character-name" />
+                            <ui:VisualElement class="lobby-portrait">
+                                <ui:VisualElement class="lobby-potato">
+                                    <ui:VisualElement class="lobby-eyes"><ui:VisualElement class="lobby-eye" /><ui:VisualElement class="lobby-eye" /></ui:VisualElement>
+                                    <ui:VisualElement class="lobby-mouth" />
+                                </ui:VisualElement>
+                            </ui:VisualElement>
+                            <ui:ScrollView class="lobby-character-stats" horizontal-scroller-visibility="Hidden">
+                                <ui:Label class="lobby-character-description" />
+                                <ui:Label class="lobby-positive-stats" />
+                                <ui:Label class="lobby-negative-stats" />
+                            </ui:ScrollView>
+                            <ui:Label text="✓" class="lobby-ready-check hidden" picking-mode="Ignore" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="lobbyEmpty3" class="lobby-empty">
+                            <ui:Label text="Удерживайте" class="lobby-empty-title" />
+                            <ui:Label text="Space / Enter&#10;или A на геймпаде" class="lobby-join-keys" />
+                            <ui:Label text="чтобы присоединиться к выбору" class="lobby-empty-hint" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement class="lobby-character-choices">
+                    <ui:Button name="lobbyChoice0" class="lobby-character-choice lobby-choice-balanced">
+                        <ui:VisualElement class="lobby-mini-potato"><ui:Label text="• •" class="lobby-mini-face" /></ui:VisualElement>
+                        <ui:Label text="Универсал" class="lobby-choice-name" />
+                    </ui:Button>
+                    <ui:Button name="lobbyChoice1" class="lobby-character-choice lobby-choice-strong">
+                        <ui:VisualElement class="lobby-mini-potato"><ui:Label text="• •" class="lobby-mini-face" /></ui:VisualElement>
+                        <ui:Label text="Силач" class="lobby-choice-name" />
+                    </ui:Button>
+                    <ui:Button name="lobbyChoice2" class="lobby-character-choice lobby-choice-fast">
+                        <ui:VisualElement class="lobby-mini-potato"><ui:Label text="• •" class="lobby-mini-face" /></ui:VisualElement>
+                        <ui:Label text="Быстрый" class="lobby-choice-name" />
+                    </ui:Button>
+                </ui:VisualElement>
+                <ui:Label text="← → / A D / стик — персонаж · E / Enter / A — готовность · Esc / Backspace / B — отмена" class="lobby-controls" />
+                <ui:Label text="Игра начнётся, когда все участники лобби присоединятся к выбору и будут готовы" class="lobby-start-hint" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="sharedViewWarning" class="shared-view-warning hidden" picking-mode="Ignore">
+            <ui:Label text="Предел расхождения · двигайтесь вместе" />
+        </ui:VisualElement>
+        <ui:VisualElement name="runResult" class="run-result hidden">
+            <ui:Label name="runResultTitle" class="title" />
+            <ui:Label name="runResultStatus" class="description" />
+            <ui:Button name="restartButton" text="Ещё раз" class="action primary" />
+            <ui:Button name="restartSecondButton" text="Игрок 2 · Ещё раз" class="action" />
+            <ui:Button name="restartThirdButton" text="Игрок 3 · Ещё раз" class="action" />
+            <ui:Button name="restartFourthButton" text="Игрок 4 · Ещё раз" class="action" />
+            <ui:Label text="Ещё раз: E / Enter · A на своём геймпаде · Esc / B — в меню" class="status" />
+        </ui:VisualElement>
+        <ui:VisualElement name="sessionHud" class="hud hidden">
+            <ui:Label name="sessionStatus" class="hud-label" />
+            <ui:Button name="backButton" text="В меню" class="action back" />
+        </ui:VisualElement>
+        <ui:VisualElement name="pauseScreen" class="pause-screen hidden">
+            <ui:VisualElement class="card">
+                <ui:Label text="Пауза" class="title" />
+                <ui:Label text="Esc / Start — продолжить игру" class="description" />
+                <ui:Button name="resumeGameButton" text="Продолжить" class="action primary" />
+                <ui:Button name="pauseExitToMenuButton" text="В меню" class="action" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

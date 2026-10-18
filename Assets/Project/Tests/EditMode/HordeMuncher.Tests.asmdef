@@ -1,0 +1,29 @@
+{
+    "name": "HordeMuncher.Tests",
+    "references": [
+        "Unity.Entities",
+        "Unity.Entities.Hybrid",
+        "Unity.Collections",
+        "Unity.Mathematics",
+        "Unity.Transforms",
+        "Unity.Scenes",
+        "Unity.NetCode",
+        "Unity.NetCode.Authoring.Hybrid",
+        "Unity.Networking.Transport",
+        "Unity.Burst",
+        "Unity.InputSystem",
+        "Unity.InputSystem.TestFramework",
+        "HordeMuncher.Runtime",
+        "HordeMuncher.UI",
+        "HordeMuncher.Editor",
+        "HordeMuncher.Presentation"
+    ],
+    "allowUnsafeCode": true,
+    "includePlatforms": [
+        "Editor"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "autoReferenced": false
+}

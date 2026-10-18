@@ -1,0 +1,376 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 773dc8eb008d046c2af1b1b17bf72335, type: 3}
+  m_Name: ArenaWaves
+  m_EditorClassIdentifier: Assembly-CSharp::HordeMuncher.WaveSettings
+  MapCenter: {x: 0, y: 0}
+  MapHalfExtents: {x: 19, y: 19}
+  SafeDistanceFromPlayers: 6
+  MaxAlive: 500
+  MaxSpawnsPerTick: 16
+  PositionAttempts: 24
+  Seed: 0
+  EnemyHealthGrowthPerWave: 0.18
+  EnemyDamageGrowthPerWave: 0.08
+  EnemySpeedGrowthPerWave: 0.02
+  Waves:
+  - Duration: 20
+    SpawnRate:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1.5
+        inSlope: 0
+        outSlope: 3
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 4.5
+        inSlope: 3
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    EnemyPrefabs:
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    BossPrefab: {fileID: 0}
+  - Duration: 25
+    SpawnRate:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1.95
+        inSlope: 0
+        outSlope: 3.9
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 5.85
+        inSlope: 3.9
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    EnemyPrefabs:
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 0b85315eface4e0bb3349dec21f78994, type: 3}
+    BossPrefab: {fileID: 0}
+  - Duration: 30
+    SpawnRate:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 2.55
+        inSlope: 0
+        outSlope: 4.8
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 7.35
+        inSlope: 4.8
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    EnemyPrefabs:
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 0b85315eface4e0bb3349dec21f78994, type: 3}
+    BossPrefab: {fileID: 0}
+  - Duration: 35
+    SpawnRate:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 2.7
+        inSlope: 0
+        outSlope: 4.8
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 7.5
+        inSlope: 4.8
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    EnemyPrefabs:
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 0b85315eface4e0bb3349dec21f78994, type: 3}
+    - {fileID: 6541945789340463511, guid: 0b85315eface4e0bb3349dec21f78994, type: 3}
+    - {fileID: 6541945789340463511, guid: 20810a0d20124f149108abab3cf9d414, type: 3}
+    BossPrefab: {fileID: 0}
+  - Duration: 40
+    SpawnRate:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 3.45
+        inSlope: 0
+        outSlope: 6.6
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 10.05
+        inSlope: 6.6
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    EnemyPrefabs:
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 0b85315eface4e0bb3349dec21f78994, type: 3}
+    - {fileID: 6541945789340463511, guid: 0b85315eface4e0bb3349dec21f78994, type: 3}
+    - {fileID: 6541945789340463511, guid: 20810a0d20124f149108abab3cf9d414, type: 3}
+    BossPrefab: {fileID: 0}
+  - Duration: 45
+    SpawnRate:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 4.2
+        inSlope: 0
+        outSlope: 8.1
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 12.3
+        inSlope: 8.1
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    EnemyPrefabs:
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 0b85315eface4e0bb3349dec21f78994, type: 3}
+    - {fileID: 6541945789340463511, guid: 0b85315eface4e0bb3349dec21f78994, type: 3}
+    - {fileID: 6541945789340463511, guid: 20810a0d20124f149108abab3cf9d414, type: 3}
+    BossPrefab: {fileID: 0}
+  - Duration: 50
+    SpawnRate:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 5.1
+        inSlope: 0
+        outSlope: 9.6
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 14.7
+        inSlope: 9.6
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    EnemyPrefabs:
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 0b85315eface4e0bb3349dec21f78994, type: 3}
+    - {fileID: 6541945789340463511, guid: 0b85315eface4e0bb3349dec21f78994, type: 3}
+    - {fileID: 6541945789340463511, guid: 20810a0d20124f149108abab3cf9d414, type: 3}
+    BossPrefab: {fileID: 0}
+  - Duration: 55
+    SpawnRate:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 6
+        inSlope: 0
+        outSlope: 12
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 18
+        inSlope: 12
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    EnemyPrefabs:
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 0b85315eface4e0bb3349dec21f78994, type: 3}
+    - {fileID: 6541945789340463511, guid: 0b85315eface4e0bb3349dec21f78994, type: 3}
+    - {fileID: 6541945789340463511, guid: 20810a0d20124f149108abab3cf9d414, type: 3}
+    BossPrefab: {fileID: 0}
+  - Duration: 60
+    SpawnRate:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 7.5
+        inSlope: 0
+        outSlope: 14.4
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 21.9
+        inSlope: 14.4
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    EnemyPrefabs:
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 0b85315eface4e0bb3349dec21f78994, type: 3}
+    - {fileID: 6541945789340463511, guid: 0b85315eface4e0bb3349dec21f78994, type: 3}
+    - {fileID: 6541945789340463511, guid: 20810a0d20124f149108abab3cf9d414, type: 3}
+    BossPrefab: {fileID: 0}
+  - Duration: 60
+    SpawnRate:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 9.6
+        inSlope: 0
+        outSlope: 16.8
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 26.4
+        inSlope: 16.8
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    EnemyPrefabs:
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 8541728865dce4cf49fdcd3bc030504a, type: 3}
+    - {fileID: 6541945789340463511, guid: 0b85315eface4e0bb3349dec21f78994, type: 3}
+    - {fileID: 6541945789340463511, guid: 0b85315eface4e0bb3349dec21f78994, type: 3}
+    - {fileID: 6541945789340463511, guid: 20810a0d20124f149108abab3cf9d414, type: 3}
+    BossPrefab: {fileID: 6541945789340463511, guid: b40ce3d43bbf249f18ccbae791f51fa5, type: 3}

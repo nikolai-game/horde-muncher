@@ -1,0 +1,81 @@
+# Unity-generated caches and local settings
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+/[Bb]uild/
+/[Bb]uilds/
+/[Mm]emoryCaptures/
+/[Rr]ecordings/
+
+# IDE-generated files
+.vs/
+.idea/
+.vscode/
+*.csproj
+*.sln
+*.slnx
+*.suo
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# Generated Unity reports and artifacts
+sysinfo.txt
+*.stackdump
+/TestResults/
+/Assets/SceneDependencyCache/
+/Assets/SceneDependencyCache.meta
+/Assets/Temp/
+/Assets/Temp.meta
+*.unitypackage
+*.apk
+*.aab
+*.app/
+/Assets/AddressableAssetsData/*/*.bin*
+/Assets/StreamingAssets/aa/
+
+# OS metadata and local credentials
+.DS_Store
+._*
+Thumbs.db
+Desktop.ini
+.env
+.env.*
+!.env.example
+*.keystore
+*.jks
+
+# Local documentation, prompts and audit reports
+/README.md
+/Docs/
+/audit-report-en.md
+/audit-report-ru.md
+/Assets/Project/Art/Icons/RewardIconPrompts.txt
+/Assets/Project/Art/Icons/RewardIconPrompts.txt.meta
+/Assets/Project/Art/Icons/ShopLockIconPrompt.txt
+/Assets/Project/Art/Icons/ShopLockIconPrompt.txt.meta
+
+# Local Unity template documentation and its dedicated test
+/Assets/Readme.asset
+/Assets/Readme.asset.meta
+/Assets/TutorialInfo/
+/Assets/TutorialInfo.meta
+/Assets/Project/Tests/EditMode/TutorialReadmeSerializationTests.cs
+/Assets/Project/Tests/EditMode/TutorialReadmeSerializationTests.cs.meta
+
+# Local crash dumps
+/mono_crash.*
+
+# Local editor assistant and audit settings
+/ProjectSettings/Packages/com.unity.ai.assistant/Settings.json
+/ProjectSettings/ProjectAuditorSettings.asset
+
+# Keep game assets (including .meta), Packages and ProjectSettings in Git.

@@ -1,0 +1,11 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <ui:Style src="WorktreesWindow.uss" />
+    <ui:VisualElement class="worktrees-root">
+        <ui:VisualElement class="worktrees-toolbar">
+            <ui:Label text="Git Worktrees" class="worktrees-title" />
+            <ui:Button name="refreshWorktrees" text="Обновить" />
+        </ui:VisualElement>
+        <ui:Label name="worktreesStatus" class="worktrees-status" />
+        <ui:ScrollView name="worktreesList" class="worktrees-list" />
+    </ui:VisualElement>
+</ui:UXML>

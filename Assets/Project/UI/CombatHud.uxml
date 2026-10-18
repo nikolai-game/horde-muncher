@@ -1,0 +1,13 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <ui:Style src="ArenaMenu.uss" />
+    <ui:Style src="PlayerHud.uss" />
+    <ui:VisualElement name="combatHud" class="combat-hud" picking-mode="Ignore">
+        <ui:VisualElement name="hudPlayers" class="hud-players" picking-mode="Ignore" />
+        <ui:VisualElement name="waveInfo" class="hud-wave" picking-mode="Ignore">
+            <ui:Label name="waveLabel" text="ВОЛНА 1" class="hud-wave-label" />
+            <ui:Label name="waveTimer" text="20" class="hud-timer" />
+            <ui:Label name="wavePhase" class="hud-phase" />
+        </ui:VisualElement>
+        <ui:VisualElement name="waveCompletion" class="wave-completion hidden" picking-mode="Ignore" />
+    </ui:VisualElement>
+</ui:UXML>

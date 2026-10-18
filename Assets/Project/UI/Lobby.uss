@@ -1,0 +1,48 @@
+#lobbyScreen { background-color: #57544d; }
+.lobby-card { width: 98%; height: 96%; padding: 10px; }
+.lobby-header { flex-direction: row; align-items: center; flex-shrink: 0; margin-bottom: 8px; }
+.lobby-title { flex-grow: 1; margin-right: 140px; font-size: 36px; -unity-font-style: bold; -unity-text-align: middle-center; -unity-text-outline-color: #161614; -unity-text-outline-width: 2px; }
+.lobby-button { min-height: 38px; padding: 5px 10px; border-width: 2px; border-color: #777569; border-radius: 4px; background-color: #383c33; color: #f4f0e6; font-size: 18px; }
+.lobby-button:hover { background-color: #555c4a; border-color: #d0ccaf; }
+.lobby-back { width: 140px; flex-shrink: 0; }
+.lobby-status { flex-shrink: 0; font-size: 16px; -unity-text-align: middle-center; color: #e4dfce; white-space: normal; }
+.lobby-roster { flex-direction: row; flex-wrap: wrap; justify-content: center; flex-shrink: 0; margin: 4px 0 12px; }
+.lobby-participant { font-size: 14px; padding: 4px 12px; margin: 2px 5px; background-color: #34352f; border-radius: 4px; white-space: normal; }
+.lobby-players { flex-direction: row; flex-grow: 1; min-height: 0; }
+.lobby-player { flex-grow: 1; flex-basis: 0; min-width: 0; margin: 0 4px; background-color: #33322e; border-width: 2px; border-color: #69665b; border-radius: 6px; overflow: hidden; }
+.lobby-character { flex-grow: 1; padding: 12px; min-height: 0; }
+.lobby-character-name { font-size: 28px; -unity-font-style: bold; -unity-text-align: middle-center; -unity-text-outline-color: #141512; -unity-text-outline-width: 1px; white-space: normal; }
+.lobby-portrait { height: 130px; flex-shrink: 1; min-height: 65px; margin: 12px -12px; background-color: rgba(214, 217, 185, 0.08); align-items: center; justify-content: center; }
+.lobby-potato { width: 64px; height: 72px; border-radius: 30px; background-color: #eee9d7; border-width: 3px; border-color: #181b17; rotate: -8deg; align-items: center; justify-content: center; }
+.lobby-eyes { flex-direction: row; }
+.lobby-eye { width: 7px; height: 10px; border-radius: 5px; background-color: #181b17; margin: 0 9px; }
+.lobby-mouth { width: 16px; height: 8px; border-bottom-width: 2px; border-bottom-color: #181b17; border-radius: 7px; margin-top: 4px; }
+.lobby-character-stats { flex-grow: 1; min-height: 0; margin-top: 8px; }
+.lobby-character-description, .lobby-positive-stats, .lobby-negative-stats { white-space: normal; font-size: 18px; margin-bottom: 12px; color: #e0dfd5; }
+.lobby-positive-stats { color: #83ed63; }
+.lobby-negative-stats { color: #ff7870; }
+.lobby-player-ready { background-color: #38483b; }
+.lobby-empty { flex-grow: 1; align-items: center; justify-content: center; padding: 12px; }
+.lobby-empty-title { font-size: 20px; white-space: normal; -unity-text-align: middle-center; color: #dcd8cd; }
+.lobby-join-keys { font-size: 22px; -unity-font-style: bold; white-space: normal; -unity-text-align: middle-center; color: #f4efd9; margin: 10px 0; }
+.lobby-empty-hint { font-size: 15px; white-space: normal; -unity-text-align: middle-center; color: #c5c1b5; }
+.lobby-character-choices { flex-direction: row; justify-content: center; flex-shrink: 0; margin-top: 16px; }
+.lobby-character-choice { width: 112px; height: 96px; margin: 0 6px; padding: 8px; align-items: center; justify-content: center; background-color: #494940; border-width: 2px; border-color: #24251f; border-radius: 7px; }
+.lobby-character-choice:hover { background-color: #68685a; border-color: #aaa58e; }
+.lobby-choice-name { font-size: 14px; margin-top: 6px; color: #f0eadc; -unity-text-align: middle-center; }
+.lobby-mini-potato { width: 38px; height: 42px; border-radius: 20px; border-width: 2px; border-color: #181b17; background-color: #eee9d7; align-items: center; justify-content: center; }
+.lobby-mini-face { color: #181b17; font-size: 18px; -unity-font-style: bold; }
+.lobby-choice-strong .lobby-mini-potato { width: 48px; background-color: #dfb28b; }
+.lobby-choice-fast .lobby-mini-potato { width: 30px; background-color: #c9e4b5; rotate: 12deg; }
+.lobby-strong .lobby-potato { width: 82px; background-color: #dfb28b; }
+.lobby-fast .lobby-potato { width: 48px; background-color: #c9e4b5; rotate: 12deg; }
+.lobby-ready-check { position: absolute; top: 70px; bottom: 0; left: 0; right: 0; font-size: 144px; color: #7bfa44; -unity-font-style: bold; -unity-text-align: middle-center; -unity-text-outline-color: #172510; -unity-text-outline-width: 4px; }
+.lobby-selection { position: absolute; border-width: 3px; border-radius: 5px; }
+.lobby-selection-inset-0 { top: -3px; right: -3px; bottom: -3px; left: -3px; }
+.lobby-selection-inset-1 { top: 1px; right: 1px; bottom: 1px; left: 1px; }
+.lobby-selection-inset-2 { top: 5px; right: 5px; bottom: 5px; left: 5px; }
+.lobby-selection-inset-3 { top: 9px; right: 9px; bottom: 9px; left: 9px; }
+.lobby-controls { flex-shrink: 0; font-size: 13px; white-space: normal; -unity-text-align: middle-center; color: #ded9ca; margin-top: 10px; }
+.lobby-start-hint { flex-shrink: 0; font-size: 12px; white-space: normal; -unity-text-align: middle-center; color: #c6c2b4; margin-top: 4px; }
+.lobby-join-hold { align-items: center; margin-top: 16px; flex-shrink: 0; }
+.lobby-hold-ring { width: 56px; height: 56px; margin-bottom: 8px; flex-shrink: 0; }

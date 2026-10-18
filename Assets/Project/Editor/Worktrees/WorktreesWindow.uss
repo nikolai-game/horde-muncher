@@ -1,0 +1,50 @@
+.worktrees-root {
+    flex-grow: 1;
+    padding: 12px;
+}
+.worktrees-toolbar {
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.worktrees-title {
+    flex-grow: 1;
+    font-size: 18px;
+    -unity-font-style: bold;
+}
+.worktrees-status {
+    white-space: normal;
+    margin-bottom: 12px;
+}
+.worktrees-error {
+    color: rgb(232, 110, 110);
+}
+.worktrees-list {
+    flex-grow: 1;
+}
+.worktree-card {
+    padding: 12px;
+    margin-bottom: 10px;
+    border-width: 1px;
+    border-color: rgba(128, 128, 128, 0.5);
+    border-radius: 5px;
+}
+.worktree-branch {
+    font-size: 14px;
+    -unity-font-style: bold;
+    white-space: normal;
+}
+.worktree-path {
+    white-space: normal;
+    margin-top: 5px;
+    margin-bottom: 6px;
+}
+.worktree-actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 8px;
+}
+.worktree-actions > Button {
+    min-height: 26px;
+    margin-right: 8px;
+}

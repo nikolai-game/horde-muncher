@@ -1,0 +1,10 @@
+{
+    "name": "HordeMuncher.UI",
+    "references": [
+        "HordeMuncher.Runtime",
+        "HordeMuncher.Presentation",
+        "Unity.Entities",
+        "Unity.Collections",
+        "Unity.InputSystem"
+    ]
+}

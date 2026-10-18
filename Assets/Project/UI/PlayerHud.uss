@@ -1,0 +1,237 @@
+.combat-hud .hud-player-slot {
+    width: 213.33px;
+}
+
+.battle-player {
+    padding: 0;
+    border-top-width: 0;
+    color: #ffffff;
+}
+
+.battle-player.player-local {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.battle-bar {
+    height: 30.67px;
+    flex-shrink: 0;
+    margin-bottom: 4.67px;
+    border-width: 3.33px;
+    border-color: #050605;
+    border-radius: 2.67px;
+    background-color: #454545;
+    overflow: hidden;
+}
+
+.battle-fill {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.battle-health-fill {
+    background-color: #d50000;
+}
+
+.battle-xp-fill {
+    background-color: #43dc3b;
+}
+
+.battle-bar-text {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: 0;
+    padding: 0;
+    white-space: nowrap;
+    font-size: 16.67px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    -unity-text-outline-width: 1px;
+    -unity-text-outline-color: #050605;
+}
+
+.battle-experience-bar > .battle-bar-text {
+    padding-right: 2.67px;
+    -unity-text-align: middle-right;
+}
+
+.battle-wallet {
+    align-items: flex-start;
+    margin-top: 4px;
+    padding-left: 4px;
+}
+
+.battle-resource-wallet {
+    flex-direction: row;
+    align-items: center;
+}
+
+.battle-coin {
+    width: 28.67px;
+    height: 30.67px;
+    flex-shrink: 0;
+    margin-right: 8.67px;
+    rotate: 18deg;
+}
+
+.battle-coin-back {
+    position: absolute;
+    left: 4.67px;
+    top: 2px;
+    width: 22px;
+    height: 28px;
+    border-radius: 50%;
+    border-width: 2px;
+    border-color: #050605;
+    background-color: #247e30;
+}
+
+.battle-coin-rim {
+    width: 22px;
+    height: 28.67px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border-width: 2px;
+    border-color: #050605;
+    background-color: #60d55a;
+}
+
+.battle-coin-mark {
+    width: 10.67px;
+    height: 19.33px;
+    border-radius: 50%;
+    border-width: 2px;
+    border-color: #3ba43e;
+    background-color: #71df63;
+}
+
+.battle-resources {
+    margin: 0;
+    padding: 0;
+    font-size: 32px;
+    -unity-font-style: bold;
+    -unity-text-outline-width: 1.67px;
+    -unity-text-outline-color: #050605;
+}
+
+.battle-bag-wallet {
+    flex-direction: row;
+    align-items: center;
+    margin-top: 2.67px;
+}
+
+.battle-bag-icon {
+    width: 25.33px;
+    height: 22.67px;
+    margin-right: 12px;
+    margin-top: 4px;
+    border-width: 2px;
+    border-color: #050605;
+    border-radius: 8px 8px 5.33px 5.33px;
+    background-color: #a6ae98;
+}
+
+.battle-bag-tie {
+    position: absolute;
+    top: -5.33px;
+    left: 2px;
+    right: 2px;
+    height: 6px;
+    border-width: 1.33px;
+    border-color: #050605;
+    background-color: #66b85a;
+}
+
+.battle-bag-resources {
+    margin: 0;
+    padding: 0;
+    font-size: 32px;
+    -unity-font-style: bold;
+    -unity-text-outline-width: 1.33px;
+    -unity-text-outline-color: #050605;
+}
+
+.wave-completion {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 22%;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.wave-completion-letter {
+    margin: 0;
+    padding: 0;
+    color: #ffffff;
+    -unity-font-style: bold;
+    -unity-text-outline-width: 4px;
+    -unity-text-outline-color: #050605;
+}
+
+.wave-completed .hud-wave {
+    flex-direction: column;
+}
+
+.wave-completed .hud-wave-label {
+    font-size: 38px;
+    -unity-text-outline-width: 3px;
+}
+
+.wave-completed .hud-timer {
+    margin-top: 8px;
+    font-size: 56px;
+    color: #f00000;
+    -unity-text-outline-width: 3px;
+}
+
+.battle-rewards {
+    position: absolute;
+    left: 100%;
+    top: 0;
+    flex-direction: row;
+    margin-left: 8px;
+}
+
+.hud-corner-1 .battle-rewards, .hud-corner-3 .battle-rewards {
+    left: auto;
+    right: 100%;
+    margin-right: 8px;
+}
+
+.battle-reward {
+    width: 48px;
+    height: 48px;
+    margin-right: 4px;
+}
+
+.battle-reward-icon {
+    flex-grow: 1;
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+.battle-level-icon {
+    background-image: url("project://database/Assets/Project/Art/Icons/icon_reward_level.png");
+}
+
+.battle-item-icon {
+    background-image: url("project://database/Assets/Project/Art/Icons/icon_reward_crate.png");
+}
+
+.battle-reward-count {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 18px;
+    -unity-font-style: bold;
+    -unity-text-outline-width: 2px;
+    -unity-text-outline-color: #050605;
+}

@@ -1,0 +1,286 @@
+#menuRoot { flex-grow: 1; }
+.screen { flex-grow: 1; justify-content: center; align-items: center; background-color: rgba(8, 15, 22, 0.92); color: #f4f0e6; }
+.card { width: 520px; max-width: 92%; padding: 28px; background-color: #182a35; border-radius: 14px; }
+.eyebrow { color: #eeb956; font-size: 13px; margin-bottom: 6px; }
+.title { font-size: 34px; -unity-font-style: bold; margin-bottom: 8px; }
+.description { color: #becbd3; font-size: 15px; white-space: normal; margin-bottom: 16px; }
+.field { margin-bottom: 8px; color: #f4f0e6; }
+.field > .unity-base-field__label { min-width: 145px; }
+.field .unity-base-text-field__input { background-color: #0c1a23; color: #ffffff; padding: 8px; border-radius: 5px; }
+.action { min-height: 45px; margin-top: 7px; margin-bottom: 0; background-color: #294653; color: #ffffff; border-width: 2px; border-color: #294653; border-radius: 7px; font-size: 18px; }
+.primary { background-color: #eeb956; color: #16232b; border-color: #eeb956; }
+.action:hover { background-color: #3d6373; color: #ffffff; }
+.action:focus { border-color: #ffffff; }
+.status { font-size: 14px; white-space: normal; margin-top: 14px; color: #f1cd89; }
+.hud { position: absolute; right: 16px; top: 10px; width: 180px; align-items: flex-end; }
+.hud-label { display: none; flex-grow: 1; color: #ffffff; font-size: 16px; -unity-text-outline-width: 1px; -unity-text-outline-color: #10202b; }
+.back { width: 140px; }
+.hidden { display: none; }
+/* Post-wave shop, scaled to each player viewport. */
+.shop-overlay { position: absolute; left: 0; right: 0; top: 0; bottom: 0; flex-direction: row; padding: 10px; background-color: rgba(0, 0, 0, 0.72); color: #f5f4ee; }
+
+.shop-frame { flex-grow: 1; min-height: 0; }
+.shop-main { flex-grow: 1; min-height: 0; }
+.shop-header { flex-direction: row; align-items: center; margin-bottom: 10px; min-height: 42px; }
+.shop-title { flex-grow: 1; font-size: 23px; -unity-font-style: bold; white-space: normal; }
+.shop-money { flex-direction: row; align-items: center; color: #8cdb8b; font-size: 24px; -unity-font-style: bold; margin-left: 12px; margin-right: 18px; }
+.shop-button { white-space: normal; min-height: 36px; flex-shrink: 0; padding: 6px 10px; margin: 0; background-color: #141715; color: #f5f4ee; border-width: 2px; border-color: #141715; border-radius: 4px; font-size: 16px; }
+.shop-button:hover { background-color: #39463e; }
+.shop-button.shop-action-unavailable { opacity: 0.4; }
+.shop-panel .shop-button.shop-selected { background-color: #f5f4ee; color: #14211a; border-color: #f4d77a; }
+.shop-reroll { min-width: 160px; }
+.shop-offers { padding: 4px; background-color: #101713; border-width: 2px; border-color: #71816f; border-radius: 5px; }
+.shop-offer-card { flex-direction: row; align-items: center; flex-shrink: 0; min-height: 58px; padding: 5px 8px; margin-bottom: 3px; border-width: 2px; border-color: #28372c; border-radius: 4px; background-color: #151b18; }
+.shop-weapon-card { background-color: #14242c; border-color: #6594aa; }
+.shop-sold { visibility: hidden; }
+.shop-offer-names { flex-grow: 1; min-width: 0; margin-left: 10px; margin-right: 8px; }
+.shop-offer-name { font-size: 17px; -unity-font-style: bold; white-space: normal; color: #e5ede8; }
+.shop-caption { color: #b5c2b8; font-size: 12px; white-space: normal; margin-bottom: 6px; }
+.shop-stat-change { flex-shrink: 0; min-width: 0; margin: 0 0 4px 0; padding: 0; color: #d6e6ce; font-size: 14px; white-space: nowrap; }
+.shop-offer-status { color: #d2bd91; white-space: normal; font-size: 12px; min-height: 18px; margin-top: 8px; margin-bottom: 6px; }
+.shop-buy { min-width: 105px; background-color: #28372c; border-color: #71816f; color: #f5f4ee; font-size: 18px; -unity-font-style: bold; }
+.shop-buy:hover { background-color: #a9d6ae; }
+.shop-lock { align-self: center; margin-left: 8px; font-size: 13px; min-height: 32px; border-color: #a7c09a; }
+.shop-locked { background-color: #496650; border-color: #83a17f; }
+.shop-inventory { flex-grow: 1; min-height: 0; }
+.shop-items-section { min-width: 0; margin-top: 8px; }
+.shop-weapons-section { min-width: 0; }
+.shop-section-title { font-size: 18px; -unity-font-style: bold; margin-bottom: 6px; white-space: normal; }
+.shop-icon-grid { flex-direction: row; flex-wrap: wrap; }
+.shop-icon { width: 44px; height: 44px; flex-shrink: 0; background-color: #283b35; border-radius: 4px; }
+.shop-icon-tile { width: 64px; height: 64px; margin-right: 6px; margin-bottom: 6px; background-color: #25382d; border-color: #71816f; border-width: 1px; border-radius: 4px; }
+.shop-weapon-tile { background-color: #243541; border-color: #6594aa; }
+.shop-icon-image { width: 100%; height: 100%; }
+.shop-icon-placeholder { flex-grow: 1; -unity-text-align: middle-center; color: #b9c7be; font-size: 19px; -unity-font-style: bold; }
+.shop-stack { position: absolute; right: 2px; bottom: 0; font-size: 17px; -unity-font-style: bold; color: white; -unity-text-outline-width: 1px; -unity-text-outline-color: #102018; }
+.shop-empty-slot { width: 64px; height: 64px; margin-right: 6px; margin-bottom: 6px; background-color: #292e2b; color: #66736b; border-width: 1px; border-color: #48534b; border-radius: 4px; font-size: 24px; -unity-text-align: middle-center; }
+.shop-stats { flex-grow: 1; min-height: 0; width: 100%; max-width: 350px; align-self: center; padding: 10px; background-color: #493c33; border-radius: 5px; -unity-font: url("project://database/Assets/Project/UI/Fonts/Inter-Regular.ttf"); -unity-font-style: normal; }
+.shop-stat-heading { margin: 0 0 14px 0; padding: 0; font-size: 23px; color: #f5f4ee; -unity-text-align: middle-center; }
+.shop-stat-row { flex-direction: row; align-items: center; flex-shrink: 0; min-height: 30px; margin: 0 0 2px 0; background-color: transparent; -unity-text-align: middle-left; padding: 1px 4px; border-width: 2px; border-color: transparent; border-radius: 6px; color: #f5f4ee; font-size: 17px; }
+.shop-stat-row:hover, .shop-stat-row.shop-selected { background-color: #211006; border-color: #c77d3d; }
+.shop-stat-row.shop-stat-improved { color: #47e52c; }
+.shop-stat-row.shop-stat-reduced { color: #e52b25; }
+.shop-stat-name { flex-grow: 1; flex-shrink: 1; min-width: 0; margin: 0; padding: 0; white-space: normal; -unity-text-align: middle-left; }
+.shop-stat-value, .shop-stat-bonus { flex-shrink: 0; white-space: nowrap; min-width: 42px; margin: 0 0 0 12px; padding: 0; -unity-text-align: middle-right; }
+.shop-next-wave { flex-direction: row; align-items: center; flex-shrink: 0; margin-top: 8px; }
+.shop-text { flex-grow: 1; font-size: 14px; white-space: normal; color: #e7e9df; margin-right: 8px; }
+.shop-ready { min-height: 40px; min-width: 230px; font-size: 18px; -unity-font-style: bold; background-color: #274e32; border-color: #689375; }
+.shop-result { color: #f0c98a; font-size: 14px; white-space: normal; margin-top: 8px; }
+
+.shop-icon-tile.shop-button { padding: 0; }
+.shop-back { margin-left: 8px; font-size: 13px; }
+.shop-viewport { position: relative; flex-grow: 1; flex-basis: 0; min-width: 0; overflow: hidden; }
+.shop-panel { position: absolute; margin: 0; }
+.shop-tooltip { position: absolute; width: 280px; margin: 0; padding: 16px 18px; white-space: normal; font-size: 18px; -unity-font: url("project://database/Assets/Project/UI/Fonts/Inter-Regular.ttf"); -unity-font-style: normal; background-color: rgba(0, 0, 0, 0.96); color: #f5f4ee; border-radius: 9px; }
+.shop-pages { flex-direction: row; align-items: center; }
+.shop-pages .shop-button { min-height: 22px; padding: 0 8px; margin-right: 8px; font-size: 14px; }
+.level-card { border-radius: 4px; }
+.level-main .shop-money { display: none; }
+.combat-hud { position: absolute; left: 16px; top: 10px; right: 16px; bottom: 10px; color: white; }
+.hud-players { position: absolute; left: 0; right: 0; top: 38px; bottom: 0; }
+.hud-player-slot { position: absolute; width: 260px; max-width: 42%; }
+.hud-corner-0 { left: 0; top: 0; }
+.hud-corner-1 { right: 0; top: 0; }
+.hud-corner-2 { left: 0; bottom: 0; }
+.hud-corner-3 { right: 0; bottom: 0; }
+.hud-player { border-top-width: 3px; padding: 4px 6px; }
+.hud-player-name { font-size: 12px; margin-bottom: 2px; -unity-text-outline-width: 1px; -unity-text-outline-color: #111b15; }
+.hud-bar { height: 26px; flex-shrink: 0; background-color: #292b28; border-width: 2px; border-color: #101510; margin-bottom: 4px; }
+.hud-fill { position: absolute; top: 0; bottom: 0; left: 0; }
+.hud-health-fill { background-color: #bf2726; }
+.hud-xp-fill { background-color: #57c938; }
+.hud-bar-text { position: absolute; left: 0; right: 0; top: 0; bottom: 0; margin: 0; padding: 0; white-space: nowrap; font-size: 12px; -unity-text-align: middle-center; -unity-text-outline-width: 1px; -unity-text-outline-color: #111b15; }
+.hud-wallet { flex-direction: row; align-items: center; }
+.hud-coin { width: 22px; height: 22px; flex-shrink: 0; margin-right: 5px; border-radius: 11px; border-width: 2px; border-color: #966019; background-color: #f3c64f; align-items: center; justify-content: center; }
+.hud-coin-rim { width: 14px; height: 14px; border-radius: 7px; border-width: 1px; border-color: #fff0a1; align-items: center; justify-content: center; }
+.hud-coin-mark { width: 3px; height: 8px; border-radius: 1px; background-color: #a76c20; }
+.hud-resources { color: #f3d676; font-size: 18px; -unity-text-outline-width: 1px; -unity-text-outline-color: #111b15; }
+.hud-wave { position: absolute; left: 0; right: 0; top: 0; flex-direction: row; justify-content: center; align-items: center; }
+.hud-wave-label { font-size: 20px; -unity-font-style: bold; -unity-text-outline-width: 1px; -unity-text-outline-color: #111b15; }
+.hud-timer { margin-left: 12px; margin-right: 12px; font-size: 26px; -unity-font-style: bold; -unity-text-outline-width: 1px; -unity-text-outline-color: #111b15; }
+.hud-phase { font-size: 14px; white-space: normal; -unity-text-align: middle-center; -unity-text-outline-width: 1px; -unity-text-outline-color: #111b15; }
+
+.run-result { position: absolute; left: 25%; right: 25%; top: 28%; padding: 24px; background-color: rgba(18, 34, 40, 0.97); color: #ffffff; border-radius: 12px; }
+.shared-view-warning { position: absolute; left: 20%; right: 20%; bottom: 24px; align-items: center; padding: 8px; color: #ffe49d; background-color: rgba(39, 30, 13, 0.85); border-width: 2px; border-color: #eeb956; border-radius: 6px; font-size: 18px; }
+.shop-weapon-slot { width: 64px; height: 64px; flex-shrink: 0; margin-right: 4px; margin-bottom: 6px; align-items: center; }
+.shop-weapon-slot > .shop-icon-tile { margin: 0; }
+.shop-weapon-slot > .shop-empty-slot { margin: 0; }
+.shop-sell { font-size: 12px; min-height: 26px; padding: 2px 4px; white-space: nowrap; }
+
+.combat-number-layer { position: absolute; left: 0; right: 0; top: 0; bottom: 0; }
+.combat-number {
+    position: absolute;
+    width: 100px;
+    height: 32px;
+    font-size: 16.8px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    color: rgb(245, 245, 245);
+    -unity-text-outline-color: rgba(20, 12, 8, 0.95);
+    -unity-text-outline-width: 1px;
+}
+.combat-number-critical { color: rgb(255, 220, 110); }
+.combat-number-player-damage { color: rgb(255, 92, 92); font-size: 19.6px; }
+.combat-number-healing { color: rgb(105, 245, 125); font-size: 19.6px; }
+
+.shop-player-heading { font-size: 18px; -unity-font-style: bold; margin-bottom: 6px; }
+.shop-panel { border-top-width: 3px; padding-top: 5px; }
+.player-color-0 { border-top-color: #79baff; }
+.player-color-1 { border-top-color: #f3c66a; }
+.player-color-2 { border-top-color: #cf91ee; }
+.player-color-3 { border-top-color: #74d7aa; }
+.player-local { background-color: rgba(73, 93, 77, 0.3); }
+.shop-compact .shop-main { min-height: 0; }
+.shop-compact .shop-header { min-height: 32px; margin-bottom: 6px; }
+.shop-compact .shop-title { font-size: 17px; }
+.shop-compact .shop-money { font-size: 19px; margin-left: 4px; margin-right: 6px; }
+.shop-compact .shop-reroll { min-width: 115px; }
+.shop-compact .shop-button { min-height: 28px; padding: 3px 5px; font-size: 13px; }
+.shop-compact .shop-offers { padding: 3px; }
+.shop-compact .shop-offer-card { min-height: 44px; padding: 4px 6px; }
+.shop-compact .shop-offer-names { margin-left: 8px; }
+.shop-compact .shop-offer-name { font-size: 15px; }
+.shop-compact .shop-stat-change { font-size: 14px; margin-bottom: 2px; }
+.shop-compact .shop-offer-status { margin-top: 3px; margin-bottom: 3px; font-size: 11px; }
+.shop-compact .shop-buy { font-size: 15px; min-width: 90px; }
+.shop-compact .shop-lock { margin-left: 5px; }
+.shop-compact .shop-section-title { font-size: 16px; margin-bottom: 5px; }
+.shop-compact .shop-icon { width: 32px; height: 32px; }
+.shop-compact .shop-icon-tile, .shop-compact .shop-empty-slot { width: 48px; height: 48px; margin-right: 3px; margin-bottom: 3px; }
+.shop-compact .shop-items-section { margin-top: 8px; }
+.shop-compact .shop-weapons-section { min-width: 0; }
+.shop-compact .shop-weapon-slot { width: 48px; height: 48px; margin-right: 2px; margin-bottom: 2px; }
+.shop-compact .shop-sell { font-size: 11px; padding: 0; min-height: 23px; }
+.shop-compact .shop-stats { padding: 8px; }
+.shop-compact .shop-stat-row { min-height: 28px; font-size: 16px; }
+.shop-compact .shop-next-wave { margin-top: 8px; }
+.shop-compact .shop-text { font-size: 13px; margin-bottom: 5px; }
+.shop-compact .shop-ready { min-height: 32px; min-width: 190px; font-size: 15px; }
+.shop-compact .level-card { padding: 4px 6px; }
+
+.shop-compact .level-main .shop-money { display: flex; }
+.shop-panel .shop-button.shop-action-unavailable { opacity: 0.75; }
+
+.shop-compact .level-main .shop-header { margin-top: 0; }
+.shop-compact .level-main .shop-title { font-size: 17px; }
+
+.shop-offer-card.shop-rarity-common, .level-card.shop-rarity-common,
+.shop-icon.shop-rarity-common, .shop-icon-tile.shop-rarity-common { border-color: #b5b8bd; border-width: 2px; }
+.shop-offer-card.shop-rarity-rare, .level-card.shop-rarity-rare,
+.shop-icon.shop-rarity-rare, .shop-icon-tile.shop-rarity-rare { border-color: #509dff; border-width: 2px; }
+.shop-offer-card.shop-rarity-epic, .level-card.shop-rarity-epic,
+.shop-icon.shop-rarity-epic, .shop-icon-tile.shop-rarity-epic { border-color: #bc72ee; border-width: 2px; }
+.shop-offer-card.shop-rarity-legendary, .level-card.shop-rarity-legendary,
+.shop-icon.shop-rarity-legendary, .shop-icon-tile.shop-rarity-legendary { border-color: #edb347; border-width: 2px; }
+
+.shop-context-actions { flex-grow: 1; min-height: 0; padding: 10px; background-color: #101913; border-width: 2px; border-color: #71816f; border-radius: 5px; display: none; }
+.shop-context-visible { display: flex; }
+.shop-context-description { font-size: 13px; color: #e7f4df; white-space: normal; margin-bottom: 6px; }
+.shop-context-actions .shop-lock { align-self: stretch; }
+.shop-context-actions .shop-sell { align-self: stretch; }
+.shop-item-selected { border-width: 2px; border-color: #7cebd3; background-color: #5dafa2; }
+
+.shop-stat-icon { width: 22px; height: 22px; flex-shrink: 0; margin-right: 5px; }
+.shop-stat-row > .shop-stat-icon { width: 24px; height: 24px; margin-right: 10px; }
+.shop-stat-change-row { flex-direction: row; align-items: center; flex-shrink: 0; min-width: 0; margin-bottom: 4px; }
+.shop-stat-change-row > .shop-stat-change { flex-grow: 1; flex-shrink: 1; margin-bottom: 0; }
+.shop-stat-change.shop-stat-positive { color: #81d783; }
+.shop-stat-change.shop-stat-penalty { color: #ef6868; }
+.shop-stat-icon.shop-upgrade-icon { position: absolute; left: 0; right: 0; top: 0; bottom: 0; width: auto; height: auto; margin: 0; }
+
+.combat-number.combat-number-resource-bonus {
+    color: #66ec53;
+    font-size: 32px;
+    -unity-font-style: bold;
+}
+
+.shop-command-button { flex-direction: row; align-items: center; justify-content: center; }
+.shop-key-hint { flex-shrink: 0; padding: 2px 5px; margin-right: 8px; border-width: 1px; border-color: #9da69f; border-radius: 3px; font-size: 12px; -unity-font-style: bold; -unity-text-align: middle-center; }
+.shop-panel .shop-button.shop-selected.shop-action-unavailable { opacity: 1; }
+.shop-command-label { min-width: 0; flex-shrink: 1; white-space: normal; -unity-text-align: middle-center; }
+.shop-buy.shop-command-button { min-width: 105px; font-size: 18px; }
+.shop-compact .shop-buy.shop-command-button { font-size: 15px; min-width: 90px; }
+.shop-compact .shop-key-hint { font-size: 11px; margin-right: 4px; }
+
+.shop-offers-host { flex-shrink: 0; }
+.shop-lower { flex-direction: row; flex-grow: 1; min-height: 180px; margin-top: 10px; }
+.shop-inventory-host { width: 43%; min-width: 0; margin-right: 12px; }
+.shop-information { flex-grow: 1; flex-basis: 0; min-width: 0; min-height: 0; }
+.shop-details { flex-grow: 1; min-height: 0; }
+.shop-details-placeholder { flex-grow: 1; padding: 14px; white-space: normal; color: #b5c2b8; background-color: #101913; border-radius: 5px; }
+.shop-detail-heading { flex-direction: row; align-items: center; flex-shrink: 0; margin-bottom: 8px; }
+.shop-product-description { flex-grow: 1; min-height: 0; }
+.shop-stats-toggle { margin-left: 8px; font-size: 13px; }
+.shop-panel .shop-buy.shop-unaffordable .shop-command-label { color: #ef6868; }
+.shop-compact .shop-lower { min-height: 140px; margin-top: 6px; }
+.shop-compact .shop-context-actions { padding: 8px; }
+.shop-compact .shop-stats-toggle { font-size: 12px; }
+.shop-item-selected .shop-offer-name { color: #10211d; }
+.shop-item-selected .shop-caption { color: #213c34; }
+.shop-offer-card .shop-caption { margin-bottom: 0; }
+
+.shop-offer-card.shop-offer-locked { border-left-width: 5px; border-left-color: #f4d77a; }
+.shop-lock-status { position: absolute; left: -5px; bottom: -4px; width: 26px; height: 26px; background-image: url("project://database/Assets/Project/Art/Icons/icon_shop_locked.png"); -unity-background-scale-mode: scale-to-fit; }
+.shop-compact .shop-lock-status { width: 22px; height: 22px; }
+
+.shop-single-player { flex-direction: row; }
+.shop-single-player > .shop-main { flex-basis: 0; min-width: 0; }
+.shop-stats-sidebar { width: 350px; flex-shrink: 0; min-height: 0; margin-left: 16px; }
+
+/* Rewards stay over the arena; the store opens after everyone finishes. */
+.reward-viewport { background-color: rgba(0, 0, 0, 0.85); }
+.store-viewport { background-color: #1c221e; }
+.reward-content { flex-grow: 1; justify-content: center; padding: 30px 80px; }
+.reward-content > .shop-title { flex-grow: 0; margin-bottom: 20px; -unity-text-align: middle-center; }
+.reward-content > .shop-details { flex-grow: 0; height: 170px; margin-top: 12px; margin-bottom: 12px; }
+.reward-content > .shop-text { flex-grow: 0; margin-top: 12px; -unity-text-align: middle-center; }
+.reward-content > .shop-back { align-self: center; margin-top: 12px; }
+.reward-screen { border-top-width: 0; }
+.shop-compact .reward-content { padding: 16px 24px; }
+
+.shop-button > .battle-coin { margin-left: 6px; margin-right: 0; }
+
+.item-reward-screen { background-color: transparent; padding-top: 0; }
+.item-reward-screen.reward-single-player > .shop-player-heading { display: none; }
+.item-reward-content { flex-grow: 1; min-height: 0; justify-content: center; padding: 20px 70px; }
+.item-reward-title { flex-shrink: 0; margin: 0 0 24px; font-size: 48px; color: #ffffff; -unity-text-align: middle-center; -unity-text-outline-width: 2px; -unity-text-outline-color: #000000; }
+.item-reward-card { align-self: center; width: 460px; max-width: 90%; height: 300px; flex-shrink: 0; margin-bottom: 32px; padding: 26px; border-radius: 12px; background-color: #030605; }
+.item-reward-heading { flex-direction: row; align-items: center; flex-shrink: 0; margin-bottom: 20px; }
+.item-reward-heading > .shop-icon { width: 84px; height: 84px; flex-shrink: 0; background-color: #292d2b; border-radius: 10px; margin: 0 18px 0 0; }
+.item-reward-names { flex-grow: 1; min-width: 0; }
+.item-reward-name { margin: 0; padding: 0; font-size: 34px; color: #ffffff; white-space: normal; }
+.item-reward-caption { margin: 4px 0 0; padding: 0; font-size: 28px; color: #d8d5aa; }
+.item-reward-description { flex-grow: 1; min-height: 0; }
+.item-reward-stat { flex-direction: row; align-items: center; flex-shrink: 0; margin-bottom: 18px; color: #47e52c; }
+.item-reward-stat > .shop-stat-icon { width: 28px; height: 28px; margin-right: 10px; -unity-image-tint-color: #47e52c; }
+.item-reward-stat-text { flex-shrink: 1; margin: 0; padding: 0; font-size: 26px; white-space: normal; }
+.item-reward-penalty { color: #e52b25; }
+.item-reward-penalty > .shop-stat-icon { -unity-image-tint-color: #e52b25; }
+.item-reward-actions { flex-shrink: 0; }
+.item-reward-actions > .shop-button { min-height: 68px; margin: 0; padding: 8px 16px; font-size: 32px; border-radius: 14px; border-width: 2px; }
+.item-reward-actions > .item-reward-take { background-color: #030907; border-color: #030907; color: #ffffff; }
+.item-reward-actions > .item-reward-recycle { margin-top: 12px; background-color: #63b9a9; border-color: #63b9a9; color: #071510; }
+.item-reward-actions > .shop-button:hover { border-color: #ffffff; }
+.item-reward-screen .item-reward-actions > .shop-button.shop-selected { border-color: #f4d77a; }
+.item-reward-actions .shop-key-hint { position: absolute; left: 18px; margin: 0; }
+.item-reward-feedback { margin-top: 8px; color: #f0c98a; font-size: 16px; white-space: normal; -unity-text-align: middle-center; }
+.shop-compact .item-reward-content { padding: 12px 40px; }
+.shop-compact .item-reward-title { font-size: 38px; margin-bottom: 20px; }
+.shop-compact .item-reward-card { width: 420px; height: 250px; padding: 22px; margin-bottom: 24px; }
+.shop-compact .item-reward-heading > .shop-icon { width: 68px; height: 68px; }
+.shop-compact .item-reward-name { font-size: 28px; }
+.shop-compact .item-reward-caption { font-size: 24px; }
+.shop-compact .item-reward-stat-text { font-size: 23px; }
+.shop-compact .item-reward-actions > .shop-button { min-height: 56px; font-size: 27px; padding: 6px 12px; }
+
+.item-reward-viewport { background-color: transparent; }
+.item-reward-screen .item-reward-actions > .item-reward-take.shop-selected { background-color: #030907; color: #ffffff; }
+.item-reward-screen .item-reward-actions > .item-reward-recycle.shop-selected { background-color: #63b9a9; color: #071510; }
+
+.shop-panel .shop-weapon-tile.shop-merge-source { border-color: #7cebd3; border-width: 3px; background-color: #244c40; }
+.shop-panel .shop-weapon-tile.shop-weapon-inspected { border-color: #f4d77a; border-width: 3px; }
+.shop-merge { align-self: stretch; background-color: #275344; border-color: #7cebd3; margin-bottom: 4px; -unity-font-style: bold; }
+.shop-merge-preview { flex-shrink: 0; margin-top: 6px; padding: 8px; background-color: #182f27; border-radius: 4px; }
+.shop-merge-title { color: #7cebd3; font-size: 14px; -unity-font-style: bold; margin-bottom: 4px; }
+.shop-merge-notice { color: #e7f4df; font-size: 12px; white-space: normal; margin-bottom: 6px; }
+.shop-compact .shop-merge-preview { padding: 6px; }

@@ -1,0 +1,522 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6d708c6a4bb442f9203297fd1b5a90, type: 3}
+  m_Name: Economy
+  m_EditorClassIdentifier: Assembly-CSharp::HordeMuncher.EconomySettings
+  UpgradeChoiceCount: 4
+  WeaponSlots: 6
+  WeaponSellFraction: 0.5
+  StartingWeapon: 0
+  StartingResources: 0
+  FirstLevelXp: 5
+  LevelXpGrowth: 5
+  RerollPrice: 2
+  RerollGrowth: 1
+  UpgradeRerollPrice: 2
+  UpgradeRerollGrowth: 1
+  EnemyPriceGrowth: 0.35
+  WeaponOrbitRadius: 1.1
+  WeaponHeight: 0.15
+  ResourceAttractionDuration: 0.5
+  ResourceAttractionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  Weapons:
+  - Name: "\u041F\u0438\u0441\u0442\u043E\u043B\u0435\u0442"
+    Icon: {fileID: 21300000, guid: 04d2e104c7e7647398712627ab5994b7, type: 3}
+    Description: "30 урона · 0,6 с · 9 м · пробивает одну цель"
+    Weapon: 0
+    ModelPrefab: {fileID: 8736425860302460289, guid: 0e9431ae29c7f4fbbbc934d0ba75d30c, type: 3}
+    MuzzleOffset: {x: 0, y: 0, z: 0.55}
+    ProjectileSpeed: 40
+    ProjectileRadius: 0.12
+    ProjectileLifetime: 2
+    ExtraPierceTargets: 1
+    KnockbackDistance: 0
+    RetargetOnKill: 0
+    Price: 18
+    Weight: 3
+    Damage: 30
+    Interval: 0.6
+    Range: 9
+    Targets: 1
+    Cone: 50
+    Rare:
+      ProjectileSpeed: 40
+      ProjectileRadius: 0.12
+      ProjectileLifetime: 2
+      ExtraPierceTargets: 1
+      KnockbackDistance: 0
+      RetargetOnKill: 0
+      Price: 29
+      Weight: 1.05
+      Damage: 36
+      Interval: 0.57
+      Range: 9
+      Targets: 1
+      Cone: 50
+    Epic:
+      ProjectileSpeed: 40
+      ProjectileRadius: 0.12
+      ProjectileLifetime: 2
+      ExtraPierceTargets: 1
+      KnockbackDistance: 0
+      RetargetOnKill: 0
+      Price: 43
+      Weight: 0.36
+      Damage: 42
+      Interval: 0.54
+      Range: 9.9
+      Targets: 1
+      Cone: 50
+    Legendary:
+      ProjectileSpeed: 40
+      ProjectileRadius: 0.12
+      ProjectileLifetime: 2
+      ExtraPierceTargets: 1
+      KnockbackDistance: 0
+      RetargetOnKill: 0
+      Price: 61
+      Weight: 0.12
+      Damage: 48
+      Interval: 0.51
+      Range: 10.8
+      Targets: 1
+      Cone: 50
+  - Name: "\u0414\u0440\u043E\u0431\u043E\u0432\u0438\u043A"
+    Icon: {fileID: 21300000, guid: 2887bf6c1cff74d32835cd65b1de39d0, type: 3}
+    Description: "10 урона за дробину · 5 дробин · 1 с · 6 м"
+    Weapon: 1
+    ModelPrefab: {fileID: 3743133305651711533, guid: 63ceef8c4371f4435a81a95e84ea76f3, type: 3}
+    MuzzleOffset: {x: 0, y: 0, z: 0.8}
+    ProjectileSpeed: 36
+    ProjectileRadius: 0.12
+    ProjectileLifetime: 2
+    ExtraPierceTargets: 0
+    KnockbackDistance: 0.25
+    RetargetOnKill: 0
+    Price: 24
+    Weight: 1
+    Damage: 10
+    Interval: 1
+    Range: 6
+    Targets: 5
+    Cone: 50
+    Rare:
+      ProjectileSpeed: 36
+      ProjectileRadius: 0.12
+      ProjectileLifetime: 2
+      ExtraPierceTargets: 0
+      KnockbackDistance: 0.25
+      RetargetOnKill: 0
+      Price: 38
+      Weight: 0.35
+      Damage: 12
+      Interval: 0.95
+      Range: 6
+      Targets: 5
+      Cone: 50
+    Epic:
+      ProjectileSpeed: 36
+      ProjectileRadius: 0.12
+      ProjectileLifetime: 2
+      ExtraPierceTargets: 0
+      KnockbackDistance: 0.25
+      RetargetOnKill: 0
+      Price: 58
+      Weight: 0.12
+      Damage: 14
+      Interval: 0.9
+      Range: 6.6
+      Targets: 5
+      Cone: 50
+    Legendary:
+      ProjectileSpeed: 36
+      ProjectileRadius: 0.12
+      ProjectileLifetime: 2
+      ExtraPierceTargets: 0
+      KnockbackDistance: 0.25
+      RetargetOnKill: 0
+      Price: 82
+      Weight: 0.04
+      Damage: 16
+      Interval: 0.85
+      Range: 7.2
+      Targets: 5
+      Cone: 50
+  - Name: "\u0410\u0432\u0442\u043E\u043C\u0430\u0442"
+    Icon: {fileID: 21300000, guid: 6f2dcf4d173394dea99abf11710e979a, type: 3}
+    Description: "10 урона · 0,18 с · 8 м · одна цель"
+    Weapon: 2
+    ModelPrefab: {fileID: 5084671632889271260, guid: 41fc01ef16b7d4a5a845eaf00b096fa8, type: 3}
+    MuzzleOffset: {x: 0, y: 0, z: 0.8}
+    ProjectileSpeed: 48
+    ProjectileRadius: 0.12
+    ProjectileLifetime: 2
+    ExtraPierceTargets: 0
+    KnockbackDistance: 0
+    RetargetOnKill: 0
+    Price: 24
+    Weight: 1
+    Damage: 10
+    Interval: 0.18
+    Range: 8
+    Targets: 1
+    Cone: 50
+    Rare:
+      ProjectileSpeed: 48
+      ProjectileRadius: 0.12
+      ProjectileLifetime: 2
+      ExtraPierceTargets: 0
+      KnockbackDistance: 0
+      RetargetOnKill: 0
+      Price: 38
+      Weight: 0.35
+      Damage: 12
+      Interval: 0.171
+      Range: 8
+      Targets: 1
+      Cone: 50
+    Epic:
+      ProjectileSpeed: 48
+      ProjectileRadius: 0.12
+      ProjectileLifetime: 2
+      ExtraPierceTargets: 0
+      KnockbackDistance: 0
+      RetargetOnKill: 0
+      Price: 58
+      Weight: 0.12
+      Damage: 14
+      Interval: 0.162
+      Range: 8.8
+      Targets: 1
+      Cone: 50
+    Legendary:
+      ProjectileSpeed: 48
+      ProjectileRadius: 0.12
+      ProjectileLifetime: 2
+      ExtraPierceTargets: 0
+      KnockbackDistance: 0
+      RetargetOnKill: 0
+      Price: 82
+      Weight: 0.04
+      Damage: 15
+      Interval: 0.153
+      Range: 9.6
+      Targets: 1
+      Cone: 50
+  - Name: "\u041D\u043E\u0436"
+    Icon: {fileID: 21300000, guid: 1b4c3e9764ddd4583b7f145ce352d206, type: 3}
+    Description: "Удар в секторе перед игроком · до 2 целей"
+    Weapon: 3
+    ModelPrefab: {fileID: 9213338351728798447, guid: 1250c41fefa57423f951e30853b4d4fc, type: 3}
+    MuzzleOffset: {x: 0, y: 0, z: 0.55}
+    ProjectileSpeed: 18
+    ProjectileRadius: 0.12
+    ProjectileLifetime: 2
+    ExtraPierceTargets: 0
+    KnockbackDistance: 0.1
+    RetargetOnKill: 0
+    Price: 18
+    Weight: 2
+    Damage: 30
+    Interval: 0.25
+    Range: 2.2
+    Targets: 2
+    Cone: 55
+    Rare:
+      ProjectileSpeed: 18
+      ProjectileRadius: 0.12
+      ProjectileLifetime: 2
+      ExtraPierceTargets: 0
+      KnockbackDistance: 0.1
+      RetargetOnKill: 0
+      Price: 29
+      Weight: 0.7
+      Damage: 43
+      Interval: 0.21128857
+      Range: 2.2
+      Targets: 2
+      Cone: 55
+    Epic:
+      ProjectileSpeed: 18
+      ProjectileRadius: 0.12
+      ProjectileLifetime: 2
+      ExtraPierceTargets: 0
+      KnockbackDistance: 0.1
+      RetargetOnKill: 0
+      Price: 43
+      Weight: 0.35
+      Damage: 57
+      Interval: 0.18136906
+      Range: 2.2
+      Targets: 2
+      Cone: 55
+    Legendary:
+      ProjectileSpeed: 18
+      ProjectileRadius: 0.12
+      ProjectileLifetime: 2
+      ExtraPierceTargets: 0
+      KnockbackDistance: 0.1
+      RetargetOnKill: 0
+      Price: 61
+      Weight: 0.15
+      Damage: 77
+      Interval: 0.15504341
+      Range: 2.2
+      Targets: 2
+      Cone: 55
+  - Name: "\u0422\u043E\u043F\u043E\u0440"
+    Icon: {fileID: 21300000, guid: 95da15198e62f40ad95513b86499b571, type: 3}
+    Description: "Удар в секторе перед игроком · до 5 целей"
+    Weapon: 4
+    ModelPrefab: {fileID: 8662728952242535225, guid: 726802e4eb6ab4b6183c60fe04316f53, type: 3}
+    MuzzleOffset: {x: 0, y: 0, z: 0.55}
+    ProjectileSpeed: 18
+    ProjectileRadius: 0.12
+    ProjectileLifetime: 2
+    ExtraPierceTargets: 0
+    KnockbackDistance: 0.6
+    RetargetOnKill: 0
+    Price: 26
+    Weight: 2
+    Damage: 45
+    Interval: 0.65
+    Range: 2.8
+    Targets: 5
+    Cone: 120
+    Rare:
+      ProjectileSpeed: 18
+      ProjectileRadius: 0.12
+      ProjectileLifetime: 2
+      ExtraPierceTargets: 0
+      KnockbackDistance: 0.6
+      RetargetOnKill: 0
+      Price: 42
+      Weight: 0.7
+      Damage: 63
+      Interval: 0.54935024
+      Range: 2.8
+      Targets: 5
+      Cone: 120
+    Epic:
+      ProjectileSpeed: 18
+      ProjectileRadius: 0.12
+      ProjectileLifetime: 2
+      ExtraPierceTargets: 0
+      KnockbackDistance: 0.6
+      RetargetOnKill: 0
+      Price: 62
+      Weight: 0.35
+      Damage: 86
+      Interval: 0.47155954
+      Range: 2.8
+      Targets: 5
+      Cone: 120
+    Legendary:
+      ProjectileSpeed: 18
+      ProjectileRadius: 0.12
+      ProjectileLifetime: 2
+      ExtraPierceTargets: 0
+      KnockbackDistance: 0.6
+      RetargetOnKill: 0
+      Price: 88
+      Weight: 0.15
+      Damage: 117
+      Interval: 0.40311289
+      Range: 2.8
+      Targets: 5
+      Cone: 120
+  Items:
+  - Name: "\u0421\u0435\u0440\u0434\u0446\u0435"
+    Icon: {fileID: 21300000, guid: 9adbe6ca3aa6d4ba3ba73206f968df79, type: 3}
+    Description: "+6 \u0417\u0434\u043e\u0440\u043e\u0432\u044c\u0435"
+    Bonus: 0
+    Amount: 6
+    Penalty: 0
+    PenaltyAmount: 0
+    Price: 24
+    Weight: 2
+  - Name: "\u041F\u043E\u0440\u043E\u0445"
+    Icon: {fileID: 21300000, guid: f5c3be5984e294994a539f9b7aab85b9, type: 3}
+    Description: "+10 \u0423\u0440\u043e\u043d"
+    Bonus: 1
+    Amount: 0.1
+    Penalty: 0
+    PenaltyAmount: 0
+    Price: 22
+    Weight: 2
+  - Name: "\u041F\u0440\u0443\u0436\u0438\u043D\u0430"
+    Icon: {fileID: 21300000, guid: e27e5adb5a371456e926ed758c151284, type: 3}
+    Description: "+10 \u0421\u043a\u043e\u0440\u043e\u0441\u0442\u044c \u0430\u0442\u0430\u043a\u0438"
+    Bonus: 2
+    Amount: 0.1
+    Penalty: 0
+    PenaltyAmount: 0
+    Price: 22
+    Weight: 2
+  - Name: "\u0411\u043E\u0442\u0438\u043D\u043A\u0438"
+    Icon: {fileID: 21300000, guid: 74a92b8bf0ca74f7f9b6056924895398, type: 3}
+    Description: "+10 \u0421\u043a\u043e\u0440\u043e\u0441\u0442\u044c \u0434\u0432\u0438\u0436\u0435\u043d\u0438\u044f"
+    Bonus: 3
+    Amount: 0.1
+    Penalty: 0
+    PenaltyAmount: 0
+    Price: 20
+    Weight: 2
+  - Name: "\u041F\u0440\u0438\u0446\u0435\u043B"
+    Icon: {fileID: 21300000, guid: 14de668dc0adb47b6ab6bf48eaecff0b, type: 3}
+    Description: "+15 \u0414\u0430\u043b\u044c\u043d\u043e\u0441\u0442\u044c"
+    Bonus: 4
+    Amount: 0.15
+    Penalty: 0
+    PenaltyAmount: 0
+    Price: 18
+    Weight: 2
+  - Name: "\u041C\u0430\u0433\u043D\u0438\u0442"
+    Icon: {fileID: 21300000, guid: e7bbf47505b394ec799a6d56ace8d6f5, type: 3}
+    Description: "+15 \u0420\u0430\u0434\u0438\u0443\u0441 \u043f\u043e\u0434\u0431\u043e\u0440\u0430"
+    Bonus: 5
+    Amount: 0.75
+    Penalty: 0
+    PenaltyAmount: 0
+    Price: 18
+    Weight: 2
+  - Name: "\u0411\u0440\u043E\u043D\u0435\u043F\u043B\u0430\u0441\u0442\u0438\u043D\u0430"
+    Icon: {fileID: 21300000, guid: 40d7dd7db2faa42c0948df030598965f, type: 3}
+    Description: "+1 \u0411\u0440\u043e\u043d\u044f"
+    Bonus: 6
+    Amount: 1
+    Penalty: 0
+    PenaltyAmount: 0
+    Price: 18
+    Weight: 2
+  - Name: "\u0420\u043E\u0441\u0442\u043E\u043A"
+    Icon: {fileID: 21300000, guid: dddd1d7c9ff1d433fb39b2b51b8e223f, type: 3}
+    Description: "+10 \u0420\u0435\u0433\u0435\u043d\u0435\u0440\u0430\u0446\u0438\u044f"
+    Bonus: 7
+    Amount: 1
+    Penalty: 0
+    PenaltyAmount: 0
+    Price: 28
+    Weight: 2
+  - Name: "\u041A\u0430\u0441\u0442\u0435\u0442"
+    Icon: {fileID: 21300000, guid: 648248644e77a44f493b515c7c5075d5, type: 3}
+    Description: "+4 \u0411\u043b\u0438\u0436\u043d\u0438\u0439 \u0431\u043e\u0439, \u22122 \u0414\u0430\u043b\u044c\u043d\u0438\u0439 \u0431\u043e\u0439"
+    Bonus: 10
+    Amount: 4
+    Penalty: 11
+    PenaltyAmount: -2
+    Price: 22
+    Weight: 2
+  - Name: "\u041F\u0430\u0442\u0440\u043E\u043D\u0442\u0430\u0448"
+    Icon: {fileID: 21300000, guid: 363fa60d2024c4ef59c454a2ae803477, type: 3}
+    Description: "+3 \u0414\u0430\u043b\u044c\u043d\u0438\u0439 \u0431\u043e\u0439, \u22123 \u0411\u043b\u0438\u0436\u043d\u0438\u0439 \u0431\u043e\u0439"
+    Bonus: 11
+    Amount: 3
+    Penalty: 10
+    PenaltyAmount: -3
+    Price: 20
+    Weight: 2
+  - Name: "\u0411\u0435\u0440\u0441\u0435\u0440\u043A"
+    Icon: {fileID: 21300000, guid: 4ccb10fd146de45148512932a88fade6, type: 3}
+    Description: "+20 \u0423\u0440\u043e\u043d, \u22122 \u0411\u0440\u043e\u043d\u044f"
+    Bonus: 1
+    Amount: 0.2
+    Penalty: 6
+    PenaltyAmount: -2
+    Price: 30
+    Weight: 2
+  - Name: "\u0422\u044F\u0436\u0451\u043B\u044B\u0439 \u0436\u0438\u043B\u0435\u0442"
+    Icon: {fileID: 21300000, guid: d91264a05d5bd4ca4af99968efeea796, type: 3}
+    Description: "+3 \u0411\u0440\u043e\u043d\u044f, \u22128 \u0421\u043a\u043e\u0440\u043e\u0441\u0442\u044c \u0434\u0432\u0438\u0436\u0435\u043d\u0438\u044f"
+    Bonus: 6
+    Amount: 3
+    Penalty: 3
+    PenaltyAmount: -0.08
+    Price: 28
+    Weight: 2
+  - Name: "\u0421\u0435\u0440\u0432\u043E\u043F\u0440\u0438\u0432\u043E\u0434"
+    Icon: {fileID: 21300000, guid: 5b8b28c06e2c64fda96a88f023986030, type: 3}
+    Description: "+20 \u0421\u043a\u043e\u0440\u043e\u0441\u0442\u044c \u0430\u0442\u0430\u043a\u0438, \u221210 \u0423\u0440\u043e\u043d"
+    Bonus: 2
+    Amount: 0.2
+    Penalty: 1
+    PenaltyAmount: -0.1
+    Price: 26
+    Weight: 2
+  - Name: "\u0421\u043D\u0430\u0439\u043F\u0435\u0440\u0441\u043A\u0438\u0439 \u043C\u043E\u043D\u043E\u043A\u043B\u044C"
+    Icon: {fileID: 21300000, guid: 1a3af78097c854c88ab574337497cf78, type: 3}
+    Description: "+4 \u0414\u0430\u043b\u044c\u043d\u0438\u0439 \u0431\u043e\u0439, \u221212 \u0421\u043a\u043e\u0440\u043e\u0441\u0442\u044c \u0430\u0442\u0430\u043a\u0438"
+    Bonus: 11
+    Amount: 4
+    Penalty: 2
+    PenaltyAmount: -0.12
+    Price: 26
+    Weight: 2
+  - Name: "\u041A\u0440\u043E\u0432\u0430\u0432\u044B\u0439 \u0442\u0430\u043B\u0438\u0441\u043C\u0430\u043D"
+    Icon: {fileID: 21300000, guid: d11092e80c47148a58d80557596e4858, type: 3}
+    Description: "+6 \u0411\u043b\u0438\u0436\u043d\u0438\u0439 \u0431\u043e\u0439, \u221215 \u0417\u0434\u043e\u0440\u043e\u0432\u044c\u0435"
+    Bonus: 10
+    Amount: 6
+    Penalty: 0
+    PenaltyAmount: -15
+    Price: 28
+    Weight: 2
+  - Name: "\u041F\u043E\u0445\u043E\u0434\u043D\u0430\u044F \u0444\u043B\u044F\u0433\u0430"
+    Icon: {fileID: 21300000, guid: 13a8706a1dfeb44639975bfd8e0d1ec1, type: 3}
+    Description: "+20 \u0420\u0435\u0433\u0435\u043d\u0435\u0440\u0430\u0446\u0438\u044f, \u221215 \u0414\u0430\u043b\u044c\u043d\u043e\u0441\u0442\u044c"
+    Bonus: 7
+    Amount: 2
+    Penalty: 4
+    PenaltyAmount: -0.15
+    Price: 32
+    Weight: 2
+  - Name: "\u041E\u0431\u043B\u0435\u0433\u0447\u0451\u043D\u043D\u0430\u044F \u043E\u0431\u0443\u0432\u044C"
+    Icon: {fileID: 21300000, guid: 1e704231f0148422ba34d477dd786925, type: 3}
+    Description: "+18 \u0421\u043a\u043e\u0440\u043e\u0441\u0442\u044c \u0434\u0432\u0438\u0436\u0435\u043d\u0438\u044f, \u22121 \u0411\u0440\u043e\u043d\u044f"
+    Bonus: 3
+    Amount: 0.18
+    Penalty: 6
+    PenaltyAmount: -1
+    Price: 26
+    Weight: 2
+  - Name: "\u0421\u0442\u0435\u043A\u043B\u044F\u043D\u043D\u0430\u044F \u043B\u0438\u043D\u0437\u0430"
+    Icon: {fileID: 21300000, guid: 29273430a8f5140f68928aa5cf38a08d, type: 3}
+    Description: "+12 \u0428\u0430\u043d\u0441 \u043a\u0440\u0438\u0442\u0430, \u221215 \u0417\u0434\u043e\u0440\u043e\u0432\u044c\u0435"
+    Bonus: 8
+    Amount: 0.12
+    Penalty: 0
+    PenaltyAmount: -15
+    Price: 28
+    Weight: 2
