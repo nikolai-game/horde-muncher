@@ -10,6 +10,9 @@ namespace HordeMuncher
     [RequireComponent(typeof(Camera))]
     public sealed class ArenaCameraFollow : MonoBehaviour
     {
+        private const float MIN_OFFSET_SQUARED = 0.001f;
+        private const float MIN_ASPECT_RATIO = 0.1f;
+
         [Min(1)]
         public float ViewSize = 9;
         [Min(1)]
@@ -74,7 +77,7 @@ namespace HordeMuncher
             }
 
             playersCenter /= _playerPositions.Count;
-            if (Offset.sqrMagnitude > 0.001f)
+            if (Offset.sqrMagnitude > MIN_OFFSET_SQUARED)
             {
                 transform.rotation = Quaternion.LookRotation(-Offset, Vector3.up);
             }
@@ -147,7 +150,7 @@ namespace HordeMuncher
         {
             Vector3 delta = playerPosition - center;
             return Mathf.Max(Mathf.Abs(Vector3.Dot(delta, cameraUp)) + padding,
-                (Mathf.Abs(Vector3.Dot(delta, cameraRight)) + padding) / Mathf.Max(0.1f, aspect));
+                (Mathf.Abs(Vector3.Dot(delta, cameraRight)) + padding) / Mathf.Max(MIN_ASPECT_RATIO, aspect));
         }
     }
 }

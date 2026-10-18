@@ -51,7 +51,7 @@ namespace HordeMuncher
             var result = new List<ClientArenaPlayer>();
             foreach (ClientArenaPlayer player in players.Values)
             {
-                if (result.Count == 4)
+                if (result.Count == ArenaLimits.MAX_PLAYERS)
                 {
                     break;
                 }

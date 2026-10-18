@@ -11,6 +11,10 @@ namespace HordeMuncher
     [UpdateInGroup(typeof(SimulationSystemGroup))]
     public partial struct EnemyMovementSystem : ISystem
     {
+        private const float MIN_SPATIAL_CELL_SIZE = 0.1f;
+        private const int DIAMETER_FACTOR = 2;
+        private const float FALLBACK_ARENA_HALF_EXTENT = 18.825f;
+
         private const int MAX_NEIGHBOUR_CHECKS = 128;
         private EntityQuery _playerQuery;
         private EntityQuery _enemyQuery;
@@ -34,17 +38,17 @@ namespace HordeMuncher
             NativeArray<LocalTransform> playerTransforms = _playerQuery.ToComponentDataArray<LocalTransform>(Allocator.TempJob);
             NativeArray<CombatHealth> playerHealth = _playerQuery.ToComponentDataArray<CombatHealth>(Allocator.TempJob);
             var spatialGrid = new NativeParallelMultiHashMap<int2, EnemyNeighbour>(_enemyQuery.CalculateEntityCount(), Allocator.TempJob);
-            float cellSize = 0.1f;
+            float cellSize = MIN_SPATIAL_CELL_SIZE;
             using (NativeArray<ArenaEnemy> enemies = _enemyQuery.ToComponentDataArray<ArenaEnemy>(Allocator.Temp))
             {
                 foreach (ArenaEnemy enemy in enemies)
                 {
-                    cellSize = math.max(cellSize, 2 * enemy.Radius + enemy.SeparationGap);
+                    cellSize = math.max(cellSize, DIAMETER_FACTOR * enemy.Radius + enemy.SeparationGap);
                 }
             }
 
             float2 arenaCenter = float2.zero;
-            var arenaHalfExtents = new float2(18.825f);
+            var arenaHalfExtents = new float2(FALLBACK_ARENA_HALF_EXTENT);
             if (SystemAPI.TryGetSingleton(out WaveRuntimeSettings arenaSettings))
             {
                 arenaCenter = arenaSettings.Center;

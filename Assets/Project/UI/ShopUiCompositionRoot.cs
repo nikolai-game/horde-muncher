@@ -11,6 +11,8 @@ namespace HordeMuncher
     [MovedFrom(true, "Brotato3D", "Brotato3D.Client.Shop", "ShopPresentation")]
     public sealed class ShopUiCompositionRoot : MonoBehaviour
     {
+        private const float REFRESH_INTERVAL_SECONDS = 0.1f;
+
         public EconomySettings Settings;
         private readonly List<PlayerShopContext> _playerShopContexts = new List<PlayerShopContext>();
         private ArenaSession _session;
@@ -65,7 +67,7 @@ namespace HordeMuncher
             if (Time.unscaledTime >= _nextRefresh)
             {
                 RefreshPlayerShops();
-                _nextRefresh = Time.unscaledTime + 0.1f;
+                _nextRefresh = Time.unscaledTime + REFRESH_INTERVAL_SECONDS;
             }
 
             foreach (PlayerShopContext context in _playerShopContexts)

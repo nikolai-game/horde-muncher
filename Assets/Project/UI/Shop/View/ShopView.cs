@@ -8,6 +8,19 @@ namespace HordeMuncher.UI.Shop.View
 {
     public sealed class ShopView : IShopView, IDisposable
     {
+        private const int COMPACT_COLUMN_COUNT = 2;
+        private const int NAVIGATION_SIDEWAYS_WEIGHT = 3;
+        private const int COMPACT_DESIGN_WIDTH = 880;
+        private const int COMPACT_MIN_HEIGHT = 600;
+        private const float MIN_LAYOUT_SCALE = 0.01f;
+        private const int PANEL_TOTAL_MARGIN = 12;
+        private const int PANEL_MARGIN = 6;
+        private const int FALLBACK_ICON_CHARACTER_COUNT = 2;
+        private const int TOOLTIP_HORIZONTAL_OFFSET = 8;
+        private const int TOOLTIP_EDGE_MARGIN = 4;
+        private const int TOOLTIP_VERTICAL_OFFSET = 6;
+        private const float FONT_SIZE_UPDATE_THRESHOLD = 0.1f;
+
         private const float DESIGN_WIDTH = 1200;
         private const float DESIGN_HEIGHT = 720;
         private const float DESCRIPTION_FONT_SIZE = 14;
@@ -92,9 +105,9 @@ namespace HordeMuncher.UI.Shop.View
             _remoteSelectionKey = viewData.Navigation.SelectionKey;
             _inspectionTileCount = 0;
             _root.EnableInClassList("player-local", viewData.CanControl);
-            for (int colorIndex = 0; colorIndex < 4; colorIndex++)
+            for (int colorIndex = 0; colorIndex < ArenaLimits.MAX_PLAYERS; colorIndex++)
             {
-                _root.EnableInClassList("player-color-" + colorIndex, colorIndex == (viewData.PlayerNumber - 1) % 4);
+                _root.EnableInClassList("player-color-" + colorIndex, colorIndex == (viewData.PlayerNumber - 1) % ArenaLimits.MAX_PLAYERS);
             }
 
             ShopViewButton previousSelection = _selectedButtonIndex >= 0 && _selectedButtonIndex < _buttons.Count
@@ -242,13 +255,13 @@ namespace HordeMuncher.UI.Shop.View
 
         public void SetPlayerLayout(int playerIndex, int playerCount)
         {
-            int columns = playerCount > 1 ? 2 : 1;
-            int rows = playerCount > 2 ? 2 : 1;
+            int columns = playerCount > 1 ? COMPACT_COLUMN_COUNT : 1;
+            int rows = playerCount > COMPACT_COLUMN_COUNT ? COMPACT_COLUMN_COUNT : 1;
             Viewport.style.position = Position.Absolute;
-            Viewport.style.left = Length.Percent(playerIndex % columns * 100f / columns);
-            Viewport.style.top = Length.Percent(playerIndex / columns * 100f / rows);
-            Viewport.style.width = Length.Percent(100f / columns);
-            Viewport.style.height = Length.Percent(100f / rows);
+            Viewport.style.left = Length.Percent(playerIndex % columns * StatUnits.PERCENT_SCALE / columns);
+            Viewport.style.top = Length.Percent(playerIndex / columns * StatUnits.PERCENT_SCALE / rows);
+            Viewport.style.width = Length.Percent(StatUnits.PERCENT_SCALE / columns);
+            Viewport.style.height = Length.Percent(StatUnits.PERCENT_SCALE / rows);
             _isCompact = playerCount > 1;
             _root.EnableInClassList("shop-compact", _isCompact);
             ApplyLayout();
@@ -305,7 +318,7 @@ namespace HordeMuncher.UI.Shop.View
                 }
 
                 float sideways = Mathf.Abs(offset.x * direction.y - offset.y * direction.x);
-                float navigationScore = forward + sideways * 3;
+                float navigationScore = forward + sideways * NAVIGATION_SIDEWAYS_WEIGHT;
                 if (navigationScore >= bestNavigationScore)
                 {
                     continue;
@@ -402,16 +415,17 @@ namespace HordeMuncher.UI.Shop.View
                 return;
             }
 
-            float designWidth = _isCompact ? 880 : DESIGN_WIDTH;
-            float minimumHeight = _isCompact ? 600 : DESIGN_HEIGHT;
-            float scale = Mathf.Max(0.01f, Mathf.Min((width - 12) / designWidth, (height - 12) / minimumHeight));
-            float designHeight = (height - 12) / scale;
-            _root.style.width = (width - 12) / scale;
+            float designWidth = _isCompact ? COMPACT_DESIGN_WIDTH : DESIGN_WIDTH;
+            float minimumHeight = _isCompact ? COMPACT_MIN_HEIGHT : DESIGN_HEIGHT;
+            float scale = Mathf.Max(MIN_LAYOUT_SCALE, Mathf.Min((width - PANEL_TOTAL_MARGIN) / designWidth,
+                (height - PANEL_TOTAL_MARGIN) / minimumHeight));
+            float designHeight = (height - PANEL_TOTAL_MARGIN) / scale;
+            _root.style.width = (width - PANEL_TOTAL_MARGIN) / scale;
             _root.style.height = designHeight;
             _root.style.transformOrigin = new TransformOrigin(0, 0, 0);
             _root.style.scale = new Scale(new Vector3(scale, scale, 1));
-            _root.style.left = 6;
-            _root.style.top = 6;
+            _root.style.left = PANEL_MARGIN;
+            _root.style.top = PANEL_MARGIN;
         }
 
         private void RenderRewards(ShopViewData viewData)
@@ -741,7 +755,7 @@ namespace HordeMuncher.UI.Shop.View
             else
             {
                 string initials = string.IsNullOrEmpty(cardData.Name) ? "?" : cardData.Name.Substring(0,
-                    Mathf.Min(2, cardData.Name.Length)).ToUpperInvariant();
+                    Mathf.Min(FALLBACK_ICON_CHARACTER_COUNT, cardData.Name.Length)).ToUpperInvariant();
                 AddLabel(element, initials, "shop-icon-placeholder");
             }
 
@@ -952,21 +966,21 @@ namespace HordeMuncher.UI.Shop.View
             Vector2 point = _root.WorldToLocal(new Vector2(target.worldBound.xMin, target.worldBound.yMax));
             float width = _root.resolvedStyle.width;
             float height = _root.resolvedStyle.height;
-            float left = point.x + 8;
+            float left = point.x + TOOLTIP_HORIZONTAL_OFFSET;
             float tooltipHeight = _tooltip.layout.height;
             if (float.IsNaN(tooltipHeight) || tooltipHeight <= 0)
             {
                 tooltipHeight = TOOLTIP_MAX_HEIGHT;
             }
 
-            float top = point.y + 6;
-            if (top + tooltipHeight > height - 4)
+            float top = point.y + TOOLTIP_VERTICAL_OFFSET;
+            if (top + tooltipHeight > height - TOOLTIP_EDGE_MARGIN)
             {
-                top = _root.WorldToLocal(target.worldBound.position).y - tooltipHeight - 6;
+                top = _root.WorldToLocal(target.worldBound.position).y - tooltipHeight - TOOLTIP_VERTICAL_OFFSET;
             }
 
-            _tooltip.style.left = Mathf.Clamp(left, 4, Mathf.Max(4, width - TOOLTIP_WIDTH - 4));
-            _tooltip.style.top = Mathf.Clamp(top, 4, Mathf.Max(4, height - tooltipHeight - 4));
+            _tooltip.style.left = Mathf.Clamp(left, TOOLTIP_EDGE_MARGIN, Mathf.Max(TOOLTIP_EDGE_MARGIN, width - TOOLTIP_WIDTH - TOOLTIP_EDGE_MARGIN));
+            _tooltip.style.top = Mathf.Clamp(top, TOOLTIP_EDGE_MARGIN, Mathf.Max(TOOLTIP_EDGE_MARGIN, height - tooltipHeight - TOOLTIP_EDGE_MARGIN));
         }
 
         private void UpdateSelectedButtonHighlight()
@@ -1139,7 +1153,7 @@ namespace HordeMuncher.UI.Shop.View
             }
 
             float fontSize = Mathf.Min(DESCRIPTION_FONT_SIZE, currentFontSize * availableWidth / textWidth);
-            if (Mathf.Abs(fontSize - currentFontSize) > 0.1f)
+            if (Mathf.Abs(fontSize - currentFontSize) > FONT_SIZE_UPDATE_THRESHOLD)
             {
                 label.style.fontSize = fontSize;
             }

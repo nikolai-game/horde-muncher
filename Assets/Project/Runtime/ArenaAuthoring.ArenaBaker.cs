@@ -7,13 +7,18 @@ namespace HordeMuncher
     {
         private sealed class ArenaBaker : Baker<ArenaAuthoring>
         {
+            private const float MIN_ATTRACTION_DURATION = 0.01f;
+            private const int CURVE_SAMPLE_INTERVALS = 128;
+            private const float MIN_WAVE_DIMENSION = 0.1f;
+            private const int CURVE_SAMPLE_COUNT = CURVE_SAMPLE_INTERVALS + 1;
+
             public override void Bake(ArenaAuthoring authoring)
             {
                 AddComponent(GetEntity(TransformUsageFlags.None), new ArenaConfiguration
                 {
                     PlayerPrefab = GetEntity(authoring.PlayerPrefab, TransformUsageFlags.Dynamic),
                     MaxPlayers = authoring.MaxPlayers,
-                    SharedViewMaxDistance = Mathf.Max(4, authoring.SharedViewMaxDistance),
+                    SharedViewMaxDistance = Mathf.Max(ArenaLimits.MIN_SHARED_VIEW_DISTANCE, authoring.SharedViewMaxDistance),
                     EnemyPrefab = GetEntity(authoring.EnemyPrefab, TransformUsageFlags.Dynamic),
                     ProjectilePrefab = GetEntity(authoring.ProjectilePrefab, TransformUsageFlags.Dynamic),
                     ResourcePrefab = GetEntity(authoring.ResourcePrefab, TransformUsageFlags.Dynamic)
@@ -25,10 +30,10 @@ namespace HordeMuncher
                     Entity economyConfigurationEntity = GetEntity(TransformUsageFlags.None);
                     AddComponent(economyConfigurationEntity, new EconomyConfig
                     {
-                        ResourceAttractionDuration = Mathf.Max(0.01f, economySettings.ResourceAttractionDuration),
+                        ResourceAttractionDuration = Mathf.Max(MIN_ATTRACTION_DURATION, economySettings.ResourceAttractionDuration),
                         WeaponOrbitRadius = Mathf.Max(0, economySettings.WeaponOrbitRadius),
                         WeaponHeight = economySettings.WeaponHeight,
-                        WeaponSlots = Mathf.Clamp(economySettings.WeaponSlots, 1, 6),
+                        WeaponSlots = Mathf.Clamp(economySettings.WeaponSlots, 1, ArenaLimits.MAX_WEAPON_SLOTS),
                         WeaponSellFraction = Mathf.Clamp01(economySettings.WeaponSellFraction),
                         StartingWeapon = economySettings.StartingWeapon,
                         StartingResources = Mathf.Max(0, economySettings.StartingResources),
@@ -42,9 +47,9 @@ namespace HordeMuncher
                     });
                     DynamicBuffer<ResourceAttractionCurvePoint> attractionCurvePoints =
                         AddBuffer<ResourceAttractionCurvePoint>(economyConfigurationEntity);
-                    for (int curvePointIndex = 0; curvePointIndex <= 128; curvePointIndex++)
+                    for (int curvePointIndex = 0; curvePointIndex <= CURVE_SAMPLE_INTERVALS; curvePointIndex++)
                     {
-                        float progress = curvePointIndex / 128f;
+                        float progress = curvePointIndex / (float)CURVE_SAMPLE_INTERVALS;
                         attractionCurvePoints.Add(new ResourceAttractionCurvePoint
                         {
                             Progress = Mathf.Clamp01(economySettings.ResourceAttractionCurve?.Evaluate(progress) ?? progress * progress)
@@ -69,8 +74,8 @@ namespace HordeMuncher
                 AddComponent(configurationEntity, new WaveRuntimeSettings
                 {
                     Center = new Unity.Mathematics.float2(waveSettings.MapCenter.x, waveSettings.MapCenter.y),
-                    HalfExtents = new Unity.Mathematics.float2(Mathf.Max(0.1f, waveSettings.MapHalfExtents.x),
-                        Mathf.Max(0.1f, waveSettings.MapHalfExtents.y)),
+                    HalfExtents = new Unity.Mathematics.float2(Mathf.Max(MIN_WAVE_DIMENSION, waveSettings.MapHalfExtents.x),
+                        Mathf.Max(MIN_WAVE_DIMENSION, waveSettings.MapHalfExtents.y)),
                     SafeDistance = Mathf.Max(0, waveSettings.SafeDistanceFromPlayers),
                     MaxAlive = Mathf.Max(1, waveSettings.MaxAlive),
                     MaxSpawnsPerTick = Mathf.Max(1, waveSettings.MaxSpawnsPerTick),
@@ -99,9 +104,9 @@ namespace HordeMuncher
 
                     var wavePlan = new WavePlan
                     {
-                        Duration = Mathf.Max(0.1f, waveDefinition.Duration),
+                        Duration = Mathf.Max(MIN_WAVE_DIMENSION, waveDefinition.Duration),
                         SpawnRatePointOffset = spawnRatePoints.Length,
-                        SpawnRatePointCount = 129,
+                        SpawnRatePointCount = CURVE_SAMPLE_COUNT,
                         EnemyOffset = enemyChoices.Length,
                         BossPrefab = waveDefinition.BossPrefab == null
                             ? Entity.Null
@@ -111,7 +116,7 @@ namespace HordeMuncher
                     {
                         spawnRatePoints.Add(new WaveSpawnRateCurvePoint
                         {
-                            Rate = Mathf.Max(0, waveDefinition.SpawnRate?.Evaluate(curvePointIndex / 128f) ?? 0)
+                            Rate = Mathf.Max(0, waveDefinition.SpawnRate?.Evaluate(curvePointIndex / (float)CURVE_SAMPLE_INTERVALS) ?? 0)
                         });
                     }
 

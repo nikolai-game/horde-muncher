@@ -116,7 +116,7 @@ namespace HordeMuncher
         {
             var random = new Random(playerProgress.RandomState == 0 ? 1u : playerProgress.RandomState);
             DynamicBuffer<ShopOffer> offers = entityManager.GetBuffer<ShopOffer>(playerEntity);
-            while (offers.Length < 4)
+            while (offers.Length < ArenaLimits.SHOP_OFFER_COUNT)
             {
                 offers.Add(new ShopOffer
                 {
@@ -173,7 +173,7 @@ namespace HordeMuncher
                 }
             }
 
-            for (int choiceSlot = 0; choiceSlot < 4; choiceSlot++)
+            for (int choiceSlot = 0; choiceSlot < ArenaLimits.UPGRADE_CHOICE_COUNT; choiceSlot++)
             {
                 int candidateIndex = random.NextInt(candidates.Length);
                 BonusKind stat = candidates[candidateIndex];

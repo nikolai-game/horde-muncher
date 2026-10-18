@@ -11,6 +11,16 @@ namespace HordeMuncher
         [BurstCompile]
         private partial struct ChasePlayersJob : IJobEntity
         {
+            private const int DIAMETER_FACTOR = 2;
+            private const float MAX_SEPARATION_STEP_FRACTION = 0.25f;
+            private const float MIN_MOVEMENT_SQUARED = 0.00000001f;
+            private const int NEIGHBOUR_CELL_COUNT = 9;
+            private const int CENTRAL_CELL_INDEX = 4;
+            private const int NEIGHBOUR_GRID_WIDTH = 3;
+            private const float MIN_NEIGHBOUR_DISTANCE = 0.0001f;
+            private const int PAIR_HASH_ANGLE_RESOLUTION = 65536;
+            private const int FULL_CIRCLE_PI_FACTOR = 2;
+
             [ReadOnly]
             public NativeArray<LocalTransform> PlayerTransforms;
             [ReadOnly]
@@ -30,13 +40,14 @@ namespace HordeMuncher
                 float movementStep = math.min(enemy.Speed * DeltaTime, math.max(0, targetDistance - enemy.StopDistance));
                 float2 separation = CalculateSeparation(entity, position, enemy);
                 separation /= math.max(1, math.length(separation));
-                float separationStep = math.min(enemy.SeparationSpeed * DeltaTime, (2 * enemy.Radius + enemy.SeparationGap) * 0.25f);
+                float separationStep = math.min(enemy.SeparationSpeed * DeltaTime, (DIAMETER_FACTOR * enemy.Radius
+                    + enemy.SeparationGap) * MAX_SEPARATION_STEP_FRACTION);
                 position += math.normalizesafe(targetOffset) * movementStep + separation * separationStep;
                 float2 movementHalfExtents = math.max(float2.zero, ArenaHalfExtents - enemy.Radius);
                 float2 nextPosition = math.clamp(position, ArenaCenter - movementHalfExtents, ArenaCenter + movementHalfExtents);
                 float2 movementOffset = nextPosition - transform.Position.xz;
                 transform.Position.xz = nextPosition;
-                if (math.lengthsq(movementOffset) > 0.00000001f)
+                if (math.lengthsq(movementOffset) > MIN_MOVEMENT_SQUARED)
                 {
                     transform.Rotation = quaternion.LookRotationSafe(new float3(movementOffset.x, 0, movementOffset.y), math.up());
                 }
@@ -72,10 +83,11 @@ namespace HordeMuncher
                 float2 separation = float2.zero;
                 int2 currentCell = (int2)math.floor(position / CellSize);
                 int neighbourChecks = 0;
-                for (int cellIndex = 0; cellIndex < 9 && neighbourChecks < MAX_NEIGHBOUR_CHECKS; cellIndex++)
+                for (int cellIndex = 0; cellIndex < NEIGHBOUR_CELL_COUNT && neighbourChecks < MAX_NEIGHBOUR_CHECKS; cellIndex++)
                 {
-                    int neighbourCellIndex = cellIndex == 0 ? 4 : cellIndex <= 4 ? cellIndex - 1 : cellIndex;
-                    int2 neighbourCell = currentCell + new int2(neighbourCellIndex % 3 - 1, neighbourCellIndex / 3 - 1);
+                    int neighbourCellIndex = cellIndex == 0 ? CENTRAL_CELL_INDEX : cellIndex <= CENTRAL_CELL_INDEX ? cellIndex - 1 : cellIndex;
+                    int2 neighbourCell = currentCell + new int2(neighbourCellIndex % NEIGHBOUR_GRID_WIDTH - 1,
+                        neighbourCellIndex / NEIGHBOUR_GRID_WIDTH - 1);
                     if (!SpatialGrid.TryGetFirstValue(neighbourCell,
                         out EnemyNeighbour neighbour,
                         out NativeParallelMultiHashMapIterator<int2> iterator))
@@ -103,7 +115,7 @@ namespace HordeMuncher
                             continue;
                         }
 
-                        if (distance > 0.0001f)
+                        if (distance > MIN_NEIGHBOUR_DISTANCE)
                         {
                             directionAway /= distance;
                         }
@@ -123,7 +135,7 @@ namespace HordeMuncher
             private static float2 CalculateCoincidentSeparationDirection(Entity entity, Entity neighbour)
             {
                 uint pairHash = math.hash(new uint2((uint)math.min(entity.Index, neighbour.Index), (uint)math.max(entity.Index, neighbour.Index)));
-                float angle = (pairHash % 65536) * (2 * math.PI / 65536);
+                float angle = (pairHash % PAIR_HASH_ANGLE_RESOLUTION) * (FULL_CIRCLE_PI_FACTOR * math.PI / PAIR_HASH_ANGLE_RESOLUTION);
                 return new float2(math.cos(angle), math.sin(angle)) * (entity.Index < neighbour.Index ? 1 : -1);
             }
         }

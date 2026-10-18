@@ -11,6 +11,11 @@ namespace HordeMuncher
     [UpdateAfter(typeof(WaveCompletionSystem))]
     public partial class ResourcePickupSystem : SystemBase
     {
+        private const float MIN_ATTRACTION_DURATION = 0.01f;
+        private const float DEFAULT_ATTRACTION_DURATION = 0.5f;
+        private const float RADIUS_FROM_DIAMETER = 0.5f;
+        private const int MIN_CURVE_POINT_COUNT = 2;
+
         private const float PLAYER_BODY_RADIUS = 0.5f;
 
         private EntityQuery _playerQuery;
@@ -34,7 +39,8 @@ namespace HordeMuncher
             }
 
             bool hasEconomyConfiguration = SystemAPI.TryGetSingleton(out EconomyConfig economyConfiguration);
-            float attractionDuration = hasEconomyConfiguration ? math.max(0.01f, economyConfiguration.ResourceAttractionDuration) : 0.5f;
+            float attractionDuration = hasEconomyConfiguration ? math.max(MIN_ATTRACTION_DURATION,
+                economyConfiguration.ResourceAttractionDuration) : DEFAULT_ATTRACTION_DURATION;
             DynamicBuffer<ResourceAttractionCurvePoint> attractionCurvePoints = default;
             if (hasEconomyConfiguration)
             {
@@ -114,7 +120,7 @@ namespace HordeMuncher
                         continue;
                     }
 
-                    float pickupRadius = 1.4f
+                    float pickupRadius = StatUnits.BASE_PICKUP_RADIUS
                         + (EntityManager.HasComponent<PlayerBonuses>(playerEntity)
                         ? EntityManager.GetComponentData<PlayerBonuses>(playerEntity).Pickup
                         : 0);
@@ -151,7 +157,7 @@ namespace HordeMuncher
 
         private bool IsTouchingLivingPlayer(LocalTransform resourceTransform, NativeArray<Entity> playerEntities)
         {
-            float contactDistance = PLAYER_BODY_RADIUS + resourceTransform.Scale * 0.5f;
+            float contactDistance = PLAYER_BODY_RADIUS + resourceTransform.Scale * RADIUS_FROM_DIAMETER;
             foreach (Entity playerEntity in playerEntities)
             {
                 if (EntityManager.GetComponentData<CombatHealth>(playerEntity).Current <= 0)
@@ -219,13 +225,13 @@ namespace HordeMuncher
 
         private static float EvaluateAttractionProgress(DynamicBuffer<ResourceAttractionCurvePoint> attractionCurvePoints, float progress)
         {
-            if (!attractionCurvePoints.IsCreated || attractionCurvePoints.Length < 2)
+            if (!attractionCurvePoints.IsCreated || attractionCurvePoints.Length < MIN_CURVE_POINT_COUNT)
             {
                 return progress * progress;
             }
 
             float curvePosition = progress * (attractionCurvePoints.Length - 1);
-            int curvePointIndex = math.min((int)curvePosition, attractionCurvePoints.Length - 2);
+            int curvePointIndex = math.min((int)curvePosition, attractionCurvePoints.Length - MIN_CURVE_POINT_COUNT);
             return math.lerp(attractionCurvePoints[curvePointIndex].Progress, attractionCurvePoints[curvePointIndex + 1].Progress,
                 curvePosition - curvePointIndex);
         }

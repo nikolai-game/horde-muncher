@@ -11,6 +11,8 @@ namespace HordeMuncher
         [WithAll(typeof(ArenaPlayer), typeof(Simulate))]
         private partial struct MovePlayersJob : IJobEntity
         {
+            private const float MIN_SPEED_MULTIPLIER = 0.1f;
+
             public float DeltaTime;
 
             private void Execute(ref LocalTransform transform,
@@ -27,7 +29,7 @@ namespace HordeMuncher
 
                 float3 nextPosition = ArenaMovement.CalculateNextPosition(transform.Position,
                     input.Move,
-                    movement.Speed * math.max(0.1f, 1 + playerBonuses.MoveSpeed),
+                    movement.Speed * math.max(MIN_SPEED_MULTIPLIER, 1 + playerBonuses.MoveSpeed),
                     movement.HalfExtent,
                     DeltaTime);
                 transform.Position = nextPosition;

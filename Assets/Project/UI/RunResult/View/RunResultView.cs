@@ -6,6 +6,9 @@ namespace HordeMuncher.UI.RunResult
 {
     public sealed class RunResultView : IRunResultView, IDisposable
     {
+        private const int THIRD_LOCAL_PLAYER_INDEX = 2;
+        private const int FOURTH_LOCAL_PLAYER_INDEX = 3;
+
         public event Action<int> OnRestartReadinessClicked;
         private readonly VisualElement _root;
         private readonly Button _firstPlayerRestart;
@@ -55,11 +58,11 @@ namespace HordeMuncher.UI.RunResult
             RenderButton(_secondPlayerRestart, viewData.RestartButtons, 1);
             if (_thirdPlayerRestart != null)
             {
-                RenderButton(_thirdPlayerRestart, viewData.RestartButtons, 2);
+                RenderButton(_thirdPlayerRestart, viewData.RestartButtons, THIRD_LOCAL_PLAYER_INDEX);
             }
             if (_fourthPlayerRestart != null)
             {
-                RenderButton(_fourthPlayerRestart, viewData.RestartButtons, 3);
+                RenderButton(_fourthPlayerRestart, viewData.RestartButtons, FOURTH_LOCAL_PLAYER_INDEX);
             }
         }
 
@@ -99,12 +102,12 @@ namespace HordeMuncher.UI.RunResult
 
         private void ThirdPlayerRestartClickedHandler()
         {
-            OnRestartReadinessClicked?.Invoke(2);
+            OnRestartReadinessClicked?.Invoke(THIRD_LOCAL_PLAYER_INDEX);
         }
 
         private void FourthPlayerRestartClickedHandler()
         {
-            OnRestartReadinessClicked?.Invoke(3);
+            OnRestartReadinessClicked?.Invoke(FOURTH_LOCAL_PLAYER_INDEX);
         }
 
         private void NavigationSubmitHandler(NavigationSubmitEvent navigation)

@@ -7,6 +7,7 @@ namespace HordeMuncher
     [WorldSystemFilter(WorldSystemFilterFlags.ClientSimulation)]
     public partial struct JoinArenaClientSystem : ISystem
     {
+
         public void OnCreate(ref SystemState state)
         {
             state.RequireForUpdate<ArenaConfiguration>();
@@ -63,7 +64,8 @@ namespace HordeMuncher
         private static FixedString64Bytes CreateDisplayName(int localIndex)
         {
             string name = System.Environment.UserName;
-            name = name.Length > 12 ? name.Substring(0, 12) : name;
+            name = name.Length > ArenaConnectionDefaults.MAX_DISPLAY_NAME_LENGTH ? name.Substring(0,
+                ArenaConnectionDefaults.MAX_DISPLAY_NAME_LENGTH) : name;
             return new FixedString64Bytes(localIndex == 0 ? name : name + " (" + (localIndex + 1) + ")");
         }
     }

@@ -9,6 +9,9 @@ namespace HordeMuncher
     [UpdateBefore(typeof(RunLifecycleSystem))]
     public partial class ShopSystem : SystemBase
     {
+        private const int PLAYER_RANDOM_SEED_MULTIPLIER = 7919;
+        private const int INITIAL_PLAYER_RANDOM_SEED_OFFSET = 17;
+
         protected override void OnCreate()
         {
             RequireForUpdate<EconomyConfig>();
@@ -38,7 +41,8 @@ namespace HordeMuncher
                     playerProgress.Level = 1;
                     playerProgress.NextLevelXp = economyConfiguration.FirstLevelXp;
                     playerProgress.ShopWave = -1;
-                    playerProgress.RandomState = (uint)(ghostOwner.ValueRO.NetworkId * 7919 + 17);
+                    playerProgress.RandomState = (uint)(ghostOwner.ValueRO.NetworkId * PLAYER_RANDOM_SEED_MULTIPLIER
+                        + INITIAL_PLAYER_RANDOM_SEED_OFFSET);
                     CombatWallet wallet = entityManager.GetComponentData<CombatWallet>(playerEntity);
                     wallet.Resources = economyConfiguration.StartingResources;
                     entityManager.SetComponentData(playerEntity, wallet);
@@ -57,7 +61,8 @@ namespace HordeMuncher
                 {
                     if (playerProgress.ShopWave < 0)
                     {
-                        playerProgress.RandomState = (waveProgress.RandomState ^ (uint)(ghostOwner.ValueRO.NetworkId * 7919)) | 1u;
+                        playerProgress.RandomState = (waveProgress.RandomState
+                    ^ (uint)(ghostOwner.ValueRO.NetworkId * PLAYER_RANDOM_SEED_MULTIPLIER)) | 1u;
                     }
 
                     playerProgress.ShopWave = waveProgress.Index;

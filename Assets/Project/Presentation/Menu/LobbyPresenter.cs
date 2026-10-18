@@ -97,7 +97,7 @@ namespace HordeMuncher.UI.Menu
             }
             else if (!player.IsReady && !_backSelections.Contains(localIndex))
             {
-                int characterId = (player.CharacterId + Math.Sign(horizontal) + 3) % 3;
+                int characterId = (player.CharacterId + Math.Sign(horizontal) + ArenaLimits.CHARACTER_COUNT) % ArenaLimits.CHARACTER_COUNT;
                 _selectedCharacters[localIndex] = characterId;
                 _session.PreviewCharacter(localIndex, characterId);
             }
@@ -186,7 +186,7 @@ namespace HordeMuncher.UI.Menu
         private void CharacterClickedHandler(int characterId)
         {
             Refresh();
-            if (characterId < 0 || characterId >= 3 || !CanSelect(_state.MouseLocalIndex, out LobbyPlayerState player))
+            if (characterId < 0 || characterId >= ArenaLimits.CHARACTER_COUNT || !CanSelect(_state.MouseLocalIndex, out LobbyPlayerState player))
             {
                 return;
             }

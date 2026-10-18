@@ -10,6 +10,9 @@ namespace HordeMuncher
 {
     public sealed partial class PlayerWeaponVisuals : MonoBehaviour
     {
+        private const float MELEE_STRIKE_VISUAL_SECONDS = 0.2f;
+        private const float MIN_STRIKE_REACH = 0.5f;
+
         public EconomySettings Settings;
         private readonly Dictionary<(Entity, int), WeaponVisual> _weaponVisuals = new();
         private readonly HashSet<(Entity, int)> _visibleWeaponSlots = new();
@@ -99,14 +102,14 @@ namespace HordeMuncher
                     float3 mountPosition = WeaponLayout.CalculateMountPosition(playerPosition,
                         weaponSlot, weapons.Length, Settings.WeaponOrbitRadius, Settings.WeaponHeight);
                     quaternion weaponRotation = quaternion.LookRotationSafe(aimDirection, math.up());
-                    float strikeProgress = (Time.time - weaponVisual.StrikeTime) / 0.2f;
+                    float strikeProgress = (Time.time - weaponVisual.StrikeTime) / MELEE_STRIKE_VISUAL_SECONDS;
                     if (WeaponCombatRules.IsMelee(weaponDefinition.Weapon) && weaponVisual.AttackSequence > 0 && strikeProgress < 1)
                     {
                         float strikeExtension = math.sin(math.saturate(strikeProgress) * math.PI);
                         float rangeBonus = entityManager.HasComponent<PlayerBonuses>(playerEntity)
                             ? entityManager.GetComponentData<PlayerBonuses>(playerEntity).Range : 0;
                         float attackRange = WeaponCombatRules.CalculateAttackRange(weaponDefinition.Range, rangeBonus);
-                        float strikeReach = math.max(0.5f, attackRange - Settings.WeaponOrbitRadius);
+                        float strikeReach = math.max(MIN_STRIKE_REACH, attackRange - Settings.WeaponOrbitRadius);
                         mountPosition += aimDirection * (strikeExtension * strikeReach);
                         if (weaponDefinition.Weapon == WeaponKind.Axe)
                         {

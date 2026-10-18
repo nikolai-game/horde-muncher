@@ -12,6 +12,9 @@ namespace HordeMuncher
     [WorldSystemFilter(WorldSystemFilterFlags.ServerSimulation)]
     public partial struct JoinArenaServerSystem : ISystem
     {
+        private const int REJECTION_DISCONNECT_DELAY_SECONDS = 3;
+        private const int LOCAL_GROUP_SECRET_BYTES = 32;
+
         private Unity.Mathematics.Random _colorRandom;
         private int _lastAssignedGroupId;
 
@@ -74,13 +77,13 @@ namespace HordeMuncher
                     entityCommands.AddComponent(rejection, new SendRpcCommandRequest { TargetConnection = connectionEntity });
                     entityCommands.AddComponent(connectionEntity, new RejectedArenaConnection
                     {
-                        DisconnectAt = SystemAPI.Time.ElapsedTime + 3
+                        DisconnectAt = SystemAPI.Time.ElapsedTime + REJECTION_DISCONNECT_DELAY_SECONDS
                     });
                     continue;
                 }
 
                 bool lobbyStarted = SystemAPI.TryGetSingleton(out ArenaLobby lobby) && lobby.Started;
-                if (playerCount >= math.min(4, arenaConfiguration.MaxPlayers) || lobbyStarted
+                if (playerCount >= math.min(ArenaLimits.MAX_PLAYERS, arenaConfiguration.MaxPlayers) || lobbyStarted
                     || !TryAuthorizeGroup(entityManager, join, out LocalPlayerGroup group)
                     || !occupiedLocalSlots.Add((group.Id, join.LocalIndex)))
                 {
@@ -129,7 +132,7 @@ namespace HordeMuncher
                 {
                     ColorIndex = colorIndex,
                     SharedViewGroup = group.SharedView ? group.Id : 0,
-                    SharedViewMaxDistance = math.max(4, arenaConfiguration.SharedViewMaxDistance)
+                    SharedViewMaxDistance = math.max(ArenaLimits.MIN_SHARED_VIEW_DISTANCE, arenaConfiguration.SharedViewMaxDistance)
                 });
                 entityCommands.SetComponent(playerEntity,
                     LocalTransform.FromPosition(ArenaRunRules.CalculatePlayerSpawnPosition(networkId, arenaConfiguration.MaxPlayers)));
@@ -146,7 +149,7 @@ namespace HordeMuncher
         private bool TryAuthorizeGroup(EntityManager entityManager, JoinArenaRequest join, out LocalPlayerGroup group)
         {
             group = default;
-            if (join.LocalIndex < 0 || join.LocalIndex >= 4)
+            if (join.LocalIndex < 0 || join.LocalIndex >= ArenaLimits.MAX_PLAYERS)
             {
                 return false;
             }
@@ -158,7 +161,7 @@ namespace HordeMuncher
                     return false;
                 }
 
-                var secretBytes = new byte[32];
+                var secretBytes = new byte[LOCAL_GROUP_SECRET_BYTES];
                 using RandomNumberGenerator random = RandomNumberGenerator.Create();
                 random.GetBytes(secretBytes);
                 group = new LocalPlayerGroup

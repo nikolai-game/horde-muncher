@@ -5,6 +5,9 @@ namespace HordeMuncher.UI.Shop.Presentation
 {
     public static class ShopStatFormatter
     {
+        private const int MAX_ITEM_DROP_PERCENT = 25;
+        private const float ITEM_DROP_PERCENT_PER_LUCK = 0.1f;
+
         public static string GetName(ShopBonusKind stat)
         {
             switch (stat)
@@ -31,15 +34,15 @@ namespace HordeMuncher.UI.Shop.Presentation
             switch (stat)
             {
                 case ShopBonusKind.Health: return stats.MaximumHealth;
-                case ShopBonusKind.Damage: return stats.Damage * 100;
-                case ShopBonusKind.AttackSpeed: return stats.AttackSpeed * 100;
-                case ShopBonusKind.MoveSpeed: return stats.MoveSpeed * 100;
-                case ShopBonusKind.Range: return stats.Range * 100;
-                case ShopBonusKind.Pickup: return stats.Pickup / 0.05f;
+                case ShopBonusKind.Damage: return stats.Damage * StatUnits.PERCENT_SCALE;
+                case ShopBonusKind.AttackSpeed: return stats.AttackSpeed * StatUnits.PERCENT_SCALE;
+                case ShopBonusKind.MoveSpeed: return stats.MoveSpeed * StatUnits.PERCENT_SCALE;
+                case ShopBonusKind.Range: return stats.Range * StatUnits.PERCENT_SCALE;
+                case ShopBonusKind.Pickup: return stats.Pickup / StatUnits.PICKUP_METERS_PER_POINT;
                 case ShopBonusKind.Armor: return stats.Armor;
-                case ShopBonusKind.Regeneration: return stats.Regeneration * 10;
-                case ShopBonusKind.CriticalChance: return stats.CriticalChance * 100;
-                case ShopBonusKind.CriticalDamageMultiplier: return Math.Max(1, stats.CriticalDamageMultiplier) * 100;
+                case ShopBonusKind.Regeneration: return stats.Regeneration * StatUnits.REGENERATION_POINTS_PER_HP;
+                case ShopBonusKind.CriticalChance: return stats.CriticalChance * StatUnits.PERCENT_SCALE;
+                case ShopBonusKind.CriticalDamageMultiplier: return Math.Max(1, stats.CriticalDamageMultiplier) * StatUnits.PERCENT_SCALE;
                 case ShopBonusKind.MeleeDamage: return stats.MeleeDamage;
                 case ShopBonusKind.RangedDamage: return stats.RangedDamage;
                 case ShopBonusKind.Luck: return stats.Luck;
@@ -71,20 +74,21 @@ namespace HordeMuncher.UI.Shop.Presentation
                     break;
                 case ShopBonusKind.Pickup:
                     effect = "Каждое очко увеличивает радиус подбора на 0,05 м. Текущий радиус: "
-                        + (1.4f + points * 0.05f).ToString("0.##") + " м.";
+                        + (StatUnits.BASE_PICKUP_RADIUS + points * StatUnits.PICKUP_METERS_PER_POINT).ToString("0.##") + " м.";
                     break;
                 case ShopBonusKind.Armor:
                     effect = "Каждое очко уменьшает урон от контакта с врагом на 1. Полученный удар наносит минимум 1 урон.";
                     break;
                 case ShopBonusKind.Regeneration:
-                    effect = "Каждые 10 очков восстанавливают 1 HP в секунду. Сейчас: " + (points / 10).ToString("0.##") + " HP/с.";
+                    effect = "Каждые 10 очков восстанавливают 1 HP в секунду. Сейчас: "
+                        + (points / StatUnits.REGENERATION_POINTS_PER_HP).ToString("0.##") + " HP/с.";
                     break;
                 case ShopBonusKind.CriticalChance:
                     effect = "Каждое очко даёт 1% шанса критического удара. Максимум: 100 очков.";
                     break;
                 case ShopBonusKind.CriticalDamageMultiplier:
                     effect = "100 очков соответствуют множителю ×1. Каждое очко добавляет 0,01 к множителю. Сейчас: ×"
-                        + (points / 100).ToString("0.##") + ".";
+                        + (points / StatUnits.PERCENT_SCALE).ToString("0.##") + ".";
                     break;
                 case ShopBonusKind.MeleeDamage:
                     effect = "Каждое очко добавляет 1 к базовому урону оружия ближнего боя до применения общего бонуса урона.";
@@ -93,17 +97,19 @@ namespace HordeMuncher.UI.Shop.Presentation
                     effect = "Каждое очко добавляет 1 к базовому урону оружия дальнего боя до применения общего бонуса урона.";
                     break;
                 case ShopBonusKind.Luck:
-                    float inverseLuckFactor = 1 / (1 + Math.Max(0, points) / 100);
-                    float commonWeight = 70 * inverseLuckFactor * inverseLuckFactor * inverseLuckFactor;
-                    float rareWeight = 25 * inverseLuckFactor * inverseLuckFactor;
-                    float epicWeight = 4 * inverseLuckFactor;
-                    float totalWeight = commonWeight + rareWeight + epicWeight + 1;
+                    float inverseLuckFactor = 1 / (1 + Math.Max(0, points) / StatUnits.PERCENT_SCALE);
+                    float commonWeight = UpgradeRarityWeights.COMMON * inverseLuckFactor * inverseLuckFactor * inverseLuckFactor;
+                    float rareWeight = UpgradeRarityWeights.RARE * inverseLuckFactor * inverseLuckFactor;
+                    float epicWeight = UpgradeRarityWeights.EPIC * inverseLuckFactor;
+                    float totalWeight = commonWeight + rareWeight + epicWeight + UpgradeRarityWeights.LEGENDARY;
                     effect = "Повышает шанс редких улучшений. Шансы каждой карточки сейчас: обычное "
-                        + (100 * commonWeight / totalWeight).ToString("0.#") + "%, редкое "
-                        + (100 * rareWeight / totalWeight).ToString("0.#") + "%, эпическое "
-                        + (100 * epicWeight / totalWeight).ToString("0.#") + "%, легендарное "
-                        + (100 / totalWeight).ToString("0.#") + "%. Новая удача влияет на следующий набор."
-                        + " Шанс предмета с побеждённого врага: " + Math.Min(25, Math.Max(0, points) * 0.1f).ToString("0.#")
+                        + (StatUnits.PERCENT_SCALE * commonWeight / totalWeight).ToString("0.#") + "%, редкое "
+                        + (StatUnits.PERCENT_SCALE * rareWeight / totalWeight).ToString("0.#") + "%, эпическое "
+                        + (StatUnits.PERCENT_SCALE * epicWeight / totalWeight).ToString("0.#") + "%, легендарное "
+                        + (StatUnits.PERCENT_SCALE * UpgradeRarityWeights.LEGENDARY / totalWeight).ToString("0.#")
+                            + "%. Новая удача влияет на следующий набор."
+                        + " Шанс предмета с побеждённого врага: " + Math.Min(MAX_ITEM_DROP_PERCENT, Math.Max(0,
+                            points) * ITEM_DROP_PERCENT_PER_LUCK).ToString("0.#")
                         + "% (0,1% за очко, максимум 25%). Бонус предмета применяется при подборе.";
                     break;
                 default:

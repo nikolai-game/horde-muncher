@@ -5,6 +5,8 @@ namespace HordeMuncher
 {
     public static class WaveMath
     {
+        private const float TRAPEZOID_AREA_SCALE = 0.5f;
+
         public static float CalculateSpawnAmount(DynamicBuffer<WaveSpawnRateCurvePoint> spawnRatePoints,
             WavePlan wavePlan,
             float startTime,
@@ -27,7 +29,7 @@ namespace HordeMuncher
                 float endRate = spawnRatePoints[wavePlan.SpawnRatePointOffset + curvePointIndex + 1].Rate;
                 spawnAmount += (math.lerp(startRate, endRate, (intervalStart - curvePointIndex * curveIntervalDuration) / curveIntervalDuration)
                     + math.lerp(startRate, endRate, (intervalEnd - curvePointIndex * curveIntervalDuration) / curveIntervalDuration))
-                    * 0.5f
+                    * TRAPEZOID_AREA_SCALE
                     * (intervalEnd - intervalStart);
             }
 

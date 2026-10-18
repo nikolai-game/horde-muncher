@@ -7,6 +7,9 @@ namespace HordeMuncher
     {
         private sealed class PlayerBaker : Baker<PlayerAuthoring>
         {
+            private const float MIN_SHOT_INTERVAL = 0.05f;
+            private const float MIN_SHOT_RANGE = 0.1f;
+
             public override void Bake(PlayerAuthoring authoring)
             {
                 Entity playerEntity = GetEntity(TransformUsageFlags.Dynamic);
@@ -25,8 +28,8 @@ namespace HordeMuncher
                 AddComponent(playerEntity, new AutoWeapon
                 {
                     Damage = Mathf.Max(1, authoring.Damage),
-                    Interval = Mathf.Max(0.05f, authoring.ShotInterval),
-                    Range = Mathf.Max(0.1f, authoring.ShotRange)
+                    Interval = Mathf.Max(MIN_SHOT_INTERVAL, authoring.ShotInterval),
+                    Range = Mathf.Max(MIN_SHOT_RANGE, authoring.ShotRange)
                 });
                 AddComponent<CombatWallet>(playerEntity);
                 AddComponent<WeaponShot>(playerEntity);

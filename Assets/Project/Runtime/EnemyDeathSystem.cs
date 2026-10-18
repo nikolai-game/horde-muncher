@@ -11,6 +11,10 @@ namespace HordeMuncher
     [UpdateBefore(typeof(WeaponFireSystem))]
     public partial class EnemyDeathSystem : SystemBase
     {
+        private const float RESOURCE_GROUND_HEIGHT = 0.25f;
+        private const float ITEM_DROP_HORIZONTAL_OFFSET = 0.5f;
+        private const float ITEM_DROP_HEIGHT = 0.4f;
+
         private const float RESOURCE_DROP_SPACING = 0.4f;
         private const float GOLDEN_ANGLE_RADIANS = 2.3999632f;
 
@@ -54,7 +58,7 @@ namespace HordeMuncher
                         LocalTransform resourceTransform = EntityManager.GetComponentData<LocalTransform>(arenaConfiguration.ResourcePrefab);
                         resourceTransform.Position = enemyTransform.ValueRO.Position
                             + new float3(math.cos(angle) * radius, 0, math.sin(angle) * radius);
-                        resourceTransform.Position.y = 0.25f;
+                        resourceTransform.Position.y = RESOURCE_GROUND_HEIGHT;
                         Entity resourceEntity = entityCommands.Instantiate(arenaConfiguration.ResourcePrefab);
                         entityCommands.SetComponent(resourceEntity, resourceTransform);
                         entityCommands.SetComponent(resourceEntity, new ResourcePickup
@@ -96,8 +100,8 @@ namespace HordeMuncher
                 ? EntityManager.GetComponentData<ItemDropPrefab>(resourcePrefab).Value : resourcePrefab;
             Entity itemEntity = entityCommands.Instantiate(prefab);
             LocalTransform transform = EntityManager.GetComponentData<LocalTransform>(prefab);
-            transform.Position = position + new float3(0.5f, 0, 0);
-            transform.Position.y = 0.4f;
+            transform.Position = position + new float3(ITEM_DROP_HORIZONTAL_OFFSET, 0, 0);
+            transform.Position.y = ITEM_DROP_HEIGHT;
             entityCommands.SetComponent(itemEntity, transform);
             entityCommands.SetComponent(itemEntity, new ResourcePickup
             {

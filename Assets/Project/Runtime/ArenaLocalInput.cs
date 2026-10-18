@@ -7,10 +7,14 @@ namespace HordeMuncher
 {
     public static class ArenaLocalInput
     {
+        private const float STICK_DEADZONE_MIN = 0.15f;
+        private const float STICK_DEADZONE_MAX = 0.95f;
+        private const float DPAD_PRESSED_THRESHOLD_SQUARED = 0.25f;
+
         private static readonly StickDeadzoneProcessor _stickDeadzone = new StickDeadzoneProcessor
         {
-            min = 0.15f,
-            max = 0.95f
+            min = STICK_DEADZONE_MIN,
+            max = STICK_DEADZONE_MAX
         };
 
         public static bool TryGetBinding(Unity.Entities.World world, out LocalPlayerInput input)
@@ -35,7 +39,7 @@ namespace HordeMuncher
         {
             if (input.KeyboardLayout != 0)
             {
-                return input.KeyboardLayout == 1 ? "WASD" : "Стрелки";
+                return input.KeyboardLayout == LocalInputLayout.PRIMARY_KEYBOARD ? "WASD" : "Стрелки";
             }
 
             InputDevice device = InputSystem.GetDeviceById(input.DeviceId);
@@ -52,7 +56,7 @@ namespace HordeMuncher
         {
             InputDevice device = InputSystem.GetDeviceById(input.DeviceId);
             return ReadDevices(input.KeyboardLayout == 0 ? null : Keyboard.current, device as Gamepad, device as Joystick,
-                input.KeyboardLayout == 2, isApplicationFocused);
+                input.KeyboardLayout == LocalInputLayout.SECONDARY_KEYBOARD, isApplicationFocused);
         }
 
         public static Vector2 ReadNavigation(LocalPlayerInput input, bool isApplicationFocused)
@@ -66,7 +70,7 @@ namespace HordeMuncher
             if (input.KeyboardLayout == 0 && InputSystem.GetDeviceById(input.DeviceId) is Gamepad gamepad)
             {
                 Vector2 dpad = gamepad.dpad.ReadValue();
-                if (dpad.sqrMagnitude > 0.25f)
+                if (dpad.sqrMagnitude > DPAD_PRESSED_THRESHOLD_SQUARED)
                 {
                     direction = dpad;
                 }
@@ -89,7 +93,7 @@ namespace HordeMuncher
 
             if (input.KeyboardLayout != 0)
             {
-                return input.KeyboardLayout == 1 ? Keyboard.current.eKey.wasPressedThisFrame
+                return input.KeyboardLayout == LocalInputLayout.PRIMARY_KEYBOARD ? Keyboard.current.eKey.wasPressedThisFrame
                     : Keyboard.current.enterKey.wasPressedThisFrame;
             }
 
@@ -105,7 +109,7 @@ namespace HordeMuncher
                 return false;
             }
 
-            return input.KeyboardLayout == 1 ? Keyboard.current.fKey.wasPressedThisFrame
+            return input.KeyboardLayout == LocalInputLayout.PRIMARY_KEYBOARD ? Keyboard.current.fKey.wasPressedThisFrame
                 : Keyboard.current.periodKey.wasPressedThisFrame;
         }
 
@@ -117,7 +121,7 @@ namespace HordeMuncher
             }
 
             Keyboard keyboard = Keyboard.current;
-            return input.KeyboardLayout == 1
+            return input.KeyboardLayout == LocalInputLayout.PRIMARY_KEYBOARD
                 ? keyboard.leftShiftKey.isPressed && keyboard.rKey.wasPressedThisFrame
                 : keyboard.rightShiftKey.isPressed && keyboard.slashKey.wasPressedThisFrame;
         }

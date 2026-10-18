@@ -6,6 +6,8 @@ namespace HordeMuncher.UI.Shop.Presentation
 {
     public static class ShopViewDataBuilder
     {
+        private const int MAX_UPGRADE_RARITY_INDEX = 3;
+
         public const int ITEMS_PER_PAGE = 12;
 
         public static ShopViewData Build(ShopState state, int itemPage, bool isCommandPending, string feedbackNotice,
@@ -65,7 +67,7 @@ namespace HordeMuncher.UI.Shop.Presentation
                 {
                     ShopUpgradeChoice choice = state.UpgradeChoices[upgradeChoiceSlot];
                     string[] rarityStyles = { "common", "rare", "epic", "legendary" };
-                    int rarity = Math.Max(0, Math.Min(3, choice.Rarity));
+                    int rarity = Math.Max(0, Math.Min(MAX_UPGRADE_RARITY_INDEX, choice.Rarity));
                     var card = new ShopCardData
                     {
                         CatalogId = -1,

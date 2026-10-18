@@ -10,7 +10,11 @@ namespace HordeMuncher
     [RequireComponent(typeof(ArenaSession))]
     public sealed class PlayerGroundGlow : MonoBehaviour
     {
+        private const float MIN_GLOW_RADIUS = 0.1f;
+
         private static readonly int _glowColor = Shader.PropertyToID("_GlowColor");
+
+        private static readonly int[] _quadTriangles = { 0, 1, 2, 0, 2, 3 };
 
         [SerializeField] private PlayerColorSettings _settings;
 
@@ -32,7 +36,7 @@ namespace HordeMuncher
                     new Vector3(1, 0, 1), new Vector3(1, 0, -1)
                 },
                 uv = new[] { new Vector2(0, 0), new Vector2(0, 1), new Vector2(1, 1), new Vector2(1, 0) },
-                triangles = new[] { 0, 1, 2, 0, 2, 3 }
+                triangles = _quadTriangles
             };
             _groundQuad.RecalculateBounds();
         }
@@ -69,7 +73,7 @@ namespace HordeMuncher
                 glowColor *= Mathf.Max(0, _settings.GlowIntensity);
                 glowColor.a = opacity;
                 _materialProperties.SetColor(_glowColor, glowColor);
-                float radius = Mathf.Max(0.1f, _settings.GlowRadius);
+                float radius = Mathf.Max(MIN_GLOW_RADIUS, _settings.GlowRadius);
                 Graphics.DrawMesh(_groundQuad, Matrix4x4.TRS(groundPosition, Quaternion.identity, new Vector3(radius, 1, radius)),
                     _settings.GlowMaterial, gameObject.layer, null, 0, _materialProperties, ShadowCastingMode.Off, false,
                     null, LightProbeUsage.Off);

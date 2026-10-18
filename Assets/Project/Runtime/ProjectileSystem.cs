@@ -11,6 +11,8 @@ namespace HordeMuncher
     [UpdateBefore(typeof(EnemyDeathSystem))]
     public partial class ProjectileSystem : SystemBase
     {
+        private const float MIN_MOVEMENT_SQUARED = 1e-10f;
+
         private EntityQuery _projectileQuery;
         private EntityQuery _enemyQuery;
 
@@ -43,10 +45,11 @@ namespace HordeMuncher
                 float movementDeltaTime = math.min(math.max(0, projectile.Remaining), SystemAPI.Time.DeltaTime);
                 float3 movementEnd = projectileTransform.Position + projectile.Velocity * movementDeltaTime;
                 bool isConsumed = false;
-                int maximumHits = math.clamp(projectile.ExtraPierceTargets, 0, 8) + 1;
+                int maximumHits = math.clamp(projectile.ExtraPierceTargets, 0, ArenaLimits.MAX_PROJECTILE_PIERCE_TARGETS) + 1;
                 for (int hitIndex = 0; hitIndex < maximumHits; hitIndex++)
                 {
-                    if (!TryFindFirstHit(ref projectile, projectileTransform.Position.xz, movementEnd.xz, enemyIndex, ref candidates, out int hitEnemyIndex))
+                    if (!TryFindFirstHit(ref projectile, projectileTransform.Position.xz, movementEnd.xz, enemyIndex, ref candidates,
+                        out int hitEnemyIndex))
                     {
                         break;
                     }
@@ -166,7 +169,7 @@ namespace HordeMuncher
             float movementLengthSquared = math.lengthsq(movementDelta);
             float startProjection = math.dot(startOffset, movementDelta);
             float discriminant = startProjection * startProjection - movementLengthSquared * distanceSquaredFromBoundary;
-            if (movementLengthSquared < 1e-10f || discriminant < 0)
+            if (movementLengthSquared < MIN_MOVEMENT_SQUARED || discriminant < 0)
             {
                 return false;
             }

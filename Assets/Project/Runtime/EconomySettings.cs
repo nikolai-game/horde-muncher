@@ -6,6 +6,7 @@ namespace HordeMuncher
     [CreateAssetMenu(menuName = "Horde Muncher/Economy Settings")]
     public sealed class EconomySettings : ScriptableObject
     {
+
         [Range(1, 6)]
         public int WeaponSlots = 6;
         [Range(0, 1)]
@@ -42,7 +43,8 @@ namespace HordeMuncher
         public bool TryGetWeapon(int catalogId, out WeaponData weapon)
         {
             weapon = null;
-            if (Weapons == null || catalogId < 0 || catalogId >= Weapons.Length + (Items?.Length ?? 0) + Weapons.Length * 3)
+            if (Weapons == null || catalogId < 0 || catalogId >= Weapons.Length + (Items?.Length ?? 0)
+                + Weapons.Length * WeaponCatalogLayout.UPGRADED_TIER_COUNT)
             {
                 return false;
             }
@@ -56,7 +58,7 @@ namespace HordeMuncher
                     return false;
                 }
 
-                weaponIndex = tierIndex / 3;
+                weaponIndex = tierIndex / WeaponCatalogLayout.UPGRADED_TIER_COUNT;
             }
 
             weapon = Weapons[weaponIndex];

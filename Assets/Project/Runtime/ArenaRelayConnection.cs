@@ -10,6 +10,9 @@ namespace HordeMuncher
 {
     public sealed class ArenaRelayConnection
     {
+        private const int RELAY_PEER_CAPACITY = ArenaLimits.MAX_PLAYERS - 1;
+        private const int PROFILE_SUFFIX_LENGTH = 16;
+
         private static Task _authenticationTask;
 
         public bool IsHost { get; private set; }
@@ -20,7 +23,7 @@ namespace HordeMuncher
         public static async Task<ArenaRelayConnection> CreateRoomAsync()
         {
             await EnsureAuthenticationAsync();
-            Allocation allocation = await RelayService.Instance.CreateAllocationAsync(3);
+            Allocation allocation = await RelayService.Instance.CreateAllocationAsync(RELAY_PEER_CAPACITY);
             string roomCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
             return new ArenaRelayConnection
             {
@@ -57,7 +60,7 @@ namespace HordeMuncher
             if (UnityServices.State != ServicesInitializationState.Initialized)
             {
                 var options = new InitializationOptions();
-                options.SetProfile("arena" + Guid.NewGuid().ToString("N").Substring(0, 16));
+                options.SetProfile("arena" + Guid.NewGuid().ToString("N").Substring(0, PROFILE_SUFFIX_LENGTH));
                 await UnityServices.InitializeAsync(options);
             }
 

@@ -12,6 +12,8 @@ namespace HordeMuncher.Client.PlayerStatus
 {
     public sealed class ClientCombatNumberGateway : ICombatNumberSource, IDisposable
     {
+        private const float HEALTH_CHANGE_HEIGHT_OFFSET = 1.2f;
+
         private readonly World _world;
         private readonly VisualElement _root;
         private readonly EntityQuery _bonusPlayers;
@@ -61,7 +63,7 @@ namespace HordeMuncher.Client.PlayerStatus
                 return false;
             }
 
-            var worldPosition = new Vector3(state.WorldX, state.WorldY + 1.2f, state.WorldZ);
+            var worldPosition = new Vector3(state.WorldX, state.WorldY + HEALTH_CHANGE_HEIGHT_OFFSET, state.WorldZ);
             Vector3 viewportPosition = camera.WorldToViewportPoint(worldPosition);
             if (viewportPosition.z <= 0 || viewportPosition.x < 0 || viewportPosition.x > 1
                 || viewportPosition.y < 0 || viewportPosition.y > 1)

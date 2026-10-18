@@ -9,6 +9,7 @@ namespace HordeMuncher.Client.Shop
 {
     public sealed class PlayerShopContext : IDisposable
     {
+
         public World World { get; }
         public int LocalIndex { get; }
         public int PlayerNumber { get; }
@@ -32,19 +33,25 @@ namespace HordeMuncher.Client.Shop
             Presenter = new ShopPresenter(Gateway, Gateway, View);
             Presenter.OnExitToMenuRequested += exitToMenuRequestedHandler;
             LocalPlayerInput input = ArenaLocalInput.TryGetBinding(world, out LocalPlayerInput binding)
-                ? binding : new LocalPlayerInput { LocalIndex = localIndex, KeyboardLayout = localIndex == 1 ? 2 : 1 };
+                ? binding : new LocalPlayerInput { LocalIndex = localIndex, KeyboardLayout = localIndex == 1
+                    ? LocalInputLayout.SECONDARY_KEYBOARD : 1 };
             string controllerSubmitHint = InputSystem.GetDeviceById(input.DeviceId) is Gamepad gamepad
                 ? gamepad.buttonSouth.displayName : "Trigger";
-            string submitHint = input.KeyboardLayout == 1 ? "E" : input.KeyboardLayout == 2 ? "Enter" : controllerSubmitHint;
-            string readyHoldHint = input.KeyboardLayout == 1 ? "Shift+E" : input.KeyboardLayout == 2 ? "Right Shift+Enter"
+            string submitHint = input.KeyboardLayout == LocalInputLayout.PRIMARY_KEYBOARD
+                ? "E" : input.KeyboardLayout == LocalInputLayout.SECONDARY_KEYBOARD ? "Enter" : controllerSubmitHint;
+            string readyHoldHint = input.KeyboardLayout == LocalInputLayout.PRIMARY_KEYBOARD
+                ? "Shift+E" : input.KeyboardLayout == LocalInputLayout.SECONDARY_KEYBOARD ? "Right Shift+Enter"
                 : InputSystem.GetDeviceById(input.DeviceId) is Gamepad readyGamepad
                     ? readyGamepad.leftTrigger.displayName + "+" + readyGamepad.buttonSouth.displayName : "LT+A";
-            View.SetControlHints(submitHint, input.KeyboardLayout == 1 ? "F" : input.KeyboardLayout == 2 ? "." : "",
-                input.KeyboardLayout == 1 ? "Shift+R" : input.KeyboardLayout == 2 ? "Shift+/" : submitHint,
-                input.KeyboardLayout == 1 ? "Tab" : input.KeyboardLayout == 2 ? "Right Ctrl"
+            View.SetControlHints(submitHint, input.KeyboardLayout == LocalInputLayout.PRIMARY_KEYBOARD
+                ? "F" : input.KeyboardLayout == LocalInputLayout.SECONDARY_KEYBOARD ? "." : "",
+                input.KeyboardLayout == LocalInputLayout.PRIMARY_KEYBOARD
+                    ? "Shift+R" : input.KeyboardLayout == LocalInputLayout.SECONDARY_KEYBOARD ? "Shift+/" : submitHint,
+                input.KeyboardLayout == LocalInputLayout.PRIMARY_KEYBOARD
+                    ? "Tab" : input.KeyboardLayout == LocalInputLayout.SECONDARY_KEYBOARD ? "Right Ctrl"
                     : InputSystem.GetDeviceById(input.DeviceId) is Gamepad hintGamepad ? hintGamepad.rightShoulder.displayName : submitHint,
                 readyHoldHint,
-                input.KeyboardLayout == 1 ? "R" : input.KeyboardLayout == 2 ? "/"
+                input.KeyboardLayout == LocalInputLayout.PRIMARY_KEYBOARD ? "R" : input.KeyboardLayout == LocalInputLayout.SECONDARY_KEYBOARD ? "/"
                     : InputSystem.GetDeviceById(input.DeviceId) is Gamepad mergeGamepad ? mergeGamepad.buttonWest.displayName : "X");
             Input = localIndex >= 0 ? new ShopNavigationInput(input, Presenter) : null;
         }

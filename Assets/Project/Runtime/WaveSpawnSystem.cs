@@ -12,6 +12,10 @@ namespace HordeMuncher
     [UpdateBefore(typeof(WaveCompletionSystem))]
     public partial class WaveSpawnSystem : SystemBase
     {
+        private const int FULL_CIRCLE_PI_FACTOR = 2;
+        private const int DIAMETER_FACTOR = 2;
+        private const int BOSS_ADD_MAX_EXTRA_DISTANCE = 4;
+
         private const float SPAWN_WARNING_DURATION = 1.5f;
         private const float PLAYER_SPAWN_CLEARANCE = 0.75f;
         private const float MAXIMUM_SPEED_GROWTH = 0.2f;
@@ -200,8 +204,9 @@ namespace HordeMuncher
                     float2 halfExtents = settings.HalfExtents - enemy.Radius;
                     for (int attempt = 0; attempt < settings.PositionAttempts; attempt++)
                     {
-                        float angle = random.NextFloat(0, math.PI * 2);
-                        float distance = random.NextFloat(enemy.Radius * 2 + 1, enemy.Radius * 2 + 4);
+                        float angle = random.NextFloat(0, math.PI * FULL_CIRCLE_PI_FACTOR);
+                        float distance = random.NextFloat(enemy.Radius * DIAMETER_FACTOR + 1, enemy.Radius * DIAMETER_FACTOR
+                            + BOSS_ADD_MAX_EXTRA_DISTANCE);
                         float2 candidate = math.clamp(pending.Position + new float2(math.cos(angle), math.sin(angle)) * distance,
                             settings.Center - halfExtents, settings.Center + halfExtents);
                         if (IsPositionClear(candidate, enemy.Radius + PLAYER_SPAWN_CLEARANCE, playerTransforms, playerHealth))
@@ -309,7 +314,7 @@ namespace HordeMuncher
             float maximumDistance = minimumDistance + SPAWN_RING_WIDTH;
             for (int attempt = 0; attempt < waveSettings.PositionAttempts; attempt++)
             {
-                float angle = random.NextFloat(0, math.PI * 2);
+                float angle = random.NextFloat(0, math.PI * FULL_CIRCLE_PI_FACTOR);
                 float distance = math.sqrt(random.NextFloat(minimumDistance * minimumDistance, maximumDistance * maximumDistance));
                 spawnPosition = targetPosition + new float2(math.cos(angle), math.sin(angle)) * distance;
                 if (math.any(math.abs(spawnPosition - waveSettings.Center) > spawnHalfExtents))

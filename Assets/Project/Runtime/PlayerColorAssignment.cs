@@ -4,11 +4,13 @@ namespace HordeMuncher
 {
     public static class PlayerColorAssignment
     {
-        public const int COLOR_COUNT = 4;
+        private const int ALL_COLORS_MASK = (1 << COLOR_COUNT) - 1;
+
+        public const int COLOR_COUNT = ArenaLimits.MAX_PLAYERS;
 
         public static bool TryAssign(int usedColors, ref Random random, out int colorIndex)
         {
-            int availableCount = COLOR_COUNT - math.countbits((uint)(usedColors & 15));
+            int availableCount = COLOR_COUNT - math.countbits((uint)(usedColors & ALL_COLORS_MASK));
             colorIndex = -1;
             if (availableCount == 0)
             {

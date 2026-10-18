@@ -16,6 +16,8 @@ namespace HordeMuncher
     [MovedFrom(true, "Brotato3D", "Brotato3D.Runtime", "CombatPresentation")]
     public sealed class PlayerStatusUiCompositionRoot : MonoBehaviour
     {
+        private const float REFRESH_INTERVAL_SECONDS = 0.1f;
+
         public VisualTreeAsset HudLayout;
         public VisualTreeAsset PlayerLayout;
         private List<ClientArenaPlayer> _players = new List<ClientArenaPlayer>();
@@ -70,7 +72,7 @@ namespace HordeMuncher
             {
                 _hudPresenter.Refresh();
                 _resultPresenter.Refresh(Time.unscaledTime);
-                _nextRefresh = Time.unscaledTime + 0.1f;
+                _nextRefresh = Time.unscaledTime + REFRESH_INTERVAL_SECONDS;
             }
 
             if (!Application.isFocused)

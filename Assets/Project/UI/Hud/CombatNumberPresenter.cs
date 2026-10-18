@@ -8,6 +8,14 @@ namespace HordeMuncher.UI.Hud
 {
     public sealed class CombatNumberPresenter : IDisposable
     {
+        private const int HORIZONTAL_VARIANT_COUNT = 3;
+        private const int HORIZONTAL_VARIANT_SPACING = 18;
+        private const int LABEL_HALF_WIDTH = 50;
+        private const int LABEL_TOP_OFFSET = 32;
+        private const int FLOAT_DISTANCE = 55;
+        private const float FADE_START_PROGRESS = 0.55f;
+        private const float FADE_PROGRESS_RANGE = 0.45f;
+
         private const float LIFETIME = 0.85f;
         private const int MAX_VISIBLE_NUMBERS = 128;
 
@@ -54,7 +62,7 @@ namespace HordeMuncher.UI.Hud
                     State = state,
                     Label = label,
                     StartedAt = now,
-                    HorizontalOffset = (_numberSequence++ % 3 - 1) * 18
+                    HorizontalOffset = (_numberSequence++ % HORIZONTAL_VARIANT_COUNT - 1) * HORIZONTAL_VARIANT_SPACING
                 });
             }
 
@@ -70,9 +78,9 @@ namespace HordeMuncher.UI.Hud
 
                 bool visible = _source.TryGetPanelPosition(animation.State, out float panelX, out float panelY);
                 animation.Label.style.display = visible ? DisplayStyle.Flex : DisplayStyle.None;
-                animation.Label.style.left = panelX - 50 + animation.HorizontalOffset;
-                animation.Label.style.top = panelY - 32 - progress * 55;
-                animation.Label.style.opacity = 1 - Mathf.Clamp01((progress - 0.55f) / 0.45f);
+                animation.Label.style.left = panelX - LABEL_HALF_WIDTH + animation.HorizontalOffset;
+                animation.Label.style.top = panelY - LABEL_TOP_OFFSET - progress * FLOAT_DISTANCE;
+                animation.Label.style.opacity = 1 - Mathf.Clamp01((progress - FADE_START_PROGRESS) / FADE_PROGRESS_RANGE);
             }
         }
 

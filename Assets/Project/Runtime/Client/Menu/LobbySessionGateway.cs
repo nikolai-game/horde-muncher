@@ -8,6 +8,7 @@ namespace HordeMuncher.Client.Menu
 {
     public sealed class LobbySessionGateway : ILobbySession
     {
+
         private readonly ArenaSession _session;
         private readonly PlayerColorSettings _playerColors;
         private readonly LobbyJoinHoldTracker _joinHolds = new LobbyJoinHoldTracker();
@@ -103,7 +104,8 @@ namespace HordeMuncher.Client.Menu
 
                 LobbyParticipant participant = roster.Find(player => player.LocalPlayerGroupId == _session.LocalPlayerGroupId
                     && player.LocalIndex == input.LocalIndex);
-                bool registered = roster.Exists(player => player.LocalPlayerGroupId == _session.LocalPlayerGroupId && player.LocalIndex == input.LocalIndex);
+                bool registered = roster.Exists(player => player.LocalPlayerGroupId == _session.LocalPlayerGroupId
+                    && player.LocalIndex == input.LocalIndex);
                 if (registered && _pendingSelectionJoins.Remove(input.LocalIndex))
                 {
                     presenter.JoinSelection(input.LocalIndex);
@@ -146,7 +148,7 @@ namespace HordeMuncher.Client.Menu
                 }
 
                 bool cancel = Application.isFocused && (input.KeyboardLayout != 0
-                    ? (input.KeyboardLayout == 1 ? Keyboard.current.escapeKey.wasPressedThisFrame
+                    ? (input.KeyboardLayout == LocalInputLayout.PRIMARY_KEYBOARD ? Keyboard.current.escapeKey.wasPressedThisFrame
                         : Keyboard.current.backspaceKey.wasPressedThisFrame)
                     : InputSystem.GetDeviceById(input.DeviceId) is Gamepad gamepad && gamepad.buttonEast.wasPressedThisFrame);
                 if (cancel)
@@ -156,14 +158,14 @@ namespace HordeMuncher.Client.Menu
                 }
 
                 Vector2 direction = ArenaLocalInput.ReadNavigation(input, Application.isFocused);
-                if (direction.sqrMagnitude < 0.25f)
+                if (direction.sqrMagnitude < NavigationInputTuning.THRESHOLD_SQUARED)
                 {
                     _nextNavigationTimes.Remove(input.LocalIndex);
                 }
                 else if (!_nextNavigationTimes.TryGetValue(input.LocalIndex, out float nextMoveTime) || currentTime >= nextMoveTime)
                 {
                     presenter.MoveSelection(input.LocalIndex, direction.x, direction.y);
-                    _nextNavigationTimes[input.LocalIndex] = currentTime + 0.22f;
+                    _nextNavigationTimes[input.LocalIndex] = currentTime + NavigationInputTuning.REPEAT_SECONDS;
                 }
 
                 if (ArenaLocalInput.WasSubmitPressed(input))
@@ -176,7 +178,7 @@ namespace HordeMuncher.Client.Menu
                 }
             }
 
-            for (int keyboardLayout = 1; keyboardLayout <= 2; keyboardLayout++)
+            for (int keyboardLayout = 1; keyboardLayout <= ArenaLimits.KEYBOARD_LAYOUT_COUNT; keyboardLayout++)
             {
                 int candidateLayout = keyboardLayout;
                 if (!inputs.Exists(input => input.KeyboardLayout == candidateLayout))
@@ -292,7 +294,7 @@ namespace HordeMuncher.Client.Menu
         {
             if (input.KeyboardLayout != 0)
             {
-                return input.KeyboardLayout == 1 ? "Клавиатура · Пробел" : "Клавиатура · Enter";
+                return input.KeyboardLayout == LocalInputLayout.PRIMARY_KEYBOARD ? "Клавиатура · Пробел" : "Клавиатура · Enter";
             }
 
             return "Контроллер " + input.DeviceId;
@@ -307,7 +309,8 @@ namespace HordeMuncher.Client.Menu
 
             if (input.KeyboardLayout != 0)
             {
-                return input.KeyboardLayout == 1 ? Keyboard.current.spaceKey.isPressed : Keyboard.current.enterKey.isPressed;
+                return input.KeyboardLayout == LocalInputLayout.PRIMARY_KEYBOARD
+                    ? Keyboard.current.spaceKey.isPressed : Keyboard.current.enterKey.isPressed;
             }
 
             InputDevice device = InputSystem.GetDeviceById(input.DeviceId);

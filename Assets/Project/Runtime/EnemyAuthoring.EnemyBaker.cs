@@ -7,6 +7,9 @@ namespace HordeMuncher
     {
         private sealed class EnemyBaker : Baker<EnemyAuthoring>
         {
+            private const float MIN_ENEMY_RADIUS = 0.01f;
+            private const float MIN_CONTACT_COOLDOWN = 0.01f;
+
             public override void Bake(EnemyAuthoring authoring)
             {
                 if (authoring.Definition == null)
@@ -24,15 +27,15 @@ namespace HordeMuncher
                 AddComponent(GetEntity(TransformUsageFlags.Dynamic), new ArenaEnemy
                 {
                     Speed = Mathf.Max(0, enemyDefinition.MoveSpeed),
-                    Radius = Mathf.Max(0.01f, enemyDefinition.Radius),
-                    StopDistance = Mathf.Max(0.01f, enemyDefinition.Radius) + Mathf.Max(0, enemyDefinition.TargetGap),
+                    Radius = Mathf.Max(MIN_ENEMY_RADIUS, enemyDefinition.Radius),
+                    StopDistance = Mathf.Max(MIN_ENEMY_RADIUS, enemyDefinition.Radius) + Mathf.Max(0, enemyDefinition.TargetGap),
                     SeparationGap = Mathf.Max(0, enemyDefinition.SeparationGap),
                     SpawnHeight = enemyDefinition.SpawnHeight,
                     SeparationSpeed = Mathf.Max(0, enemyDefinition.SeparationSpeed),
                     Experience = Mathf.Max(0, enemyDefinition.Experience),
                     ResourceReward = Mathf.Max(1, enemyDefinition.ResourceReward),
                     ContactDamage = Mathf.Max(0, enemyDefinition.ContactDamage),
-                    ContactCooldown = Mathf.Max(0.01f, enemyDefinition.ContactCooldown)
+                    ContactCooldown = Mathf.Max(MIN_CONTACT_COOLDOWN, enemyDefinition.ContactCooldown)
                 });
             }
         }

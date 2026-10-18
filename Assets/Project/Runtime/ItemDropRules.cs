@@ -5,7 +5,10 @@ namespace HordeMuncher
 {
     public static class ItemDropRules
     {
-        public static float CalculateDropChance(int luck) => math.min(0.25f, math.max(0, luck) * 0.001f);
+        private const float MAX_ITEM_DROP_CHANCE = 0.25f;
+        private const float ITEM_DROP_CHANCE_PER_LUCK = 0.001f;
+
+        public static float CalculateDropChance(int luck) => math.min(MAX_ITEM_DROP_CHANCE, math.max(0, luck) * ITEM_DROP_CHANCE_PER_LUCK);
 
         public static bool TryRollItem(DynamicBuffer<CatalogEntry> catalog, int luck, ref Random random, out int catalogId)
         {

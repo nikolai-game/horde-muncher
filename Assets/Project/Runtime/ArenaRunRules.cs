@@ -8,10 +8,19 @@ namespace HordeMuncher
 {
     public static class ArenaRunRules
     {
+        private const int SPAWN_GRID_COLUMNS = 2;
+        private const int SPAWN_SLOT_SPACING = 4;
+        private const int SPAWN_GRID_OFFSET = SPAWN_SLOT_SPACING / 2;
+        private const int REVIVE_PLAYER_SPACING = 2;
+
         public const float RESOURCE_COLLECTION_DURATION = 2f;
 
-        public static float3 CalculatePlayerSpawnPosition(int networkId, int maxPlayers) =>
-            new float3(((networkId - 1) % math.max(1, maxPlayers) % 2) * 4 - 2, 1, ((networkId - 1) % math.max(1, maxPlayers) / 2) * 4 - 2);
+        public static float3 CalculatePlayerSpawnPosition(int networkId, int maxPlayers)
+        {
+            int spawnSlot = (networkId - 1) % math.max(1, maxPlayers);
+            return new float3(spawnSlot % SPAWN_GRID_COLUMNS * SPAWN_SLOT_SPACING - SPAWN_GRID_OFFSET, 1,
+                spawnSlot / SPAWN_GRID_COLUMNS * SPAWN_SLOT_SPACING - SPAWN_GRID_OFFSET);
+        }
 
         public static void ReviveDefeatedPlayers(EntityManager entityManager)
         {
@@ -48,8 +57,8 @@ namespace HordeMuncher
                 entityManager.SetComponentData(playerEntity, health);
                 LocalTransform transform = entityManager.GetComponentData<LocalTransform>(playerEntity);
                 int reviveSlot = revivedPlayerCount++;
-                float2 reviveOffset = new float2(reviveSlot == 1 ? 0 : survivorPosition.x <= 0 ? 2 : -2,
-                    reviveSlot == 0 ? 0 : survivorPosition.z <= 0 ? 2 : -2);
+                float2 reviveOffset = new float2(reviveSlot == 1 ? 0 : survivorPosition.x <= 0 ? REVIVE_PLAYER_SPACING : -REVIVE_PLAYER_SPACING,
+                    reviveSlot == 0 ? 0 : survivorPosition.z <= 0 ? REVIVE_PLAYER_SPACING : -REVIVE_PLAYER_SPACING);
                 transform.Position = survivorPosition + new float3(reviveOffset.x, 0, reviveOffset.y);
                 if (entityManager.HasComponent<PlayerMovement>(playerEntity))
                 {

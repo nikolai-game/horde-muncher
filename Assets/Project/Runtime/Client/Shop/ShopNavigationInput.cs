@@ -6,6 +6,7 @@ namespace HordeMuncher.Client.Shop
 {
     public sealed class ShopNavigationInput
     {
+
         private readonly LocalPlayerInput _input;
         private readonly ShopPresenter _presenter;
         private float _nextMove;
@@ -33,14 +34,14 @@ namespace HordeMuncher.Client.Shop
 
             Vector2 direction = ArenaLocalInput.ReadNavigation(_input, true);
 
-            if (direction.sqrMagnitude < 0.25f)
+            if (direction.sqrMagnitude < NavigationInputTuning.THRESHOLD_SQUARED)
             {
                 _nextMove = 0;
             }
             else if (time >= _nextMove)
             {
                 _presenter.MoveSelection(direction.x, direction.y);
-                _nextMove = time + 0.22f;
+                _nextMove = time + NavigationInputTuning.REPEAT_SECONDS;
             }
 
             if (WasStatsPressed())
@@ -80,7 +81,7 @@ namespace HordeMuncher.Client.Shop
             if (_input.KeyboardLayout != 0)
             {
                 Keyboard keyboard = Keyboard.current;
-                return _input.KeyboardLayout == 1
+                return _input.KeyboardLayout == LocalInputLayout.PRIMARY_KEYBOARD
                     ? keyboard.leftShiftKey.isPressed && keyboard.eKey.isPressed
                     : keyboard.rightShiftKey.isPressed && keyboard.enterKey.isPressed;
             }
@@ -99,7 +100,7 @@ namespace HordeMuncher.Client.Shop
             if (_input.KeyboardLayout != 0)
             {
                 Keyboard keyboard = Keyboard.current;
-                return _input.KeyboardLayout == 1
+                return _input.KeyboardLayout == LocalInputLayout.PRIMARY_KEYBOARD
                     ? !keyboard.leftShiftKey.isPressed && keyboard.rKey.wasPressedThisFrame
                     : !keyboard.rightShiftKey.isPressed && keyboard.slashKey.wasPressedThisFrame;
             }
@@ -116,7 +117,7 @@ namespace HordeMuncher.Client.Shop
 
             if (_input.KeyboardLayout != 0)
             {
-                return _input.KeyboardLayout == 1 ? Keyboard.current.tabKey.wasPressedThisFrame
+                return _input.KeyboardLayout == LocalInputLayout.PRIMARY_KEYBOARD ? Keyboard.current.tabKey.wasPressedThisFrame
                     : Keyboard.current.rightCtrlKey.wasPressedThisFrame;
             }
 

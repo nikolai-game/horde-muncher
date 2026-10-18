@@ -13,8 +13,8 @@ namespace HordeMuncher
         public ArenaStartupOptions(string[] arguments, string defaultMode, string serverAddress, string port)
         {
             Mode = ReadOption(arguments, "-arenaMode", defaultMode);
-            ServerAddress = ReadOption(arguments, "-arenaAddress", Normalize(serverAddress, "127.0.0.1"));
-            Port = ReadOption(arguments, "-arenaPort", Normalize(port, "7979"));
+            ServerAddress = ReadOption(arguments, "-arenaAddress", Normalize(serverAddress, ArenaConnectionDefaults.LOOPBACK_ADDRESS));
+            Port = ReadOption(arguments, "-arenaPort", Normalize(port, ArenaConnectionDefaults.PORT));
             RoomCode = ReadOption(arguments, "-arenaRoomCode", string.Empty);
         }
 

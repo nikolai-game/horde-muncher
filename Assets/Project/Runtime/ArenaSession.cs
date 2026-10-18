@@ -13,6 +13,9 @@ namespace HordeMuncher
 {
     public sealed class ArenaSession : MonoBehaviour
     {
+        private const float DISCONNECT_GRACE_SECONDS = 0.5f;
+        private const int CLIENT_CONNECT_TIMEOUT_SECONDS = 20;
+
         private readonly List<World> _sessionWorlds = new List<World>();
         private readonly List<World> _clientWorlds = new List<World>();
         private NetworkEndpoint _endpoint;
@@ -73,7 +76,7 @@ namespace HordeMuncher
                 World world = _clientWorlds[clientIndex];
                 if (_leavingClients.TryGetValue(world, out float leaveStartedAt))
                 {
-                    if (Time.realtimeSinceStartup - leaveStartedAt >= 0.5f)
+                    if (Time.realtimeSinceStartup - leaveStartedAt >= DISCONNECT_GRACE_SECONDS)
                     {
                         RemoveSessionWorld(_clientWorlds[clientIndex]);
                     }
@@ -121,7 +124,7 @@ namespace HordeMuncher
                 }
 
                 if (!_connectedClients.Contains(world) && !disconnecting
-                    && Time.realtimeSinceStartup - _clientStartedAt[world] <= 20)
+                    && Time.realtimeSinceStartup - _clientStartedAt[world] <= CLIENT_CONNECT_TIMEOUT_SECONDS)
                 {
                     continue;
                 }
@@ -183,7 +186,8 @@ namespace HordeMuncher
             }
 
             string normalizedCode = (roomCode ?? string.Empty).Trim().ToUpperInvariant();
-            if (!createRoom && (normalizedCode.Length != 6 || !Array.TrueForAll(normalizedCode.ToCharArray(), character => character >= 'A' && character <= 'Z'
+            if (!createRoom && (normalizedCode.Length != ArenaConnectionDefaults.RELAY_ROOM_CODE_LENGTH
+                || !Array.TrueForAll(normalizedCode.ToCharArray(), character => character >= 'A' && character <= 'Z'
                 || character >= '0' && character <= '9')))
             {
                 Status = "Введите шестизначный код комнаты от хоста.";
@@ -207,7 +211,7 @@ namespace HordeMuncher
                 _relayConnection = connection;
                 RoomCode = connection.RoomCode;
                 IsConnecting = false;
-                StartSession(createRoom ? ArenaMode.Host : ArenaMode.Client, "127.0.0.1", "7979");
+                StartSession(createRoom ? ArenaMode.Host : ArenaMode.Client, ArenaConnectionDefaults.LOOPBACK_ADDRESS, ArenaConnectionDefaults.PORT);
             }
             catch (Exception exception)
             {
@@ -240,7 +244,8 @@ namespace HordeMuncher
                 return false;
             }
 
-            if (!NetworkEndpoint.TryParse(mode == ArenaMode.Client ? address.Trim() : "127.0.0.1", port, out NetworkEndpoint endpoint))
+            if (!NetworkEndpoint.TryParse(mode == ArenaMode.Client ? address.Trim() : ArenaConnectionDefaults.LOOPBACK_ADDRESS, port,
+                out NetworkEndpoint endpoint))
             {
                 Status = "Укажите IPv4-адрес сервера, например 127.0.0.1";
                 return false;
@@ -339,8 +344,8 @@ namespace HordeMuncher
 
         public bool AddLocalPlayer(int keyboardLayout, int deviceId)
         {
-            if (!isActiveAndEnabled || !IsRunning || HasStarted || _clientWorlds.Count >= 4
-                || ReadLobbyPlayers().Count >= 4 || Mode == ArenaMode.Server)
+            if (!isActiveAndEnabled || !IsRunning || HasStarted || _clientWorlds.Count >= ArenaLimits.MAX_PLAYERS
+                || ReadLobbyPlayers().Count >= ArenaLimits.MAX_PLAYERS || Mode == ArenaMode.Server)
             {
                 return false;
             }
@@ -471,7 +476,8 @@ namespace HordeMuncher
             try
             {
                 ArenaRelayConnection connection = await ArenaRelayConnection.JoinRoomAsync(RoomCode);
-                if (this != null && isActiveAndEnabled && attempt == _connectionAttempt && IsRunning && !HasStarted && _clientWorlds.Count < 4)
+                if (this != null && isActiveAndEnabled && attempt == _connectionAttempt && IsRunning && !HasStarted
+                    && _clientWorlds.Count < ArenaLimits.MAX_PLAYERS)
                 {
                     TryAddLocalPlayer(keyboardLayout, deviceId, connection);
                 }

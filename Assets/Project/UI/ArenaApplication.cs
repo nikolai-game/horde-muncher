@@ -9,8 +9,8 @@ namespace HordeMuncher
     [RequireComponent(typeof(ArenaSession))]
     public sealed class ArenaApplication : MonoBehaviour
     {
-        [SerializeField] private string _serverAddress = "127.0.0.1";
-        [SerializeField] private string _port = "7979";
+        [SerializeField] private string _serverAddress = ArenaConnectionDefaults.LOOPBACK_ADDRESS;
+        [SerializeField] private string _port = ArenaConnectionDefaults.PORT;
 
         private ArenaSession _session;
         private ArenaSessionGateway _sessionGateway;

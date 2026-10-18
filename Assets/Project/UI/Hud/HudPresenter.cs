@@ -8,6 +8,16 @@ namespace HordeMuncher.UI.Hud
 {
     public sealed class HudPresenter : IDisposable
     {
+        private const int FALLBACK_COMPLETION_FONT_SIZE = 72;
+        private const float COMPLETION_FONT_WIDTH_FRACTION = 0.07f;
+        private const int MIN_COMPLETION_FONT_SIZE = 28;
+        private const int MAX_COMPLETION_FONT_SIZE = 96;
+        private const float COMPLETION_STAGGER_SECONDS = 1.75f;
+        private const float LETTER_ANIMATION_SECONDS = 0.25f;
+        private const int LETTER_START_OFFSET = 24;
+        private const float LETTER_START_SCALE = 1.35f;
+        private const float LETTER_SCALE_OVERSHOOT = 0.35f;
+
         private const string WAVE_COMPLETION_TEXT = "WAVE COMPLETED!";
 
         private readonly Label[] _completionLetters = new Label[WAVE_COMPLETION_TEXT.Length];
@@ -58,10 +68,10 @@ namespace HordeMuncher.UI.Hud
                 }
 
                 VisualElement playerPanel = panel.Q("playerHud") ?? panel;
-                for (int colorIndex = 0; colorIndex < 4; colorIndex++)
+                for (int colorIndex = 0; colorIndex < ArenaLimits.MAX_PLAYERS; colorIndex++)
                 {
-                    playerPanel.EnableInClassList("player-color-" + colorIndex, colorIndex == (state.PlayerNumber - 1) % 4);
-                    panel.EnableInClassList("hud-corner-" + colorIndex, colorIndex == (state.PlayerNumber - 1) % 4);
+                    playerPanel.EnableInClassList("player-color-" + colorIndex, colorIndex == (state.PlayerNumber - 1) % ArenaLimits.MAX_PLAYERS);
+                    panel.EnableInClassList("hud-corner-" + colorIndex, colorIndex == (state.PlayerNumber - 1) % ArenaLimits.MAX_PLAYERS);
                 }
 
                 playerPanel.EnableInClassList("player-local", state.IsLocal);
@@ -134,22 +144,23 @@ namespace HordeMuncher.UI.Hud
         private void RefreshWaveCompletionLetters()
         {
             float width = _root.resolvedStyle.width;
-            float fontSize = float.IsNaN(width) ? 72 : Mathf.Clamp(width * 0.07f, 28, 96);
+            float fontSize = float.IsNaN(width) ? FALLBACK_COMPLETION_FONT_SIZE : Mathf.Clamp(width * COMPLETION_FONT_WIDTH_FRACTION,
+                MIN_COMPLETION_FONT_SIZE, MAX_COMPLETION_FONT_SIZE);
             for (int letterIndex = 0; letterIndex < _completionLetters.Length; letterIndex++)
             {
-                float delay = letterIndex * 1.75f / (_completionLetters.Length - 1);
-                float progress = Mathf.Clamp01((_waveCompletionElapsed - delay) / 0.25f);
+                float delay = letterIndex * COMPLETION_STAGGER_SECONDS / (_completionLetters.Length - 1);
+                float progress = Mathf.Clamp01((_waveCompletionElapsed - delay) / LETTER_ANIMATION_SECONDS);
                 Label letter = _completionLetters[letterIndex];
                 letter.style.fontSize = fontSize;
                 letter.style.opacity = progress;
-                letter.style.translate = new Translate(0, (1 - progress) * 24);
-                letter.style.scale = new Scale(Vector3.one * (1.35f - progress * 0.35f));
+                letter.style.translate = new Translate(0, (1 - progress) * LETTER_START_OFFSET);
+                letter.style.scale = new Scale(Vector3.one * (LETTER_START_SCALE - progress * LETTER_SCALE_OVERSHOOT));
             }
         }
 
         private static Length CalculateFillPercent(int currentAmount, int maximum)
         {
-            return Length.Percent(100 * Mathf.Clamp01(currentAmount / (float)Mathf.Max(1, maximum)));
+            return Length.Percent(StatUnits.PERCENT_SCALE * Mathf.Clamp01(currentAmount / (float)Mathf.Max(1, maximum)));
         }
 
         private static string FormatPhaseText(RunPhase phase)

@@ -11,9 +11,17 @@ namespace HordeMuncher
     [UpdateBefore(typeof(ContactDamageSystem))]
     public partial class WeaponFireSystem : SystemBase
     {
+        private const uint INITIAL_CRITICAL_RANDOM_SEED = 0xA631F92Du;
+        private const float MIN_ATTACK_MULTIPLIER = 0.1f;
+        private const int FALLBACK_PROJECTILE_SPEED = 30;
+        private const float FALLBACK_PROJECTILE_RADIUS = 0.12f;
+        private const int FALLBACK_PROJECTILE_LIFETIME = 2;
+        private const float HALF_CONE_FACTOR = 0.5f;
+        private const int DIAMETER_FACTOR = 2;
+
         private EntityQuery _playerQuery;
         private EntityQuery _enemyQuery;
-        private Random _criticalRandom = new Random(0xA631F92Du);
+        private Random _criticalRandom = new Random(INITIAL_CRITICAL_RANDOM_SEED);
 
         protected override void OnCreate()
         {
@@ -88,7 +96,7 @@ namespace HordeMuncher
                             equippedWeapons.Length,
                             ref equippedWeapon))
                         {
-                            equippedWeapon.Cooldown = weaponDefinition.Interval / math.max(0.1f, 1 + playerBonuses.AttackSpeed);
+                            equippedWeapon.Cooldown = weaponDefinition.Interval / math.max(MIN_ATTACK_MULTIPLIER, 1 + playerBonuses.AttackSpeed);
                         }
 
                         equippedWeapons[weaponSlot] = equippedWeapon;
@@ -104,9 +112,9 @@ namespace HordeMuncher
                         Damage = weapon.Damage,
                         Range = weapon.Range,
                         Targets = 1,
-                        ProjectileSpeed = 30,
-                        ProjectileRadius = 0.12f,
-                        ProjectileLifetime = 2
+                        ProjectileSpeed = FALLBACK_PROJECTILE_SPEED,
+                        ProjectileRadius = FALLBACK_PROJECTILE_RADIUS,
+                        ProjectileLifetime = FALLBACK_PROJECTILE_LIFETIME
                     };
                     if (weapon.Cooldown == 0
                         && TryFireWeapon(playerEntity,
@@ -192,7 +200,7 @@ namespace HordeMuncher
             equippedWeapon.Aim = aimDirection;
             equippedWeapon.LastTarget = enemyEntities[nearestEnemyIndex];
             float3 muzzlePosition = weaponMountPosition + math.rotate(quaternion.LookRotationSafe(aimDirection, math.up()), weapon.MuzzleOffset);
-            int projectileCount = weapon.Weapon == WeaponKind.Shotgun ? math.clamp(weapon.Targets, 1, 16) : 1;
+            int projectileCount = weapon.Weapon == WeaponKind.Shotgun ? math.clamp(weapon.Targets, 1, ArenaLimits.MAX_SHOTGUN_PELLETS) : 1;
             if (isMelee)
             {
                 ApplyMeleeStrike(playerEntity, playerPosition, aimDirection, attackRange, nearestEnemyIndex,
@@ -201,21 +209,22 @@ namespace HordeMuncher
 
             for (int projectileIndex = 0; !isMelee && projectileIndex < projectileCount; projectileIndex++)
             {
-                float spreadAngle = projectileCount == 1 ? 0 : math.radians(weapon.Cone) * (projectileIndex / (float)(projectileCount - 1) - 0.5f);
+                float spreadAngle = projectileCount == 1
+                    ? 0 : math.radians(weapon.Cone) * (projectileIndex / (float)(projectileCount - 1) - HALF_CONE_FACTOR);
                 float3 projectileDirection = math.rotate(quaternion.RotateY(spreadAngle), aimDirection);
                 bool isCritical = _criticalRandom.NextFloat() < math.saturate(playerBonuses.CriticalChance);
                 Entity projectileEntity = entityCommands.Instantiate(arenaConfiguration.ProjectilePrefab);
                 entityCommands.SetComponent(projectileEntity,
                     LocalTransform.FromPositionRotationScale(muzzlePosition,
                     quaternion.LookRotationSafe(projectileDirection, math.up()),
-                    weapon.ProjectileRadius * 2));
+                    weapon.ProjectileRadius * DIAMETER_FACTOR));
                 entityCommands.SetComponent(projectileEntity, new ArenaProjectile
                 {
                     Shooter = playerEntity,
                     Velocity = projectileDirection * weapon.ProjectileSpeed,
                     Radius = weapon.ProjectileRadius,
-                    Remaining = math.min(weapon.ProjectileLifetime, attackRange / math.max(0.1f, weapon.ProjectileSpeed)),
-                    ExtraPierceTargets = math.clamp(weapon.ExtraPierceTargets, 0, 8),
+                    Remaining = math.min(weapon.ProjectileLifetime, attackRange / math.max(MIN_ATTACK_MULTIPLIER, weapon.ProjectileSpeed)),
+                    ExtraPierceTargets = math.clamp(weapon.ExtraPierceTargets, 0, ArenaLimits.MAX_PROJECTILE_PIERCE_TARGETS),
                     KnockbackDistance = math.max(0, weapon.KnockbackDistance),
                     Damage = WeaponCombatRules.CalculateDamage(weapon, playerBonuses, isCritical),
                     IsCritical = isCritical
@@ -245,7 +254,7 @@ namespace HordeMuncher
             NativeArray<Entity> enemyEntities = spatialIndex.Entities;
             NativeArray<LocalTransform> enemyTransforms = spatialIndex.Transforms;
             int hitCount = 0;
-            float minimumAimDot = math.cos(math.radians(weapon.Cone * 0.5f));
+            float minimumAimDot = math.cos(math.radians(weapon.Cone * HALF_CONE_FACTOR));
             for (int hitCandidate = -1; hitCandidate < candidates.Length && hitCount < math.max(1, weapon.Targets); hitCandidate++)
             {
                 int enemyIndex = hitCandidate < 0 ? nearestEnemyIndex : candidates[hitCandidate];

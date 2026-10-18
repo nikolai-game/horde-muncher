@@ -6,7 +6,10 @@ namespace HordeMuncher.UI.Shop.Presentation
 {
     public static class ShopTextFormatter
     {
-        public static string FormatBonusPercent(float bonusFraction) => (bonusFraction >= 0 ? "+" : "") + (bonusFraction * 100).ToString("0.#") + "%";
+        private const float MIN_STAT_MULTIPLIER = 0.1f;
+
+        public static string FormatBonusPercent(float bonusFraction) => (bonusFraction >= 0 ? "+" : "")
+            + (bonusFraction * StatUnits.PERCENT_SCALE).ToString("0.#") + "%";
 
         public static string FormatProductDescription(ShopProduct product, ShopStats stats)
         {
@@ -37,7 +40,7 @@ namespace HordeMuncher.UI.Shop.Presentation
             text.Append(product.IsMelee ? "Ближний бой\nУрон: " : "Дальний бой\nУрон: ").Append(damage);
             if (product.IsShotgun)
             {
-                text.Append(" × ").Append(Math.Max(1, Math.Min(product.Targets, 16))).Append(" дробин");
+                text.Append(" × ").Append(Math.Max(1, Math.Min(product.Targets, ArenaLimits.MAX_SHOTGUN_PELLETS))).Append(" дробин");
             }
 
             text.Append(" | (").Append(product.Damage).Append(" + 100% ");
@@ -48,8 +51,9 @@ namespace HordeMuncher.UI.Shop.Presentation
                 text.Append("\nСектор удара: ").Append(product.Cone.ToString("0.#")).Append("°");
             }
 
-            text.Append("\nИнтервал: ").Append((product.Interval / Math.Max(0.1f, 1 + stats.AttackSpeed)).ToString("0.##")).Append(" с");
-            text.Append("\nДальность: ").Append((product.Range * Math.Max(0.1f, 1 + stats.Range)).ToString("0.#")).Append(" м");
+            text.Append("\nИнтервал: ").Append((product.Interval / Math.Max(MIN_STAT_MULTIPLIER, 1
+                + stats.AttackSpeed)).ToString("0.##")).Append(" с");
+            text.Append("\nДальность: ").Append((product.Range * Math.Max(MIN_STAT_MULTIPLIER, 1 + stats.Range)).ToString("0.#")).Append(" м");
             text.Append(" | ").Append(product.Range.ToString("0.#")).Append(" м × (1 + Дальность / 100)");
             if (product.ExtraPierceTargets > 0)
             {
@@ -85,13 +89,13 @@ namespace HordeMuncher.UI.Shop.Presentation
                 case ShopBonusKind.Range:
                 case ShopBonusKind.CriticalChance:
                 case ShopBonusKind.CriticalDamageMultiplier:
-                    points *= 100;
+                    points *= StatUnits.PERCENT_SCALE;
                     break;
                 case ShopBonusKind.Pickup:
-                    points /= 0.05f;
+                    points /= StatUnits.PICKUP_METERS_PER_POINT;
                     break;
                 case ShopBonusKind.Regeneration:
-                    points *= 10;
+                    points *= StatUnits.REGENERATION_POINTS_PER_HP;
                     break;
             }
 

@@ -5,6 +5,9 @@ namespace HordeMuncher
     [CreateAssetMenu(menuName = "Horde Muncher/Player Color Settings")]
     public sealed class PlayerColorSettings : ScriptableObject
     {
+        private const int THIRD_COLOR_INDEX = 2;
+        private const int FOURTH_COLOR_INDEX = 3;
+
         public Color FirstColor = new Color(0.1f, 0.75f, 1f);
         public Color SecondColor = new Color(1f, 0.25f, 0.15f);
         public Color ThirdColor = new Color(0.3f, 1f, 0.2f);
@@ -21,8 +24,8 @@ namespace HordeMuncher
             switch (colorIndex)
             {
                 case 1: return SecondColor;
-                case 2: return ThirdColor;
-                case 3: return FourthColor;
+                case THIRD_COLOR_INDEX: return ThirdColor;
+                case FOURTH_COLOR_INDEX: return FourthColor;
                 default: return FirstColor;
             }
         }

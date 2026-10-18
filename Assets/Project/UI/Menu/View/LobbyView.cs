@@ -7,34 +7,36 @@ namespace HordeMuncher.UI.Menu
 {
     public sealed class LobbyView : ILobbyView, IDisposable
     {
+        private const int FAST_CHARACTER_ID = 2;
+
         public event Action<int> OnCharacterClicked;
         public event Action OnLeaveLobbyClicked;
 
         private readonly VisualElement _root;
         private readonly Label _status;
         private readonly Button _leaveLobby;
-        private readonly VisualElement[] _playerSeats = new VisualElement[4];
-        private readonly VisualElement[] _characters = new VisualElement[4];
-        private readonly VisualElement[] _emptySeats = new VisualElement[4];
-        private readonly Label[] _participants = new Label[4];
-        private readonly Label[] _characterNames = new Label[4];
-        private readonly Label[] _descriptions = new Label[4];
-        private readonly Label[] _positiveModifiers = new Label[4];
-        private readonly Label[] _negativeModifiers = new Label[4];
-        private readonly Label[] _readyChecks = new Label[4];
-        private readonly Button[] _characterButtons = new Button[3];
-        private readonly Action[] _characterHandlers = new Action[3];
-        private readonly VisualElement[] _joinHoldContainers = new VisualElement[4];
-        private readonly HoldProgressRing[] _joinHoldRings = new HoldProgressRing[4];
-        private readonly Label[] _joinHoldLabels = new Label[4];
-        private readonly VisualElement[] _selectionHighlights = new VisualElement[4];
+        private readonly VisualElement[] _playerSeats = new VisualElement[ArenaLimits.MAX_PLAYERS];
+        private readonly VisualElement[] _characters = new VisualElement[ArenaLimits.MAX_PLAYERS];
+        private readonly VisualElement[] _emptySeats = new VisualElement[ArenaLimits.MAX_PLAYERS];
+        private readonly Label[] _participants = new Label[ArenaLimits.MAX_PLAYERS];
+        private readonly Label[] _characterNames = new Label[ArenaLimits.MAX_PLAYERS];
+        private readonly Label[] _descriptions = new Label[ArenaLimits.MAX_PLAYERS];
+        private readonly Label[] _positiveModifiers = new Label[ArenaLimits.MAX_PLAYERS];
+        private readonly Label[] _negativeModifiers = new Label[ArenaLimits.MAX_PLAYERS];
+        private readonly Label[] _readyChecks = new Label[ArenaLimits.MAX_PLAYERS];
+        private readonly Button[] _characterButtons = new Button[ArenaLimits.CHARACTER_COUNT];
+        private readonly Action[] _characterHandlers = new Action[ArenaLimits.CHARACTER_COUNT];
+        private readonly VisualElement[] _joinHoldContainers = new VisualElement[ArenaLimits.MAX_PLAYERS];
+        private readonly HoldProgressRing[] _joinHoldRings = new HoldProgressRing[ArenaLimits.MAX_PLAYERS];
+        private readonly Label[] _joinHoldLabels = new Label[ArenaLimits.MAX_PLAYERS];
+        private readonly VisualElement[] _selectionHighlights = new VisualElement[ArenaLimits.MAX_PLAYERS];
 
         public LobbyView(VisualElement root)
         {
             _root = root.Q("lobbyScreen");
             _status = root.Q<Label>("lobbyStatus");
             _leaveLobby = root.Q<Button>("leaveLobby");
-            for (int index = 0; index < 4; index++)
+            for (int index = 0; index < ArenaLimits.MAX_PLAYERS; index++)
             {
                 _playerSeats[index] = root.Q("lobbySeat" + index);
                 _characters[index] = root.Q("lobbyCharacter" + index);
@@ -59,7 +61,7 @@ namespace HordeMuncher.UI.Menu
                 _selectionHighlights[index].AddToClassList("lobby-selection");
             }
 
-            for (int characterId = 0; characterId < 3; characterId++)
+            for (int characterId = 0; characterId < ArenaLimits.CHARACTER_COUNT; characterId++)
             {
                 int selectedCharacterId = characterId;
                 _characterButtons[characterId] = root.Q<Button>("lobbyChoice" + characterId);
@@ -77,7 +79,7 @@ namespace HordeMuncher.UI.Menu
             _status.text = state.Status;
             LobbyPlayerState[] players = state.Players ?? Array.Empty<LobbyPlayerState>();
             int occupiedSeats = 0;
-            for (int index = 0; index < 4; index++)
+            for (int index = 0; index < ArenaLimits.MAX_PLAYERS; index++)
             {
                 _participants[index].EnableInClassList("hidden", index >= players.Length);
                 _selectionHighlights[index].RemoveFromHierarchy();
@@ -90,14 +92,14 @@ namespace HordeMuncher.UI.Menu
                 string status = player.IsReady ? "готов ✓" : player.SelectionJoined ? "выбирает" : "ожидает участия";
                 _participants[index].text = player.DisplayName + " · " + status;
                 _participants[index].style.color = GetPlayerColor(player);
-                if (player.SelectionJoined && occupiedSeats < 4)
+                if (player.SelectionJoined && occupiedSeats < ArenaLimits.MAX_PLAYERS)
                 {
                     RenderCharacter(occupiedSeats++, player, state.Characters);
                 }
             }
 
             LobbyJoinHoldState[] joinHolds = state.JoinHolds ?? Array.Empty<LobbyJoinHoldState>();
-            for (int seatIndex = 0; seatIndex < 4; seatIndex++)
+            for (int seatIndex = 0; seatIndex < ArenaLimits.MAX_PLAYERS; seatIndex++)
             {
                 bool occupied = seatIndex < occupiedSeats;
                 int holdIndex = seatIndex - occupiedSeats;
@@ -108,7 +110,7 @@ namespace HordeMuncher.UI.Menu
                     LobbyJoinHoldState hold = joinHolds[holdIndex];
                     var holdColor = new Color(hold.ColorRed, hold.ColorGreen, hold.ColorBlue);
                     _joinHoldRings[seatIndex].Render(hold.Progress, holdColor);
-                    _joinHoldLabels[seatIndex].text = hold.DisplayName + " · " + Mathf.RoundToInt(hold.Progress * 100) + "%";
+                    _joinHoldLabels[seatIndex].text = hold.DisplayName + " · " + Mathf.RoundToInt(hold.Progress * StatUnits.PERCENT_SCALE) + "%";
                     _joinHoldLabels[seatIndex].style.color = holdColor;
                 }
 
@@ -121,10 +123,10 @@ namespace HordeMuncher.UI.Menu
                 }
             }
 
-            for (int index = 0; index < players.Length && index < 4; index++)
+            for (int index = 0; index < players.Length && index < ArenaLimits.MAX_PLAYERS; index++)
             {
                 LobbyPlayerState player = players[index];
-                if (!state.IsVisible || !player.SelectionJoined || player.CharacterId < 0 || player.CharacterId >= 3)
+                if (!state.IsVisible || !player.SelectionJoined || player.CharacterId < 0 || player.CharacterId >= ArenaLimits.CHARACTER_COUNT)
                 {
                     continue;
                 }
@@ -140,7 +142,7 @@ namespace HordeMuncher.UI.Menu
                 }
 
                 VisualElement selection = _selectionHighlights[index];
-                for (int inset = 0; inset < 4; inset++)
+                for (int inset = 0; inset < ArenaLimits.MAX_PLAYERS; inset++)
                 {
                     selection.EnableInClassList("lobby-selection-inset-" + inset, inset == overlappingSelections);
                 }
@@ -152,7 +154,7 @@ namespace HordeMuncher.UI.Menu
 
         public void Dispose()
         {
-            for (int characterId = 0; characterId < 3; characterId++)
+            for (int characterId = 0; characterId < ArenaLimits.CHARACTER_COUNT; characterId++)
             {
                 _characterButtons[characterId].clicked -= _characterHandlers[characterId];
             }
@@ -176,7 +178,7 @@ namespace HordeMuncher.UI.Menu
             SetText(_negativeModifiers[seatIndex], character.NegativeModifiers);
             _readyChecks[seatIndex].EnableInClassList("hidden", !player.IsReady);
             _characters[seatIndex].EnableInClassList("lobby-strong", player.CharacterId == 1);
-            _characters[seatIndex].EnableInClassList("lobby-fast", player.CharacterId == 2);
+            _characters[seatIndex].EnableInClassList("lobby-fast", player.CharacterId == FAST_CHARACTER_ID);
             _playerSeats[seatIndex].EnableInClassList("lobby-player-ready", player.IsReady);
             SetBorderColor(_playerSeats[seatIndex], playerColor);
         }
