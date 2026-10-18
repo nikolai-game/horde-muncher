@@ -14,18 +14,18 @@
 
 ## Скриншоты
 
-Бой вдвоём
+Меню входа
 
-![Бой вдвоём](Screenshots/combat-coop.png)
+![Меню входа](Screenshots/menu.png)
 
 Выбор персонажей для двух игроков
 
 ![Выбор персонажей для двух игроков](Screenshots/lobby-coop.png)
 
-Магазин между волнами
+Бой вдвоём
 
-![Магазин между волнами](Screenshots/shop.png)
+![Бой вдвоём](Screenshots/combat-coop.png)
 
-Главное меню
+Магазин для двух игроков
 
-![Главное меню](Screenshots/menu.png)
+![Магазин для двух игроков](Screenshots/shop-coop.png)
